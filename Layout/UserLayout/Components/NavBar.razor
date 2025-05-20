@@ -1,36 +1,49 @@
-﻿<nav class="navbar navbar-expand-lg bg-body-tertiary">
+﻿<nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm" style="height: 130px;">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar scroll</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarScroll">
-            <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Link
+        <div class="px-4 w-100 d-flex justify-content-between align-items-center">
+            <div>
+                <h3><i class="fa-solid fa-hotel"></i> HBS</h3>
+            </div>
+            <div>
+                <div class="input-group shadow-sm"
+                     style="height: 65px; border: #c4c3be 1px solid; border-radius: 65px">
+                    <input type="text" aria-label="Where" class="form-control no-outline ps-4" placeholder="Location"
+                           style="height: 100%; border: none; border-top-left-radius: 60px; border-bottom-left-radius: 60px ;">
+                    <div style="height: 80%; width: 2px; background-color: black"></div>
+                    <input type="date" aria-label="Check In" class="form-control no-outline " placeholder="Check In"
+                           style="height: 100%; border: none;">
+                    <input type="date" aria-label="Check Out" class="form-control no-outline " placeholder="Check Out"
+                           style="height: 100%; border: none;">
+                    <input type="number" aria-label="Who" class="form-control no-outline " placeholder="Who"
+                           style="height: 100%; border: none; border-top-right-radius: 60px; border-bottom-right-radius: 60px">
+                    <div class="p-1">
+                        <button class="btn btn-primary no-outline" type="button" style=" width: 65px; height: 100%; border-radius: 65px"><i
+                                class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex align-items-center">
+                <!-- Globe Button -->
+                <a class="btn me-3 p-2 d-flex align-items-center justify-content-center"
+                   style="width: 55px; height: 55px; background-color: white; border-radius: 50%">
+                    <i class="fa-solid fa-globe fs-5" style="color: black"></i>
+                </a>
+
+                <!-- Dropdown Menu Button -->
+                <div class="btn p-2 d-flex align-items-center justify-content-center dropdown"
+                     style="width: 55px; height: 55px; background-color: white; border-radius: 50%">
+                    <a class="dropdown-toggle text-decoration-none" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        <i class="fa-solid fa-bars fs-5" style="color: black"></i>
                     </a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm">
                         <li><a class="dropdown-item" href="#">Action</a></li>
                         <li><a class="dropdown-item" href="#">Another action</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="#">Something else here</a></li>
                     </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" aria-disabled="true">Link</a>
-                </li>
-            </ul>
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
+                </div>
+            </div>
         </div>
     </div>
 </nav>

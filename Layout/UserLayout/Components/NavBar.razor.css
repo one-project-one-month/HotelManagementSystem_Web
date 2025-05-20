@@ -1,0 +1,9 @@
+.navbar .dropdown-toggle::after {
+    display: none;
+}
+
+.no-outline:focus {
+    outline: none;
+    box-shadow: none;
+    border: none;
+}

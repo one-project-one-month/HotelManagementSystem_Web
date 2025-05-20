@@ -2,6 +2,6 @@
 
 namespace HotelManagementSystem_Web.Pages.Admin;
 
-public partial class AdminHome
+public partial class AdminUserProfile
 {
 }

@@ -1,0 +1,57 @@
+﻿@page "/admin/room/room-type"
+@using HotelManagementSystem_Web.Layout.AdminLayout
+@layout AdminLayout
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components.Forms
+
+<h2 class="text-center my-4 text-danger">Room Type Details</h2>
+
+<div class="d-flex justify-content-lg-end">
+    <button class=" btn btn-sm  btn-outline-danger me-2">
+        <i class="bi bi-pencil-square"></i>
+        Edit
+    </button>
+    <button class=" btn btn-sm btn-danger ">
+        <i class="bi bi-arrow-bar-up"></i>
+        Upload Photo
+    </button>
+
+</div>
+
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="card shadow-sm rounded d-flex flex-wrap flex-row align-items-center p-3">
+                <img src="https://hotel-rooms-img.s3.ap-southeast-2.amazonaws.com/Flux_Dev_A_luxury_bamboo_hotel_cottage_with_a_kingsized_bed_wi_0.jpg"
+                     alt="Room Image"
+                     class="rounded"
+                     style="width: 100%; max-width: 300px; height: 200px; object-fit: cover;" />
+
+                <div class="card-body text-start flex-grow-1 ms-4">
+                    <h4 class="card-title mb-3">@roomType.RoomTypeName</h4>
+                    <p class="card-text text-muted mb-3">@roomType.RoomTypeDescription</p>
+                    <h5 class="text-primary fw-bold">@roomType.Price.ToString("C")</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    public class TblRoomType
+    {
+        public int Id { get; set; }
+        public string RoomTypeName { get; set; } = string.Empty;
+        public string RoomTypeDescription { get; set; } = string.Empty;
+        public decimal Price { get; set; }
+    }
+
+    private TblRoomType roomType = new TblRoomType
+        {
+            Id = 1,
+            RoomTypeName = "Deluxe Suite",
+            RoomTypeDescription = "Spacious room with a king bed, sea view, and jacuzzi.",
+            Price = 250.00M
+        };
+}

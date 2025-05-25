@@ -1,4 +1,159 @@
 ﻿@page "/admin/booking"
+@inject IJSRuntime JS
 @using HotelManagementSystem_Web.Layout.AdminLayout
 @layout AdminLayout
-<h3>Booking</h3>
+
+<h3>Bookings</h3>
+
+<!-- Add Booking Button -->
+<button class="btn btn-danger mb-3 me-2 " data-bs-toggle="modal" data-bs-target="#addBookingModal">
+    Add Booking
+</button>
+
+<!-- Delete Button -->
+<button class="btn btn-danger mb-3" @onclick="ToggleDeleteMode">
+    @deleteButtonText
+</button>
+
+<!-- Modal Form -->
+<div class="modal fade" id="addBookingModal" tabindex="-1" aria-labelledby="addBookingModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addBookingModalLabel">Add Booking</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <EditForm Model="@newBooking" OnValidSubmit="HandleValidSubmit">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+
+                    <div class="mb-3">
+                        <label class="form-label">Customer Name</label>
+                        <InputText class="form-control" @bind-Value="newBooking.CustomerName" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Room Number</label>
+                        <InputNumber class="form-control" @bind-Value="newBooking.RoomNumber" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Check-In Date</label>
+                        <InputDate class="form-control" @bind-Value="newBooking.CheckInDate" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Check-Out Date</label>
+                        <InputDate class="form-control" @bind-Value="newBooking.CheckOutDate" />
+                    </div>
+
+                    <button type="submit" class="btn btn-success">Add</button>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Booking Table -->
+<table class="table table-sm table-bordered align-middle">
+    <thead style="background-color: #ffe6e6;">
+        <tr>
+            @if (isDeleteMode)
+            {
+                <th style="width: 40px;" class="text-center ps-2">#</th>
+            }
+            <th class="ps-2">Customer Name</th>
+            <th class="ps-2">Room Number</th>
+            <th class="ps-2">Check-In</th>
+            <th class="ps-2">Check-Out</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var booking in bookings)
+        {
+            <tr @key="booking.Id">
+                @if (isDeleteMode)
+                {
+                    <td class="text-center align-middle ps-2">
+                        <input type="checkbox" @bind="booking.IsSelected" />
+                    </td>
+                }
+                <td class="ps-2">@booking.CustomerName</td>
+                <td class="ps-2">@booking.RoomNumber</td>
+                <td class="ps-2">@booking.CheckInDate.ToShortDateString()</td>
+                <td class="ps-2">@booking.CheckOutDate.ToShortDateString()</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    private List<TblBooking> bookings = new();
+    private TblBooking newBooking = new TblBooking
+        {
+            CheckInDate = DateTime.Today,
+            CheckOutDate = DateTime.Today
+        };
+    private bool isDeleteMode = false;
+
+    protected override void OnInitialized()
+    {
+        bookings = new List<TblBooking>
+        {
+            new TblBooking { CustomerName = "Alice", RoomNumber = 101, CheckInDate = DateTime.Today, CheckOutDate = DateTime.Today.AddDays(2) },
+            new TblBooking { CustomerName = "Bob", RoomNumber = 102, CheckInDate = DateTime.Today.AddDays(1), CheckOutDate = DateTime.Today.AddDays(3) }
+        };
+    }
+
+    private void HandleValidSubmit()
+    {
+        bookings.Add(new TblBooking
+            {
+                Id = Guid.NewGuid(),
+                CustomerName = newBooking.CustomerName,
+                RoomNumber = newBooking.RoomNumber,
+                CheckInDate = newBooking.CheckInDate,
+                CheckOutDate = newBooking.CheckOutDate
+            });
+
+        // Reset form with current date defaults
+        newBooking = new TblBooking
+            {
+                CheckInDate = DateTime.Today,
+                CheckOutDate = DateTime.Today
+            };
+    }
+
+    private string deleteButtonText => isDeleteMode
+        ? (bookings.Any(b => b.IsSelected) ? "Delete All" : "Cancel")
+        : "Delete";
+
+    private async Task ToggleDeleteMode()
+    {
+        if (!isDeleteMode)
+        {
+            isDeleteMode = true;
+        }
+        else if (bookings.Any(b => b.IsSelected))
+        {
+            var confirmed = await JS.InvokeAsync<bool>("confirm", "Are you sure you want to delete selected bookings?");
+            if (confirmed)
+            {
+                bookings.RemoveAll(b => b.IsSelected);
+            }
+            isDeleteMode = false;
+        }
+        else
+        {
+            isDeleteMode = false;
+        }
+    }
+
+    public class TblBooking
+    {
+        public Guid Id { get; set; } = Guid.NewGuid();
+        public string CustomerName { get; set; } = string.Empty;
+        public int RoomNumber { get; set; }
+        public DateTime CheckInDate { get; set; }
+        public DateTime CheckOutDate { get; set; }
+        public bool IsSelected { get; set; } = false;
+    }
+}

@@ -2,6 +2,6 @@
 
 namespace HotelManagementSystem_Web.Pages.User;
 
-public partial class UserHome 
+public partial class UserHome : ComponentBase
 {
 }

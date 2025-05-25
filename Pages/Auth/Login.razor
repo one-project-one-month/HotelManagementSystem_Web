@@ -1,9 +1,61 @@
 @page "/login"
 @using HotelManagementSystem_Web.Layout.AuthLayout
 @layout AuthLayout
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components.Forms
 
-<h3>Login</h3>
+
+
+<div class="card shadow-lg p-4" style="width : 80% ; max-width:500px">
+    <div class="card-body">
+        <h4 class="text-center mb-4">Login</h4>
+        <EditForm Model="@newUser" OnInvalidSubmit="HandleRegister">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <div class="mb-3">
+                <label class="form-label">Name</label>
+                <InputText class="form-control" @bind-Value="newUser.Name" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <InputText class="form-control" @bind-Value="newUser.Email" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <InputText class="form-control" @bind-Value="newUser.Password" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">PhoneNumber</label>
+                <InputText class="form-control" @bind-Value="newUser.PhoneNumber" />
+            </div>
+
+            <button type="submit" class="btn btn-danger w-100 mt-3">
+                login
+            </button>
+
+
+        </EditForm>
+    </div>
+</div>
+
 
 @code {
-    
+    private Tbl_User newUser = new Tbl_User();
+
+    private void HandleRegister()
+    {
+        // Console.WriteLine($"User Registered: {newUser.Name}, {newUser.Email}");
+
+    }
+
+    public class Tbl_User
+    {
+        public Guid Id { get; set; } = Guid.NewGuid();
+        public string Name { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+        public string PhoneNumber { get; set; } = string.Empty;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+    }
 }

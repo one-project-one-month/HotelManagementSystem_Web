@@ -1,0 +1,335 @@
+@page "/user/room-detail"
+@using HotelManagementSystem_Web.Layout.UserLayout
+@layout UserLayout
+
+<div class="d-flex justify-content-between align-items-center">
+    <h3 class="mt-1">4/5 - Sunlit Deluxe Studio with Queen bed & A/C</h3>
+    <div>
+        <NavLink class="btn btn-sm me-2">
+            <small><i class="fa-regular fa-share-from-square"></i> Share</small>
+        </NavLink>
+        <NavLink class="btn btn-sm">
+            <small><i class="fa-regular fa-heart"></i> Save</small>
+        </NavLink>
+    </div>
+</div>
+
+<div class="row my-3">
+    <div class="col-6 p-1" style="height: 500px;">
+        <div class="w-100 h-100">
+            <img src="./images/image1.jpg"
+                 style="object-fit: cover; object-position: center; width: 100%; height: 100%;border-bottom-left-radius: 10px; border-top-left-radius: 10px"/>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="row">
+            <div class="col-6 p-1" style="height: 250px;">
+                <div class="w-100 h-100">
+                    <img
+                        src="https://www.wfnc.com/wp-content/uploads/2024/07/interior-design-tips-for-modern-bedroom-styles-1200px.jpg"
+                        style="object-fit: cover; object-position: center; width: 100%; height: 100%;"/>
+                </div>
+            </div>
+            <div class="col-6 p-1" style="height: 250px;">
+                <div class="w-100 h-100">
+                    <img src="https://i.pinimg.com/736x/56/6f/0a/566f0aa710590159bd183d46308cdd9c.jpg"
+                         style="object-fit: cover; object-position: center; width: 100%; height: 100%;  border-top-right-radius: 10px"/>
+                </div>
+            </div>
+            <div class="col-6 p-1" style="height: 250px;">
+                <div class="w-100 h-100">
+                    <img src="https://i.pinimg.com/736x/6d/d8/b5/6dd8b5bdce8db74114400f9a37d6c23e.jpg"
+                         style="object-fit: cover; object-position: center; width: 100%; height: 100%;"/>
+                </div>
+            </div>
+            <div class="col-6 p-1" style="height: 250px;">
+                <div class="w-100 h-100">
+                    <img src="https://i.pinimg.com/736x/81/07/ef/8107ef2700fd385aa278f4f3b60aee67.jpg"
+                         style="object-fit: cover; object-position: center; width: 100%; height: 100%; border-bottom-right-radius: 10px"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="">
+    <div class="row">
+        <div class="col-7">
+            <div class="mb-4">
+                <h4 class="m-0">Entire rental unit in Bangkok, Thailand</h4>
+                <small>2 guests1 bedroom1 bed1 bath</small>
+            </div>
+            <hr/>
+            <div class="py-4">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="me-5">
+                        <i class="fs-4 fa-regular fa-calendar-check"></i>
+                    </div>
+                    <div>
+                        <small class="fw-bold d-block">Self check-in</small>
+                        <small class="d-block">Check yourself in with the lockbox.</small>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center">
+                    <div class="me-5">
+                        <i class="fs-4 fa-regular fa-rectangle-xmark"></i>
+                    </div>
+                    <div>
+                        <small class="fw-bold d-block">Free cancellation before Check In</small>
+                        <small class="d-block">Check yourself in with the lockbox.</small>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+            <div class="py-4">
+                <h4 class="mb-4">Where you’ll sleep</h4>
+                <div class="p-4 shadow-sm" style="border-radius: 10px; border: 1px solid #c4c3be; width: max-content">
+                    <div class="me-5">
+                        <i class="fs-4 fa-solid fa-bed"></i>
+                    </div>
+                    <div class="mt-3">
+                        <small class="fw-bold d-block">Free cancellation before Check In</small>
+                        <small class="d-block">Check yourself in with the lockbox.</small>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+            <div class=" py-4">
+                <h4 class="mb-4">What this place offers</h4>
+                <div class="row row-cols-1 row-cols-md-2 g-3">
+                    <div class="col amenity-item"><i class="fa-solid me-3 fa-wifi"></i> Wifi</div>
+                    <div class="col amenity-item"><i class="fa-solid me-3 fa-shirt"></i> Washer</div>
+                    <div class="col amenity-item"><i class="fa-solid me-3 fa-snowflake"></i> Air conditioning</div>
+                    <div class="col amenity-item"><i class="fa-solid me-3 fa-suitcase-rolling"></i> Luggage dropoff
+                        allowed
+                    </div>
+                    <div class="col amenity-item"><i class="fa-solid me-3 fa-blender-phone"></i> Hair dryer</div>
+                    <div class="col amenity-item"><i class="fa-solid me-3 fa-kitchen-set"></i> Refrigerator</div>
+                    <div class="col amenity-item"><i class="fa-solid me-3 fa-video"></i> Exterior security cameras on
+                        property
+                    </div>
+                    <div class="col amenity-item unavailable"><i class="fa-solid me-3 fa-triangle-exclamation"></i>
+                        Carbon
+                        monoxide alarm
+                    </div>
+                    <div class="col amenity-item unavailable"><i class="fa-solid me-3 fa-triangle-exclamation"></i>
+                        Smoke
+                        alarm
+                    </div>
+                </div>
+                <button class="btn btn-light mt-4 shadow-sm" style="border: 1px solid #c4c3be">Show all 20 amenities
+                </button>
+            </div>
+        </div>
+        <div class="col-5">
+            <div class="container py-4 d-flex justify-content-end align-items-end">
+                <div class="w-100" style="max-width: 400px;">
+                    <div class="bg-white text-center mb-4 p-2"
+                         style="border-radius: 15px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div class=" fs-3 me-2 text-danger"><i class="fas fa-tag"></i></div>
+                            <div class="">Prices include all fees</div>
+                        </div>
+                    </div>
+
+                    <div class="booking-card">
+                        <div class="mb-3">
+                            <span class="price-tag">$48</span> <span class="text-muted">for 2 nights</span>
+                        </div>
+
+                        <div class="info-box mb-3">
+                            <div class="row g-0 text-center">
+                                <div class="col-6 border-end">
+                                    <div class="text-uppercase text-muted small">Check-in</div>
+                                    <div>7/18/2025</div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="text-uppercase text-muted small">Checkout</div>
+                                    <div>7/20/2025</div>
+                                </div>
+                                <div class="col-12 border-top">
+                                    <div class="text-uppercase text-muted small">Guests</div>
+                                    <div class="dropdown">
+                                        <select class="form-select" style="background-color: whitesmoke"
+                                                aria-label="Default select example">
+                                            <option selected>Open this select menu</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <NavLink href="user/room-reserve">
+                            <button class="w-100 reserve-btn mb-2">Reserve</button>
+                        </NavLink>
+                        <div class="text-center price-note">You won't be charged yet</div>
+                    </div>
+
+                    <div class="report-link">
+                        <i class="fas fa-flag"></i> <a href="#">Report this listing</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr/>
+    <div class=" py-4">
+        <!-- Ratings Overview -->
+        <div class="row mb-5">
+            <div class="col-md-4">
+                <h4 class="mb-3">Overall rating</h4>
+                <div class="d-flex justify-content-start align-items-center">
+                    <small class="me-2">5</small>
+                    <div class="progress my-2 w-50 " style="height: 5px" role="progressbar" aria-valuenow="90"
+                         aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar text-bg-dark" style="width: 90%"></div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-start align-items-center">
+                    <small class="me-2">4</small>
+                    <div class="progress my-2 w-50 " style="height: 5px" role="progressbar" aria-valuenow="40"
+                         aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar text-bg-dark" style="width: 40%"></div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-start align-items-center">
+                    <small class="me-2">3</small>
+                    <div class="progress my-2 w-50 " style="height: 5px" role="progressbar" aria-valuenow="20"
+                         aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar text-bg-dark" style="width: 20%"></div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-start align-items-center">
+                    <small class="me-2">2</small>
+                    <div class="progress my-2 w-50 " style="height: 5px" role="progressbar" aria-valuenow="10"
+                         aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar text-bg-dark" style="width: 10%"></div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-start align-items-center">
+                    <small class="me-2">1</small>
+                    <div class="progress my-2 w-50 " style="height: 5px" role="progressbar" aria-valuenow="0"
+                         aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar text-bg-dark" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-1">
+                <div style="height: 100%; width: 1px; background-color: #c4c3be"></div>
+            </div>
+            <div class="col-md-7 row text-center m-auto">
+                <div class="col-4 col-md-2 review-score">
+                    <i class="fa-solid me-1 mb-1 fa-spray-can-sparkles"></i>
+                    4.9<br>Cleanliness
+                </div>
+                <div class="col-4 col-md-2 review-score">
+                    <i class="fa-solid me-1 mb-1 fa-circle-check"></i>
+                    4.9<br>Accuracy
+                </div>
+                <div class="col-4 col-md-2 review-score">
+                    <i class="fa-solid me-1 mb-1 fa-key"></i>
+                    5.0<br>Check-in
+                </div>
+                <div class="col-4 col-md-2 review-score">
+                    <i class="fa-solid me-1 mb-1 fa-comments"></i>
+                    4.9<br>Communication
+                </div>
+                <div class="col-4 col-md-2 review-score">
+                    <i class="fa-solid me-1 mb-1 fa-map"></i>
+                    4.5<br>Location
+                </div>
+                <div class="col-4 col-md-2 review-score">
+                    <i class="fa-solid me-1 mb-1 fa-tag"></i>
+                    4.9<br>Value
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- User Reviews -->
+        <div class="py-4 row g-4">
+            <div class="col-md-6">
+                <div class="card review-card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-2">
+                            <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="Roland">
+                            <div class="ms-3">
+                                <div class="name">Roland</div>
+                                <div class="meta">10 years on Airbnb</div>
+                            </div>
+                        </div>
+                        <div class="fw-bold">★★★★☆ · April 2025</div>
+                        <p>Was staying there for a couple of days and it was about as great as it could’ve been. The
+                            location is very authentic, many cool restaurants reachable by foot, the flat itself is top
+                            value …</p>
+                        <a style="text-decoration: none" class="btn-sm btn btn-dark" href="#">Show more </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card review-card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-2">
+                            <img src="https://randomuser.me/api/portraits/men/2.jpg" alt="Adam">
+                            <div class="ms-3">
+                                <div class="name">Adam</div>
+                                <div class="meta">Hudsonville, Michigan</div>
+                            </div>
+                        </div>
+                        <div class="fw-bold">★★★★☆ · April 2025</div>
+                        <p>I had the pleasure of meeting Frank and he was very kind and helpful!! The building is well
+                            thought out and my unit was perfect (with a very comfortable bed)!!...</p>
+                        <a style="text-decoration: none" class="btn-sm btn btn-dark" href="#">Show more </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card review-card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-2">
+                            <img src="https://randomuser.me/api/portraits/women/1.jpg" alt="Jennifer">
+                            <div class="ms-3">
+                                <div class="name">Jennifer</div>
+                                <div class="meta">2 years on Airbnb</div>
+                            </div>
+                        </div>
+                        <div class="fw-bold">★★★★★ · March 2025</div>
+                        <p>Frank was very easy to communicate with and left a book of great recommendations and
+                            instructions for getting around and finding great tourist, shopping, food and massage …</p>
+                        <a style="text-decoration: none" class="btn-sm btn btn-dark" href="#">Show more </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card review-card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-2">
+                            <img src="https://randomuser.me/api/portraits/men/3.jpg" alt="Kutay">
+                            <div class="ms-3">
+                                <div class="name">Kutay</div>
+                                <div class="meta">Bodrum, Türkiye</div>
+                            </div>
+                        </div>
+                        <div class="fw-bold">★★★★★ · February 2025</div>
+                        <p>Air conditioning turned on before check-in, glass water bottles renewed every day, the
+                            smiling face of the lady who took care of the room, very nice details. The host answered
+                            …</p>
+                        <a style="text-decoration: none" class="btn-sm btn btn-dark" href="#">Show more </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+

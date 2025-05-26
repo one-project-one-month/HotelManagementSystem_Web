@@ -1,4 +1,351 @@
 ﻿@page "/admin/guest"
+@inject IJSRuntime JS
 @using HotelManagementSystem_Web.Layout.AdminLayout
+@using System.ComponentModel.DataAnnotations
 @layout AdminLayout
-<h3>Guest</h3>
+
+<h3 class="text-center mb-4" style="color: #e60000;">Guest Management</h3>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="d-flex gap-2">
+        <input class="form-control" placeholder="Search by UserId..." @bind="searchUserId" @bind:event="oninput" @bind:after="SearchUserId" />
+        <select class="form-select" @bind="selectedCoupon">
+            <option value="">All Coupons</option>
+            @foreach (var coupon in couponList)
+            {
+                <option value="@coupon">@coupon</option>
+            }
+        </select>
+        <button class="btn btn-danger" @onclick="ApplyFilter">Filter</button>
+    </div>
+    <div class="d-flex gap-2">
+        <button class="btn btn-danger" @onclick="ToggleActionColumn">
+            <i class="bi bi-pencil"></i> Edit
+        </button>
+        <button class="btn btn-danger" @onclick="OpenAddModal">+ Add Guest</button>
+    </div>
+</div>
+
+<!-- Guest Table -->
+<table class="table table-bordered table-hover align-middle">
+    <thead style="background-color: #ffe6e6;">
+        <tr>
+            <th>User Id</th>
+            <th>User Code</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Ph No</th>
+            <th>Password</th>
+            <th>Create At</th>
+            <th>Profile Img</th>
+            <th>Points</th>
+            <th>Coupon</th>
+            @if (showActionColumn)
+            {
+                <th class="text-center">Actions</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var guest in filteredGuests.Skip((currentPage - 1) * pageSize).Take(pageSize))
+        {
+            <tr @key="guest.UserId">
+                <td>@guest.UserId</td>
+                <td>@guest.UserCode</td>
+                <td>@guest.Name</td>
+                <td>@guest.Email</td>
+                <td>@guest.PhNo</td>
+                <td class="position-relative">
+                    <span>@(passwordVisibility.ContainsKey(guest.UserId) && passwordVisibility[guest.UserId] ? guest.Password : "****")</span>
+                    <button class="btn btn-sm position-absolute end-0 top-50 translate-middle-y" @onclick="() => TogglePasswordVisibility(guest.UserId)">
+                        <i class="@(passwordVisibility.ContainsKey(guest.UserId) && passwordVisibility[guest.UserId] ? "bi bi-eye-slash" : "bi bi-eye")"></i>
+                    </button>
+                </td>
+                <td>@guest.CreatedAt.ToString("dd-MM-yyyy HH:mm")</td>
+                <td>@guest.ProfileImg</td>
+                <td>@guest.Points</td>
+                <td>@guest.Coupon</td>
+                @if (showActionColumn)
+                {
+                    <td class="text-center">
+                        <button class="btn btn-outline-primary btn-sm me-1" @onclick="() => OpenEditModal(guest)">Edit</button>
+                        <button class="btn btn-outline-danger btn-sm" @onclick="() => DeleteGuest(guest.UserId)">Delete</button>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Pagination -->
+<div class="d-flex justify-content-between align-items-center mt-3">
+    <button class="btn btn-light" @onclick="PreviousPage" disabled="@(!CanGoBack)">Previous</button>
+    <span>Page @currentPage of @totalPages</span>
+    <button class="btn btn-light" @onclick="NextPage" disabled="@(!CanGoForward)">Next</button>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="addGuestModal" tabindex="-1" aria-labelledby="addGuestModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addGuestModalLabel">@modalTitle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <EditForm Model="@editingGuest" OnValidSubmit="HandleValidSubmit">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label>User Code</label>
+                            <InputText class="form-control" @bind-Value="editingGuest.UserCode" placeholder="Enter user code (e.g., U001)" />
+                            <ValidationMessage For="() => editingGuest.UserCode" />
+                        </div>
+                        <div class="col-md-6">
+                            <label>Name</label>
+                            <InputText class="form-control" @bind-Value="editingGuest.Name" placeholder="Enter name (e.g., John Doe)" />
+                            <ValidationMessage For="() => editingGuest.Name" />
+                        </div>
+                        <div class="col-md-6">
+                            <label>Email</label>
+                            <InputText class="form-control" @bind-Value="editingGuest.Email" placeholder="Enter email (e.g., john.doe@example.com)" />
+                            <ValidationMessage For="() => editingGuest.Email" />
+                        </div>
+                        <div class="col-md-6">
+                            <label>Phone</label>
+                            <InputText class="form-control" @bind-Value="editingGuest.PhNo" placeholder="Enter phone (e.g., +091234567)" oninput="this.value=this.value.replace(/[^0-9+]/g,'')" />
+                            <ValidationMessage For="() => editingGuest.PhNo" />
+                        </div>
+                        <div class="col-md-6">
+                            <label>Password</label>
+                            <InputText type="password" class="form-control" @bind-Value="editingGuest.Password" placeholder="Enter password" />
+                            <ValidationMessage For="() => editingGuest.Password" />
+                        </div>
+                        <div class="col-md-6">
+                            <label>Confirm Password</label>
+                            <InputText type="password" class="form-control" @bind-Value="confirmPassword" placeholder="Confirm password" />
+                            @if (!string.IsNullOrWhiteSpace(confirmPassword) && editingGuest.Password != confirmPassword)
+                            {
+                                <div class="text-danger">Passwords do not match</div>
+                            }
+                        </div>
+                        <div class="col-md-6">
+                            <label>Profile Image</label>
+                            <InputText class="form-control" @bind-Value="editingGuest.ProfileImg" placeholder="Enter image URL (e.g., img1.jpg)" />
+                            <ValidationMessage For="() => editingGuest.ProfileImg" />
+                        </div>
+                        <div class="col-md-3">
+                            <label>Points</label>
+                            <InputNumber class="form-control" @bind-Value="editingGuest.Points" placeholder="Enter points (e.g., 100)" />
+                            <ValidationMessage For="() => editingGuest.Points" />
+                        </div>
+                        <div class="col-md-3">
+                            <label>Coupon</label>
+                            <InputText class="form-control" @bind-Value="editingGuest.Coupon" placeholder="Enter coupon (e.g., WELCOME)" />
+                            <ValidationMessage For="() => editingGuest.Coupon" />
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success mt-3" disabled="@(!IsPasswordConfirmed)">Save</button>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<TblGuest> guests = new();
+    private List<TblGuest> filteredGuests = new();
+    private TblGuest editingGuest = new();
+    private string confirmPassword = "";
+    private string searchUserId = "";
+    private string selectedCoupon = "";
+    private int currentPage = 1;
+    private int pageSize = 10;
+    private string modalTitle = "Add Guest";
+    private Dictionary<int, bool> passwordVisibility = new();
+    private bool showActionColumn = false;
+
+    private int totalPages => (int)Math.Ceiling((double)filteredGuests.Count / pageSize);
+    private bool CanGoBack => currentPage > 1;
+    private bool CanGoForward => currentPage < totalPages;
+    private bool IsPasswordConfirmed => string.IsNullOrWhiteSpace(editingGuest.Password) || editingGuest.Password == confirmPassword;
+    private List<string> couponList => guests.Select(g => g.Coupon).Distinct().ToList();
+
+    protected override void OnInitialized()
+    {
+        guests = GetSampleGuests();
+        filteredGuests = guests;
+        ApplyFilter();
+    }
+
+    private List<TblGuest> GetSampleGuests()
+    {
+        return Enumerable.Range(1, 12).Select(i => new TblGuest
+            {
+                UserId = i,
+                UserCode = $"U00{i}",
+                Name = $"User {i}",
+                Email = $"user{i}@mail.com",
+                PhNo = $"09{i}1234567",
+                Password = $"pass{i}",
+                CreatedAt = DateTime.Now.AddDays(-i),
+                ProfileImg = $"img{i}.jpg",
+                Points = i * 10,
+                Coupon = i % 2 == 0 ? "WELCOME" : "DISCOUNT50"
+            }).ToList();
+    }
+
+    private async Task SearchUserId()
+    {
+        await Task.CompletedTask; // Suppress CS1998 warning
+        filteredGuests = guests
+            .Where(g =>
+                (string.IsNullOrWhiteSpace(searchUserId) || g.UserId.ToString().StartsWith(searchUserId, StringComparison.OrdinalIgnoreCase)) &&
+                (string.IsNullOrWhiteSpace(selectedCoupon) || g.Coupon == selectedCoupon))
+            .ToList();
+        currentPage = 1;
+        passwordVisibility.Clear();
+        StateHasChanged();
+    }
+
+    private void ApplyFilter()
+    {
+        filteredGuests = guests
+            .Where(g =>
+                (string.IsNullOrWhiteSpace(searchUserId) || g.UserId.ToString().StartsWith(searchUserId, StringComparison.OrdinalIgnoreCase)) &&
+                (string.IsNullOrWhiteSpace(selectedCoupon) || g.Coupon == selectedCoupon))
+            .ToList();
+        currentPage = 1;
+        passwordVisibility.Clear();
+        StateHasChanged();
+    }
+
+    private void OpenAddModal()
+    {
+        editingGuest = new TblGuest();
+        confirmPassword = "";
+        modalTitle = "Add Guest";
+        JS.InvokeVoidAsync("openModal", "#addGuestModal");
+    }
+
+    private async Task OpenEditModal(TblGuest guest)
+    {
+        editingGuest = new TblGuest
+            {
+                UserId = guest.UserId,
+                UserCode = guest.UserCode,
+                Name = guest.Name,
+                Email = guest.Email,
+                PhNo = guest.PhNo,
+                Password = guest.Password,
+                CreatedAt = guest.CreatedAt,
+                ProfileImg = guest.ProfileImg,
+                Points = guest.Points,
+                Coupon = guest.Coupon
+            };
+        confirmPassword = guest.Password;
+        modalTitle = "Edit Guest";
+        await JS.InvokeVoidAsync("openModal", "#addGuestModal");
+        StateHasChanged();
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        if (!IsPasswordConfirmed) return;
+
+        if (editingGuest.UserId == 0)
+        {
+            var nextId = guests.Any() ? guests.Max(g => g.UserId) + 1 : 1;
+            editingGuest.UserId = nextId;
+            editingGuest.CreatedAt = DateTime.Now;
+            guests.Add(editingGuest);
+        }
+        else
+        {
+            var existing = guests.FirstOrDefault(g => g.UserId == editingGuest.UserId);
+            if (existing != null)
+            {
+                existing.UserCode = editingGuest.UserCode;
+                existing.Name = editingGuest.Name;
+                existing.Email = editingGuest.Email;
+                existing.PhNo = editingGuest.PhNo;
+                existing.Password = editingGuest.Password;
+                existing.ProfileImg = editingGuest.ProfileImg;
+                existing.Points = editingGuest.Points;
+                existing.Coupon = editingGuest.Coupon;
+            }
+        }
+
+        editingGuest = new TblGuest();
+        confirmPassword = "";
+        passwordVisibility.Clear();
+        ApplyFilter();
+        await JS.InvokeVoidAsync("eval", "bootstrap.Modal.getInstance(document.querySelector('#addGuestModal')).hide()");
+        StateHasChanged();
+    }
+
+    private void DeleteGuest(int userId)
+    {
+        var guest = guests.FirstOrDefault(g => g.UserId == userId);
+        if (guest != null)
+        {
+            guests.Remove(guest);
+            passwordVisibility.Remove(guest.UserId);
+            ApplyFilter();
+        }
+    }
+
+    private void NextPage()
+    {
+        if (CanGoForward) currentPage++;
+        StateHasChanged();
+    }
+
+    private void PreviousPage()
+    {
+        if (CanGoBack) currentPage--;
+        StateHasChanged();
+    }
+
+    private void TogglePasswordVisibility(int userId)
+    {
+        if (passwordVisibility.ContainsKey(userId))
+        {
+            passwordVisibility[userId] = !passwordVisibility[userId];
+        }
+        else
+        {
+            passwordVisibility[userId] = true;
+        }
+        StateHasChanged();
+    }
+
+    private void ToggleActionColumn()
+    {
+        showActionColumn = !showActionColumn;
+        StateHasChanged();
+    }
+
+    public class TblGuest
+    {
+        public int UserId { get; set; }
+        [Required(ErrorMessage = "User Code is required")]
+        public string UserCode { get; set; } = "";
+        [Required(ErrorMessage = "Name is required")]
+        public string Name { get; set; } = "";
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid email address")]
+        public string Email { get; set; } = "";
+        [Required(ErrorMessage = "Phone number is required")]
+        [RegularExpression(@"^\+?\d{10,15}$", ErrorMessage = "Invalid phone number")]
+        public string PhNo { get; set; } = "";
+        [Required(ErrorMessage = "Password is required")]
+        public string Password { get; set; } = "";
+        public DateTime CreatedAt { get; set; }
+        public string ProfileImg { get; set; } = "";
+        [Range(0, int.MaxValue, ErrorMessage = "Points must be non-negative")]
+        public int Points { get; set; }
+        public string Coupon { get; set; } = "";
+    }
+}

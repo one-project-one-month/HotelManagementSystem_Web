@@ -34,7 +34,12 @@
             return window.confirm(message);
         };
     </script>
-
+    <script>
+        window.openModal = (selector) => {
+            const modal = new bootstrap.Modal(document.querySelector(selector));
+            modal.show();
+        };
+    </script>
 </body>
 
 </html>

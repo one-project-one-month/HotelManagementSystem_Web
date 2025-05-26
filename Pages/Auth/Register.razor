@@ -1,59 +1,30 @@
 @page "/register"
 @using HotelManagementSystem_Web.Layout.AuthLayout
 @layout AuthLayout
-    <div class="card shadow-lg p-4" style="width : 80% ; max-width:500px">
+@inject HttpClient _httpClient
+@inject NavigationManager _navigation
+
+<div class="card shadow-lg p-4" style="width : 80% ; max-width:500px">
         <div class="card-body">
             <h4 class="text-center mb-4">Register</h4>
-            <EditForm Model="@newUser" OnInvalidSubmit="HandleRegister">
+            <EditForm Model="@_model" OnValidSubmit="HandleRegister">
                 <DataAnnotationsValidator />
                 <ValidationSummary />
                 <div class="mb-3">
                     <label class="form-label">Name</label>
-                    <InputText class="form-control" @bind-Value="newUser.Name" />
+                    <InputText class="form-control" @bind-Value="_model.Username" />
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Email</label>
-                    <InputText class="form-control" @bind-Value="newUser.Email" />
+                    <InputText class="form-control" @bind-Value="_model.Email" />
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Password</label>
-                    <InputText class="form-control" @bind-Value="newUser.Password" />
+                    <InputText class="form-control" type="password" @bind-Value="_model.Password" />
                 </div>
-                <div class="mb-3">
-                    <label class="form-label">PhoneNumber</label>
-                    <InputText class="form-control" @bind-Value="newUser.PhoneNumber" />
-                </div>
-
                 <button type="submit" class="btn btn-danger w-100">
                     Sign Up </button>
-
-                <button type="submit" class="btn btn-outline-danger w-100 mt-3">
-                    login
-                </button>
-
-
             </EditForm>
         </div>
     </div>
-
-
-@code {
-    private Tbl_User newUser = new Tbl_User();
-
-    private void HandleRegister()
-    {
-        // Console.WriteLine($"User Registered: {newUser.Name}, {newUser.Email}");
-
-    }
-
-    public class Tbl_User
-    {
-        public Guid Id { get; set; } = Guid.NewGuid();
-        public string Name { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
-        public string PhoneNumber { get; set; } = string.Empty;
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-    }
-}
+    

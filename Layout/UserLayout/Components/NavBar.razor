@@ -1,40 +1,48 @@
-﻿<nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm" style="height: 130px;">
+﻿﻿<nav class="navbar position-fixed w-100 navbar-expand-lg bg-body-tertiary shadow-sm" style="height: 110px; z-index: 1000">
     <div class="container-fluid">
         <div class="px-4 w-100 d-flex justify-content-between align-items-center">
-            <div>
+            <div style="color: #FF385C">
                 <h3><i class="fa-solid fa-hotel"></i> HBS</h3>
             </div>
             <div>
-                <div class="input-group shadow-sm"
+                <div class="input-group shadow-sm bg-white align-items-center d-flex justify-content-between"
                      style="height: 65px; border: #c4c3be 1px solid; border-radius: 65px">
-                    <input type="text" aria-label="Where" class="form-control no-outline ps-4" placeholder="Location"
-                           style="height: 100%; border: none; border-top-left-radius: 60px; border-bottom-left-radius: 60px ;">
-                    <div style="height: 80%; width: 2px; background-color: black"></div>
-                    <input type="date" aria-label="Check In" class="form-control no-outline " placeholder="Check In"
+                    <input type="text" aria-label="Where" class="form-control no-outline bg-transparent ps-4"
+                           placeholder="Location"
+                           style="height: 100%; border: none; border-top-left-radius: 60px; border-bottom-left-radius: 60px;">
+                    <div style="height: 60%; width: 1px; background-color: #c4c3be"></div>
+                    <input type="date" aria-label="Check In" class="form-control no-outline bg-transparent ps-4"
+                           placeholder="Check In"
                            style="height: 100%; border: none;">
-                    <input type="date" aria-label="Check Out" class="form-control no-outline " placeholder="Check Out"
+                    <div style="height: 60%; width: 1px; background-color: #c4c3be"></div>
+                    <input type="date" aria-label="Check Out" class="form-control no-outline bg-transparent ps-4"
+                           placeholder="Check Out"
                            style="height: 100%; border: none;">
-                    <input type="number" aria-label="Who" class="form-control no-outline " placeholder="Who"
+                    <div style="height: 60%; width: 1px; background-color: #c4c3be"></div>
+                    <input type="number" aria-label="Who" class="form-control no-outline bg-transparent ps-4"
+                           placeholder="Who"
                            style="height: 100%; border: none; border-top-right-radius: 60px; border-bottom-right-radius: 60px">
-                    <div class="p-1">
-                        <button class="btn btn-primary no-outline" type="button" style=" width: 65px; height: 100%; border-radius: 65px"><i
-                                class="fa-solid fa-magnifying-glass"></i></button>
+                    <div style="width: 65px; height: 100%; padding: 5px" >
+                        <button class="btn no-outline w-100 h-100 shadow-sm" type="button"
+                                style="border-radius: 65px; background-color: #FF385C">
+                            <i class="fa-solid fa-magnifying-glass text-white"></i>
+                        </button>
                     </div>
                 </div>
+
             </div>
             <div class="d-flex align-items-center">
-                <!-- Globe Button -->
+
                 <a class="btn me-3 p-2 d-flex align-items-center justify-content-center"
                    style="width: 55px; height: 55px; background-color: white; border-radius: 50%">
-                    <i class="fa-solid fa-globe fs-5" style="color: black"></i>
+                    <i class="fa-solid fa-globe fs-5" style="color: #FF385C"></i>
                 </a>
 
-                <!-- Dropdown Menu Button -->
                 <div class="btn p-2 d-flex align-items-center justify-content-center dropdown"
                      style="width: 55px; height: 55px; background-color: white; border-radius: 50%">
                     <a class="dropdown-toggle text-decoration-none" href="#" role="button" data-bs-toggle="dropdown"
                        aria-expanded="false">
-                        <i class="fa-solid fa-bars fs-5" style="color: black"></i>
+                        <i class="fa-solid fa-bars fs-5" style="color: #FF385C"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end shadow-sm">
                         <li><a class="dropdown-item" href="#">Action</a></li>

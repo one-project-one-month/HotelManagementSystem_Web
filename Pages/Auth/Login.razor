@@ -1,32 +1,24 @@
 @page "/login"
 @using HotelManagementSystem_Web.Layout.AuthLayout
 @layout AuthLayout
-@using System.ComponentModel.DataAnnotations
-@using Microsoft.AspNetCore.Components.Forms
 
-
+@inject HttpClient _httpClient
+@inject NavigationManager _navigation
 
 <div class="card shadow-lg p-4" style="width : 80% ; max-width:500px">
     <div class="card-body">
         <h4 class="text-center mb-4">Login</h4>
-        <EditForm Model="@newUser" OnInvalidSubmit="HandleRegister">
+        
+        <EditForm Model="@_model" OnvalidSubmit="HandleLogin">
             <DataAnnotationsValidator />
             <ValidationSummary />
             <div class="mb-3">
-                <label class="form-label">Name</label>
-                <InputText class="form-control" @bind-Value="newUser.Name" />
-            </div>
-            <div class="mb-3">
                 <label class="form-label">Email</label>
-                <InputText class="form-control" @bind-Value="newUser.Email" />
+                <InputText class="form-control" @bind-Value="_model.Email" />
             </div>
             <div class="mb-3">
                 <label class="form-label">Password</label>
-                <InputText class="form-control" @bind-Value="newUser.Password" />
-            </div>
-            <div class="mb-3">
-                <label class="form-label">PhoneNumber</label>
-                <InputText class="form-control" @bind-Value="newUser.PhoneNumber" />
+                <InputText type="password" class="form-control" @bind-Value="_model.Password" />
             </div>
 
             <button type="submit" class="btn btn-danger w-100 mt-3">

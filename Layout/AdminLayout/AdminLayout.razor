@@ -107,6 +107,11 @@
                     <i class="bi bi-door-closed"></i> @(isSidebarCollapsed ? "" : " Room")
                 </NavLink>
             </li>
+            <li class="nav-item my-1">
+                <NavLink class="nav-link text-secondary border-bottom text-danger" href="/userprofile/admin-profile">
+                    <i class="bi bi-person"></i> @(isSidebarCollapsed ? "" : " User Profile")
+                </NavLink>
+            </li>
         </ul>
     </div>
 
@@ -140,6 +145,9 @@
             </li>
             <li class="nav-item">
                 <NavLink class="nav-link text-secondary border-bottom text-danger" href="/admin/room">Room</NavLink>
+            </li>
+            <li class="nav-item">
+                <NavLink class="nav-link text-secondary border-bottom text-danger" href="/userprofile/admin-profile">User Profile</NavLink>
             </li>
         </ul>
     </div>

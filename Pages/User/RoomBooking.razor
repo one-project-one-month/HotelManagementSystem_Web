@@ -11,91 +11,209 @@
 <div class="row g-4">
   <!-- Left side -->
   <div class="offset-1 col-5">
-    <div class="card card-custom p-4 mb-4" style="border-radius: 15px">
+    <div class="card card-custom p-4 mb-4 animated-border" style="border-radius: 15px;">
       <p class="section-title mb-2">1. Choose when to pay</p>
-      <div class="form-check mb-2">
-        <input class="form-check-input" type="radio" name="paymentOption" id="payNow" checked>
-        <label class="form-check-label" for="payNow">
-          Pay $57.16 now
-        </label>
-      </div>
-      <hr/>
-      <div class="form-check">
-        <input class="form-check-input" type="radio" name="paymentOption" id="payLater">
-        <label class="form-check-label" for="payLater">
-          Pay part now, part later<br>
-          <small class="text-muted">$11.44 now, $45.72 charged on Aug 2. No extra fees.</small>
-        </label>
-      </div>
-      <hr/>
-      <div class="d-flex justify-content-end align-items-center">
-        <button class="btn btn-dark mt-3 w-25 p-2" style="border-radius: 10px">Done</button>
-      </div>
+        @if (_isDoneWhenToPay)
+        {
+          <div class="fade-content">
+            <div class="d-flex justify-content-between align-items-center">
+              <label class="d-block form-check-label text-secondary" for="payNow">
+                Pay $57.16 now
+              </label>
+              <button class="btn btn-secondary btn-sm" @onclick="ChangeWhenToPay">Change</button>
+            </div>
+          </div>
+        }
+        else if (!_isDoneWhenToPay)
+        {
+          <div class="fade-content">
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="radio" name="paymentOption" id="payNow" checked>
+              <label class="form-check-label" for="payNow">
+                Pay $57.16 now
+              </label>
+            </div>
+            <hr/>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="paymentOption" id="payLater">
+              <label class="form-check-label" for="payLater">
+                Pay part now, part later<br/>
+                <small class="text-muted">$11.44 now, $45.72 charged on Aug 2. No extra fees.</small>
+              </label>
+            </div>
+            <hr/>
+            <div class="d-flex justify-content-end align-items-center">
+              <button @onclick="HandleWhenToPay" class="btn btn-dark mt-3 w-25 p-2" style="border-radius: 10px">Done
+              </button>
+            </div>
+          </div>
+        }
+      
     </div>
-    <div class="card card-custom p-4 mb-4" style="border-radius: 15px">
-      <p class="section-title mb-2">1. Choose when to pay</p>
-      <div class="form-check mb-2">
-        <input class="form-check-input" type="radio" name="paymentOption" id="payNow" checked>
-        <label class="form-check-label" for="payNow">
-          Pay $57.16 now
-        </label>
-      </div>
-      <hr/>
-      <div class="form-check">
-        <input class="form-check-input" type="radio" name="paymentOption" id="payLater">
-        <label class="form-check-label" for="payLater">
-          Pay part now, part later<br>
-          <small class="text-muted">$11.44 now, $45.72 charged on Aug 2. No extra fees.</small>
-        </label>
-      </div>
-      <hr/>
-      <div class="d-flex justify-content-end align-items-center">
-        <button class="btn btn-dark mt-3 w-25 p-2" style="border-radius: 10px">Done</button>
-      </div>
+    <div class="card card-custom p-4 mb-4 animated-border" style="border-radius: 15px;">
+      <p class="section-title mb-2"> 2. Add a payment method</p>
+      @if (_isCompleteWhenToPay)
+      {
+        @if (_isDoneChoosePayment)
+        {
+          <div class="fade-content">
+            <div class="d-flex justify-content-between align-items-center">
+              <label class="d-block form-check-label text-secondary" for="payNow">
+                Pay $57.16 now
+              </label>
+              <button class="btn btn-secondary btn-sm" @onclick="ChangeChoosePayment">Change</button>
+            </div>
+          </div>
+        }
+        else if (!_isDoneChoosePayment)
+        {
+          <div class="fade-content">
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="radio" name="paymentOption" id="payNow" checked>
+              <label class="form-check-label" for="payNow">
+                Pay $57.16 now
+              </label>
+            </div>
+            <hr/>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="paymentOption" id="payLater">
+              <label class="form-check-label" for="payLater">
+                Pay part now, part later<br/>
+                <small class="text-muted">$11.44 now, $45.72 charged on Aug 2. No extra fees.</small>
+              </label>
+            </div>
+            <hr/>
+            <div class="d-flex justify-content-end align-items-center">
+              <button @onclick="HandleChoosePayment" class="btn btn-dark mt-3 w-25 p-2" style="border-radius: 10px">Done
+              </button>
+            </div>
+          </div>
+        }
+      }
     </div>
-    <div class="card card-custom p-4 mb-4" style="border-radius: 15px">
-      <p class="section-title mb-2">1. Choose when to pay</p>
-      <div class="form-check mb-2">
-        <input class="form-check-input" type="radio" name="paymentOption" id="payNow" checked>
-        <label class="form-check-label" for="payNow">
-          Pay $57.16 now
-        </label>
-      </div>
-      <hr/>
-      <div class="form-check">
-        <input class="form-check-input" type="radio" name="paymentOption" id="payLater">
-        <label class="form-check-label" for="payLater">
-          Pay part now, part later<br>
-          <small class="text-muted">$11.44 now, $45.72 charged on Aug 2. No extra fees.</small>
-        </label>
-      </div>
-      <hr/>
-      <div class="d-flex justify-content-end align-items-center">
-        <button class="btn btn-dark mt-3 w-25 p-2" style="border-radius: 10px">Done</button>
-      </div>
+    <div class="card card-custom p-4 mb-4 animated-border" style="border-radius: 15px;">
+      <p class="section-title mb-2"> 3. Write a message to the host</p>
+      @if (_isCompleteChoosePayment)
+      {
+        @if (_isDoneReserveMessage)
+        {
+          <div class="fade-content">
+            <div class="d-flex justify-content-between align-items-center">
+              <label class="d-block form-check-label text-secondary" for="payNow">
+                Pay $57.16 now
+              </label>
+              <button class="btn btn-secondary btn-sm" @onclick="ChangeReserveMessage">Change</button>
+            </div>
+          </div>
+        }
+        else if (!_isDoneReserveMessage)
+        {
+          <div class="fade-content">
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="radio" name="paymentOption" id="payNow" checked>
+              <label class="form-check-label" for="payNow">
+                Pay $57.16 now
+              </label>
+            </div>
+            <hr/>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="paymentOption" id="payLater">
+              <label class="form-check-label" for="payLater">
+                Pay part now, part later<br/>
+                <small class="text-muted">$11.44 now, $45.72 charged on Aug 2. No extra fees.</small>
+              </label>
+            </div>
+            <hr/>
+            <div class="d-flex justify-content-end align-items-center">
+              <button @onclick="HandleReserveMessage" class="btn btn-dark mt-3 w-25 p-2" style="border-radius: 10px">Done
+              </button>
+            </div>
+          </div>
+        }
+      }
     </div>
-    <div class="card card-custom p-4 mb-4" style="border-radius: 15px">
-      <p class="section-title mb-2">1. Choose when to pay</p>
-      <div class="form-check mb-2">
-        <input class="form-check-input" type="radio" name="paymentOption" id="payNow" checked>
-        <label class="form-check-label" for="payNow">
-          Pay $57.16 now
-        </label>
-      </div>
-      <hr/>
-      <div class="form-check">
-        <input class="form-check-input" type="radio" name="paymentOption" id="payLater">
-        <label class="form-check-label" for="payLater">
-          Pay part now, part later<br>
-          <small class="text-muted">$11.44 now, $45.72 charged on Aug 2. No extra fees.</small>
-        </label>
-      </div>
-      <hr/>
-      <div class="d-flex justify-content-end align-items-center">
-        <button class="btn btn-dark mt-3 w-25 p-2" style="border-radius: 10px">Done</button>
-      </div>
+    <div class="card card-custom p-4 mb-4 animated-border" style="border-radius: 15px;">
+      <p class="section-title mb-2">4. Add a profile photo</p>
+      @if (_isCompleteReserveMessage)
+      {
+        @if (_isDoneProfile)
+        {
+          <div class="fade-content">
+            <div class="d-flex justify-content-between align-items-center">
+              <label class="d-block form-check-label text-secondary" for="payNow">
+                Pay $57.16 now
+              </label>
+              <button class="btn btn-secondary btn-sm" @onclick="ChangeProfile">Change</button>
+            </div>
+          </div>
+        }
+        else if (!_isDoneProfile)
+        {
+          <div class="fade-content">
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="radio" name="paymentOption" id="payNow" checked>
+              <label class="form-check-label" for="payNow">
+                Pay $57.16 now
+              </label>
+            </div>
+            <hr/>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="paymentOption" id="payLater">
+              <label class="form-check-label" for="payLater">
+                Pay part now, part later<br/>
+                <small class="text-muted">$11.44 now, $45.72 charged on Aug 2. No extra fees.</small>
+              </label>
+            </div>
+            <hr/>
+            <div class="d-flex justify-content-end align-items-center">
+              <button @onclick="HandleProfile" class="btn btn-dark mt-3 w-25 p-2" style="border-radius: 10px">Done
+              </button>
+            </div>
+          </div>
+        }
+      }
     </div>
-    
+    <div class="card card-custom p-4 mb-4 animated-border" style="border-radius: 15px;">
+      <p class="section-title mb-2">5. Review your reservation</p>
+      @if (_isCompleteProfile)
+      {
+        @if (_isDoneProfile)
+        {
+          <div class="fade-content">
+            <div class="d-flex justify-content-between align-items-center">
+              <label class="d-block form-check-label text-secondary" for="payNow">
+                Pay $57.16 now
+              </label>
+              <button class="btn btn-secondary btn-sm" @onclick="ChangeReservation">Change</button>
+            </div>
+          </div>
+        }
+        else if (!_isDoneProfile)
+        {
+          <div class="fade-content">
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="radio" name="paymentOption" id="payNow" checked>
+              <label class="form-check-label" for="payNow">
+                Pay $57.16 now
+              </label>
+            </div>
+            <hr/>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="paymentOption" id="payLater">
+              <label class="form-check-label" for="payLater">
+                Pay part now, part later<br/>
+                <small class="text-muted">$11.44 now, $45.72 charged on Aug 2. No extra fees.</small>
+              </label>
+            </div>
+            <hr/>
+            <div class="d-flex justify-content-end align-items-center">
+              <button @onclick="HandleReservation" class="btn btn-dark mt-3 w-25 p-2" style="border-radius: 10px">Done
+              </button>
+            </div>
+          </div>
+        }
+      }
+    </div>
   </div>
 
   <!-- Right side -->

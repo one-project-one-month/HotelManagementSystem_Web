@@ -177,7 +177,7 @@
       <p class="section-title mb-2">5. Review your reservation</p>
       @if (_isCompleteProfile)
       {
-        @if (_isDoneProfile)
+        @if (_isDoneReserveReview)
         {
           <div class="fade-content">
             <div class="d-flex justify-content-between align-items-center">
@@ -188,7 +188,7 @@
             </div>
           </div>
         }
-        else if (!_isDoneProfile)
+        else if (!_isDoneReserveReview)
         {
           <div class="fade-content">
             <div class="form-check mb-2">

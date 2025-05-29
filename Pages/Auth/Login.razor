@@ -27,27 +27,8 @@
 
 
         </EditForm>
+        
+        <NavLink href="forgot-password" class="mt-2 text-danger text-decoration-none d-flex justify-content-end align-items-center">Forgot Password</NavLink>
     </div>
 </div>
 
-
-@code {
-    private Tbl_User newUser = new Tbl_User();
-
-    private void HandleRegister()
-    {
-        // Console.WriteLine($"User Registered: {newUser.Name}, {newUser.Email}");
-
-    }
-
-    public class Tbl_User
-    {
-        public Guid Id { get; set; } = Guid.NewGuid();
-        public string Name { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
-        public string PhoneNumber { get; set; } = string.Empty;
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-    }
-}

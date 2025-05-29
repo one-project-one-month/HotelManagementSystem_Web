@@ -20,7 +20,6 @@ public partial class Login
                 var respModel = JsonConvert.DeserializeObject<BaseResponseModel>(jsonStr);
                 if (respModel.respCode == "200")
                 {
-                    Console.WriteLine("Hee Hee Har Har");
                     _navigation.NavigateTo("/user-home");
                 }
             }

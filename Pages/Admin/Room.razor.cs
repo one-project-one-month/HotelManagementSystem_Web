@@ -1,14 +1,37 @@
-﻿@{
-    public class Room
+﻿using HotelManagementSystem_Web.Models;
+using HotelManagementSystem_Web.Models.Room.RoomTypeReqModel;
+using Newtonsoft.Json;
+using System.Net.Http.Json;
+
+namespace HotelManagementSystem_Web.Pages.Admin
+{
+    public partial class Room
+    {
+
+        RoomReqModel _model = new RoomReqModel();
+
+        private async Task HandleValidSubmit(Room room)
         {
-    public int RoomId { get; set; }
-    public string Room_No { get; set; } = string.Empty;
-    public int RoomTypeId { get; set; }
-    public string RoomStatus { get; set; } = string.Empty;
-    public string Img_URL { get; set; } = string.Empty;
-    public int Guest_Limit { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
+            try
+            {
+                var res = await _httpClient.PostAsJsonAsync("", _model);
+                var jsonStr = await res.Content.ReadAsStringAsync();
+                var respModel = JsonConvert.DeserializeObject<BaseResponseModel>(jsonStr);
+                if (respModel.respCode == "200")
+                {
+                    Console.WriteLine("Hee Hee Har Har");
+                    _navigation.NavigateTo("/user-home");
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+
+
         }
+
+    }
 
 }

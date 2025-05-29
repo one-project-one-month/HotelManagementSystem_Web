@@ -3,34 +3,37 @@
 @layout AdminLayout
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Components.Forms
+@using static HotelManagementSystem_Web.Pages.Admin.RoomType
+@inject HttpClient _httpClient
+@inject NavigationManager _navigation
 
 <h2 class="text-center my-4 text-danger">Room Management</h2>
 
-<!-- Filter Form -->
-<div class="d-flex justify-content-center mb-4">
-    <form class="row row-cols-lg-auto g-3 align-items-center w-75" @onsubmit="HandleFilter">
-        <div class="col-12">
-            <input class="form-control" placeholder="Room No" @bind="searchRoomNo" />
-        </div>
-        <div class="col-12">
-            <select class="form-select" @bind="searchRoomType">
-                <option value="">All Types</option>
-                <option value="Single Room">Single Room</option>
-                <option value="Family Room">Family Room</option>
-            </select>
-        </div>
-        <div class="col-12">
-            <select class="form-select" @bind="searchRoomStatus">
-                <option value="">All Status</option>
-                <option value="Available">Available</option>
-                <option value="Occupied">Occupied</option>
-            </select>
-        </div>
-        <div class="col-12">
-            <button type="submit" class="btn btn-danger btn-sm">Filter</button>
-        </div>
-    </form>
-</div>
+@* <!-- Filter Form --> *@
+@* <div class="d-flex justify-content-center mb-4"> *@
+@*     <form class="row row-cols-lg-auto g-3 align-items-center w-75" @onsubmit="HandleFilter"> *@
+@*         <div class="col-12"> *@
+@*             <input class="form-control" placeholder="Room No" @bind="searchRoomNo" /> *@
+@*         </div> *@
+@*         <div class="col-12"> *@
+@*             <select class="form-select" @bind="searchRoomType"> *@
+@*                 <option value="">All Types</option> *@
+@*                 <option value="Single Room">Single Room</option> *@
+@*                 <option value="Family Room">Family Room</option> *@
+@*             </select> *@
+@*         </div> *@
+@*         <div class="col-12"> *@
+@*             <select class="form-select" @bind="searchRoomStatus"> *@
+@*                 <option value="">All Status</option> *@
+@*                 <option value="Available">Available</option> *@
+@*                 <option value="Occupied">Occupied</option> *@
+@*             </select> *@
+@*         </div> *@
+@*         <div class="col-12"> *@
+@*             <button type="submit" class="btn btn-danger btn-sm">Filter</button> *@
+@*         </div> *@
+@*     </form> *@
+@* </div> *@
 
 <!-- Buttons -->
 <div class="d-flex justify-content-end mb-3">
@@ -48,34 +51,34 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <EditForm Model="@newRoom" OnValidSubmit="HandleValidSubmit">
-                    <DataAnnotationsValidator />
-                    <ValidationSummary />
-                    <div class="mb-3">
-                        <label class="form-label">Room Number</label>
-                        <InputText class="form-control" @bind-Value="newRoom.Room_No" />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Room Type</label>
-                        <InputSelect class="form-select" @bind-Value="newRoom.RoomType">
-                            <option value="">-- Select Room Type --</option>
-                            <option value="Single Room">Single Room</option>
-                            <option value="Family Room">Family Room</option>
-                        </InputSelect>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Room Status</label>
-                        <InputText class="form-control" @bind-Value="newRoom.RoomStatus" />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Guest Limit</label>
-                        <InputNumber class="form-control" @bind-Value="newRoom.GuestLimit" />
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-danger">Save</button>
-                    </div>
-                </EditForm>
+                @* <EditForm Model="@newRoom" OnValidSubmit="HandleValidSubmit"> *@
+                @*     <DataAnnotationsValidator /> *@
+                @*     <ValidationSummary /> *@
+                @*     <div class="mb-3"> *@
+                @*         <label class="form-label">Room Number</label> *@
+                @*         <InputText class="form-control" @bind-Value="_model.RoomNo" /> *@
+                @*     </div> *@
+                @*     <div class="mb-3"> *@
+                @*         <label class="form-label">Room Type</label> *@
+                @*         <InputSelect class="form-select" @bind-Value="_model.RoomType"> *@
+                @*             <option value="">-- Select Room Type --</option> *@
+                @*             <option value="Single Room">Single Room</option> *@
+                @*             <option value="Family Room">Family Room</option> *@
+                @*         </InputSelect> *@
+                @*     </div> *@
+                @*     <div class="mb-3"> *@
+                @*         <label class="form-label">Room Status</label> *@
+                @*         <InputText class="form-control" @bind-Value="_model.RoomStatus" /> *@
+                @*     </div> *@
+                @*     <div class="mb-3"> *@
+                @*         <label class="form-label">Guest Limit</label> *@
+                @*         <InputNumber class="form-control" @bind-Value="_model.GuestLimit" /> *@
+                @*     </div> *@
+                @*     <div class="modal-footer"> *@
+                @*         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button> *@
+                @*         <button type="submit" class="btn btn-danger">Save</button> *@
+                @*     </div> *@
+                @* </EditForm> *@
             </div>
         </div>
     </div>
@@ -97,11 +100,11 @@
         @foreach (var room in PaginatedRooms())
         {
             <tr>
-                <td>@room.RoomId</td>
-                <td>@room.Room_No</td>
-                <td>@room.RoomStatus</td>
+                <td>_model.RoomId</td>
+                <td>_model.Room_No</td>
+                <td>_model.RoomStatus</td>
                 <td class="d-flex justify-content-between align-items-center">
-                    <p class="mb-0">@room.RoomType</p>
+                    <p class="mb-0">_model.RoomType</p>
 
                     <div class="btn-group">
                         <button class="btn btn-danger btn-sm">
@@ -116,9 +119,9 @@
 
                 <td>@room.GuestLimit</td>
                 <td class="text-center">
-                    <button class="btn btn-sm @(room.isFeature ? "btn-danger" : "btn-outline-danger")"
+                    <button class="btn btn-sm (_model.isFeature ? "btn-danger" : "btn-outline-danger")"
                             @onclick="() => ToggleFeature(room)">
-                        @(room.isFeature ? "★" : "☆")
+                        (_model.isFeature ? "★" : "☆")
                     </button>
                 </td>
             </tr>
@@ -136,15 +139,25 @@
 @code {
     public class TblRoom
     {
-        public int RoomId { get; set; }
-        public string Room_No { get; set; } = string.Empty;
-        public string RoomType { get; set; } = string.Empty;
-        public string RoomStatus { get; set; } = "Available";
-        [Range(1, 10)]
-        public int GuestLimit { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
-        public bool isFeature { get; set; }
+      public Guid RoomId { get; set; }
+
+    public string RoomNo { get; set; } = null!;
+
+    public Guid RoomTypeId { get; set; }
+
+    public string? RoomStatus { get; set; }
+
+    public int? GuestLimit { get; set; }
+
+    public DateTime? CreatedAt { get; set; }
+
+    public DateTime? UpdatedAt { get; set; }
+
+    public bool IsFeatured { get; set; }
+
+    public virtual TblRoomType RoomType { get; set; } = null!;
+
+    //public virtual ICollection<TblRoomBooking> TblRoomBookings { get; set; } = new List<TblRoomBooking>();
     }
 
     private List<TblRoom> roomList = new();
@@ -161,64 +174,64 @@
     private bool CanGoNext => currentPage < totalPages;
     private bool CanGoPrevious => currentPage > 1;
 
-    protected override void OnInitialized()
-    {
-        roomList = new()
-        {
-            new() { RoomId = 1, Room_No = "A101", RoomType = "Single Room", RoomStatus = "Available", GuestLimit = 2 },
-            new() { RoomId = 2, Room_No = "A102", RoomType = "Family Room", RoomStatus = "Occupied", GuestLimit = 4 },
-            new() { RoomId = 3, Room_No = "B201", RoomType = "Single Room", RoomStatus = "Available", GuestLimit = 1 },
-            new() { RoomId = 4, Room_No = "C301", RoomType = "Family Room", RoomStatus = "Occupied", GuestLimit = 5 },
-            new() { RoomId = 5, Room_No = "D401", RoomType = "Single Room", RoomStatus = "Available", GuestLimit = 2 },
-            new() { RoomId = 6, Room_No = "E501", RoomType = "Family Room", RoomStatus = "Available", GuestLimit = 3 }
-        };
-        FilterRooms();
+    // protected override void OnInitialized()
+    // {
+    //     roomList = new()
+    //     {
+    //         new() { RoomId = 1, Room_No = "A101", RoomType = "Single Room", RoomStatus = "Available", GuestLimit = 2 },
+    //         new() { RoomId = 2, Room_No = "A102", RoomType = "Family Room", RoomStatus = "Occupied", GuestLimit = 4 },
+    //         new() { RoomId = 3, Room_No = "B201", RoomType = "Single Room", RoomStatus = "Available", GuestLimit = 1 },
+    //         new() { RoomId = 4, Room_No = "C301", RoomType = "Family Room", RoomStatus = "Occupied", GuestLimit = 5 },
+    //         new() { RoomId = 5, Room_No = "D401", RoomType = "Single Room", RoomStatus = "Available", GuestLimit = 2 },
+    //         new() { RoomId = 6, Room_No = "E501", RoomType = "Family Room", RoomStatus = "Available", GuestLimit = 3 }
+    //     };
+    //     FilterRooms();
 
-    }
+    // }
 
-    private void HandleValidSubmit()
-    {
-        newRoom.RoomId = roomList.Any() ? roomList.Max(r => r.RoomId) + 1 : 1;
-        newRoom.CreatedAt = DateTime.Now;
-        newRoom.UpdatedAt = DateTime.Now;
-        roomList.Add(newRoom);
-        newRoom = new TblRoom(); // reset
-        FilterRooms();
-    }
+    // private void HandleValidSubmit()
+    // {
+    //     newRoom.RoomId = roomList.Any() ? roomList.Max(r => r.RoomId) + 1 : 1;
+    //     newRoom.CreatedAt = DateTime.Now;
+    //     newRoom.UpdatedAt = DateTime.Now;
+    //     roomList.Add(newRoom);
+    //     newRoom = new TblRoom(); reset
+    //     FilterRooms();
+    // }
 
-    private void ToggleFeature(TblRoom room)
-    {
-        room.isFeature = !room.isFeature;
-    }
+    // private void ToggleFeature(TblRoom room)
+    // {
+    //     room.isFeature = !room.isFeature;
+    // }
 
-    private void HandleFilter()
-    {
-        FilterRooms();
-    }
+    // private void HandleFilter()
+    // {
+    //     FilterRooms();
+    // }
 
 
-    private void FilterRooms()
-    {
-        var query = roomList.AsQueryable();
+    // private void FilterRooms()
+    // {
+    //     var query = roomList.AsQueryable();
 
-        if (!string.IsNullOrWhiteSpace(searchRoomNo))
-        {
-            query = query.Where(r => r.Room_No.Contains(searchRoomNo, StringComparison.OrdinalIgnoreCase));
-        }
+    //     if (!string.IsNullOrWhiteSpace(searchRoomNo))
+    //     {
+    //         query = query.Where(r => r.RoomNo.Contains(searchRoomNo, StringComparison.OrdinalIgnoreCase));
+    //     }
 
-        if (!string.IsNullOrWhiteSpace(searchRoomType))
-        {
-            query = query.Where(r => r.RoomType == searchRoomType);
-        }
+    //     if (!string.IsNullOrWhiteSpace(searchRoomType))
+    //     {
+    //         query = query.Where(r => r.RoomType == searchRoomType);
+    //     }
 
-        if (!string.IsNullOrWhiteSpace(searchRoomStatus))
-        {
-            query = query.Where(r => r.RoomStatus == searchRoomStatus);
-        }
+    //     if (!string.IsNullOrWhiteSpace(searchRoomStatus))
+    //     {
+    //         query = query.Where(r => r.RoomStatus == searchRoomStatus);
+    //     }
 
-        filteredRooms = query.ToList();
-        currentPage = 1;
-    }
+    //     filteredRooms = query.ToList();
+    //     currentPage = 1;
+    // }
 
     private IEnumerable<TblRoom> PaginatedRooms()
     {

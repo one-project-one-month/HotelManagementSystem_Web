@@ -10,7 +10,7 @@ namespace HotelManagementSystem_Web.Pages.Admin
 
         RoomReqModel _model = new RoomReqModel();
 
-        private async Task HandleValidSubmit(Room room)
+        private async Task HandleValidSubmit()
         {
             try
             {

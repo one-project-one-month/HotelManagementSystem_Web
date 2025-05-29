@@ -1,7 +1,13 @@
 ﻿@page "/userprofile/admin-profile"
 @using HotelManagementSystem_Web.Layout.AdminLayout
 @using HotelManagementSystem_Web.Models
+@using Newtonsoft.Json
+@using System.Text
+@using static System.Net.Mime.MediaTypeNames
 @layout AdminLayout
+@inject IJSRuntime JSRuntime
+@inject HttpClient httpClient
+@inject NavigationManager nav
 
 <div class="card shadow-lg p-4 mx-auto mt-4" style="width: 90%; max-width: 900px;">
     <div class="card-body">
@@ -30,7 +36,7 @@
 
                         <div class="text-center mt-2">
                             <label for="userPhoto" class="btn btn-outline-primary btn-sm">
-                                Change Photo
+                                Upload Photo
                             </label>
                         </div>
 
@@ -78,7 +84,7 @@
                         </div>
 
                         <div class="d-flex justify-content-end mt-3">
-                            <button type="submit" class="btn btn-success me-1">
+                            <button type="submit" class="btn btn-success me-1" @onclick="SaveUserProfile">
                                 Save
                             </button>
                             <button type="button" class="btn btn-outline-secondary" @onclick="ClearForm">
@@ -89,6 +95,24 @@
                 </div>
             </div>
         </EditForm>
+    </div>
+</div>
+
+<!-- Success Modal -->
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-success">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="successModalLabel">Success</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                User profile saved successfully!
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal">OK</button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -105,9 +129,35 @@
 
     private async Task HandleValidSubmit()
     {
-        // Call API
-       
+        await SaveUserProfile();
+
         Console.WriteLine("User created!");
+    }
+
+    private async Task SaveUserProfile()
+    {
+        var jsonData = JsonConvert.SerializeObject(userProfile);
+        var content = new StringContent(jsonData, Encoding.UTF8, Application.Json);
+        var response = await httpClient.PostAsync("https://localhost:7161/api/User/createuserprofile", content);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var jsonStr = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(jsonStr);
+
+            await ShowSuccessModal();
+            nav.NavigateTo("/user-home");
+        }
+        else
+        {
+            var error = await response.Content.ReadAsStringAsync();
+            Console.Error.WriteLine("Error saving profile: " + error);
+        }
+    }
+
+    private async Task ShowSuccessModal()
+    {
+        await JSRuntime.InvokeVoidAsync("bootstrapInterop.showModal", "successModal");
     }
 
     private void ClearForm()

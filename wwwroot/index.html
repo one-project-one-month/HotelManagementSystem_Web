@@ -45,7 +45,21 @@
         return window.confirm(message);
     };
 </script>
-
+<script>
+    window.bootstrapInterop = {
+        showModal: function (modalId) {
+            try {
+                const modalEl = document.getElementById(modalId);
+                if (modalEl) {
+                    const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+                    modal.show();
+                }
+            } catch (e) {
+                console.error("Modal show error:", e);
+            }
+        }
+    };
+</script>
 </body>
 
 </html>

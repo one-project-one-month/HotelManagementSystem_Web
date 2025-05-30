@@ -2,67 +2,105 @@
 @using HotelManagementSystem_Web.Layout.AdminLayout
 @layout AdminLayout
 
-<h2 class="text-center my-4 text-danger">Room Type Details</h2>
+<h3 class="text-center my-4 text-danger">Room Type Details</h3>
 
-<div class="d-flex justify-content-end mb-3">
+
+<div class="d-flex justify-content-end mb-1">
     <button class="btn btn-outline-danger btn-sm me-2" data-bs-toggle="modal" data-bs-target="#addRoomTypeModal">
         <i class="bi bi-plus"></i> Add Room Type
     </button>
 </div>
 
-
-@* <button class="carousel-control-prev" type="button" data-bs-target="#roomTypeCarousel" data-bs-slide="prev"> *@
-@*     <span class="carousel-control-prev-icon" aria-hidden="false"></span> *@
-@*     <span class="text-danger">Previous</span> *@
-@* </button> *@
-@* <button class="carousel-control-next" type="button" data-bs-target="#roomTypeCarousel" data-bs-slide="next"> *@
-@*     <span class="carousel-control-next-icon" aria-hidden="false"></span> *@
-@*     <span class="text-danger">Next</span> *@
-@* </button> *@
-
 @if (ChunkedRoomTypes.Count > 0)
 {
-    <div id="roomTypeCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            @for (int i = 0; i < ChunkedRoomTypes.Count; i++)
-            {
-                var group = ChunkedRoomTypes[i];
-                <div class="carousel-item @(i == 0 ? "active" : "")">
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            @foreach (var room in group)
-                            {
-                                <div class="col-12 col-md-4 mb-3">
-                                    <div class="card h-100 shadow-sm">
-                                        <img src="@room.RoomImg ?? defaultImage"
-                                             class="card-img-top"
-                                             alt="@room.RoomTypeName"
-                                             style="height: 180px; object-fit: cover;" />
-                                        <div class="card-body">
-                                            <h5 class="card-title">@room.RoomTypeName</h5>
-                                            <p class="card-text">@room.Description</p>
-                                            <p class="fw-bold">@room.Price?.ToString("C")</p>
-                                            <div class="d-flex justify-content-end gap-2">
-                                                <button class="btn btn-sm btn-outline-danger" @onclick="() => OpenEditModal(room)">
-                                                    <i class="bi bi-pencil-square"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-danger" @onclick="() => OpenUploadPhotoModal(room)">
-                                                    <i class="bi bi-arrow-bar-up"></i>
-                                                </button>
+    <div class="position-relative">
+        <!-- Carousel container -->
+        <div id="roomTypeCarousel" class="carousel slide mb-2" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                @for (int i = 0; i < ChunkedRoomTypes.Count; i++)
+                {
+                    var group = ChunkedRoomTypes[i];
+                    <div class="carousel-item @(i == 0 ? "active" : "")">
+                        <div class="container shadow-lg py-3">
+                            <div class="row justify-content-center">
+                                @foreach (var room in group)
+                                {
+                                    <div class="col-12 col-md-4 mb-3">
+                                        <div class="card h-100 shadow-sm">
+                                            <img src="@room.RoomImg ?? defaultImage"
+                                                 class="card-img-top"
+                                                 alt="@room.RoomTypeName"
+                                                 style="height: 180px; object-fit: cover;" />
+                                            <div class="card-body">
+                                                <h5 class="card-title">@room.RoomTypeName</h5>
+                                                <p class="card-text">@room.Description</p>
+                                                <p class="fw-bold">@room.Price?.ToString("C")</p>
+                                                <div class="d-flex justify-content-end gap-2">
+                                                    <button class="btn btn-sm btn-outline-danger" @onclick="() => OpenEditModal(room)">
+                                                        <i class="bi bi-pencil-square"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-danger" @onclick="() => OpenUploadPhotoModal(room)">
+                                                        <i class="bi bi-arrow-bar-up"></i>
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            }
+                                }
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
+                }
+            </div>
         </div>
-       
-    </div>
 
+        <!-- Separate nav buttons OUTSIDE carousel -->
+        <div class="d-flex justify-content-between mt-2 px-3">
+            <button class="btn btn-outline-danger" type="button" data-bs-target="#roomTypeCarousel" data-bs-slide="prev">
+                <i class="bi bi-arrow-left"></i> Prev
+            </button>
+            <button class="btn btn-outline-danger" type="button" data-bs-target="#roomTypeCarousel" data-bs-slide="next">
+                Next <i class="bi bi-arrow-right"></i>
+            </button>
+        </div>
+    </div>
 }
+
+
+
+@* <!-- Add Room Type Modal --> *@
+@* <div class="modal fade" id="addRoomTypeModal" tabindex="-1" aria-labelledby="addRoomTypeModal" aria-hidden="true"> *@
+@*     <div class="modal-dialog modal-dialog-centered"> *@
+@*         <div class="modal-content"> *@
+@*             <div class="modal-header"> *@
+@*                 <h5 class="modal-title">Add New Room </h5> *@
+@*                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> *@
+@*             </div> *@
+@*             <div class="modal-body"> *@
+@*                 <EditForm Model="@_model"> *@
+@*                     <DataAnnotationsValidator /> *@
+@*                     <ValidationSummary /> *@
+@*                     <div class="mb-3"> *@
+@*                         <label class="form-label">RoomType Name</label> *@
+@*                         <InputText class="form-control" @bind-Value="_model.RoomTypeName" /> *@
+@*                     </div> *@
+@*                     <div class="mb-3"> *@
+@*                         <label class="form-label">Description</label> *@
+@*                         <InputText class="form-control" @bind-Value="_model.Description" /> *@
+@*                     </div> *@
+@*                     <div class="mb-3"> *@
+@*                         <label class="form-label">Price</label> *@
+@*                         <InputNumber class="form-control" @bind-Value="_model.Price" /> *@
+@*                     </div> *@
+@*                     <div class="mb-3 form-check"> *@
+@*                         <label class="form-label">RoomImg</label> *@
+@*                         <InputNumber class="form-control" @bind-Value="_model.RoomImg" /> *@
+@*                     </div> *@
+@*                 </EditForm> *@
+@*             </div> *@
+@*         </div> *@
+@*     </div> *@
+@* </div> *@
 
 
 
@@ -164,7 +202,7 @@
         }
     };
 
-    private string defaultImage = "";
+    private string defaultImage = "https://hotel-rooms-img.s3.ap-southeast-2.amazonaws.com/Flux_Dev_A_luxury_bamboo_hotel_cottage_with_a_kingsized_bed_wi_0.jpg";
 
     private bool showEditModal = false;
     private bool showUploadPhotoModal = false;

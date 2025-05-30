@@ -8,7 +8,14 @@ namespace HotelManagementSystem_Web.Pages.Admin
 
         public async Task HandleValidSubmit()
         {
+            try
+            {
+           
+            }
+            catch(Exception e)
+            {
 
+            }
         }
 
     }

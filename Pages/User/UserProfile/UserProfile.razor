@@ -1,0 +1,51 @@
+﻿@page "/user-profile"
+@using HotelManagementSystem_Web.Layout.UserLayout
+@layout UserLayout
+<div class="container-fluid p-4">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3">
+            <h3>Profile</h3>
+            <ul class="list-unstyled sidebar">
+                <li class="active p-3 d-flex align-items-center">
+                    <div class="profile-icon me-2">M</div>
+                    <span>About me</span>
+                </li>
+                <li class="p-3 d-flex align-items-center">
+                    <i class="fas fa-suitcase-rolling me-2"></i> Past trips
+                </li>
+                <li class="p-3 d-flex align-items-center">
+                    <i class="fas fa-user-friends me-2"></i> Connections
+                </li>
+            </ul>
+        </div>
+
+        <!-- Main content -->
+        <div class="col-md-9">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>About me</h2>
+                <button class="btn btn-outline-secondary">Edit</button>
+            </div>
+
+            <div class="row mb-5">
+                <div class="col-md-6">
+                    <div class="profile-card p-4 text-center">
+                        <div class="profile-icon mb-3">M</div>
+                        <h4>Moe</h4>
+                        <p class="text-muted">Guest</p>
+                    </div>
+                </div>
+                <div class="col-md-6 d-flex flex-column justify-content-center">
+                    <h5>Complete your profile</h5>
+                    <p class="text-muted">Your Airbnb profile is an important part of every reservation. Complete yours to help other hosts and guests get to know you.</p>
+                    <button class="btn btn-danger">Get started</button>
+                </div>
+            </div>
+
+            <div>
+                <h5><i class="fas fa-comment-alt me-2"></i> Reviews I’ve written</h5>
+                <p class="text-muted">No reviews yet.</p>
+            </div>
+        </div>
+    </div>
+</div>

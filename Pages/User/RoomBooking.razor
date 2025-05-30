@@ -1,0 +1,251 @@
+@page "/user/room-booking"
+@using HotelManagementSystem_Web.Layout.UserLayout
+@layout UserLayout
+
+<div class="offset-1 d-flex justify-content-start align-items-center">
+  <NavLink href="user/room-reserve" class="btn me-2">
+    <i class="text-dark fa-solid fa-arrow-left"></i>
+  </NavLink>
+  <h4 class="my-4">Request to Book</h4>
+</div>
+<div class="row g-4">
+  <!-- Left side -->
+  <div class="offset-1 col-5">
+    <div class="card card-custom p-4 mb-4 animated-border" style="border-radius: 15px;">
+      <p class="section-title mb-2">1. Choose when to pay</p>
+        @if (_isDoneWhenToPay)
+        {
+          <div class="fade-content">
+            <div class="d-flex justify-content-between align-items-center">
+              <label class="d-block form-check-label text-secondary" for="payNow">
+                Pay $57.16 now
+              </label>
+              <button class="btn btn-secondary btn-sm" @onclick="ChangeWhenToPay">Change</button>
+            </div>
+          </div>
+        }
+        else if (!_isDoneWhenToPay)
+        {
+          <div class="fade-content">
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="radio" name="paymentOption" id="payNow" checked>
+              <label class="form-check-label" for="payNow">
+                Pay $57.16 now
+              </label>
+            </div>
+            <hr/>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="paymentOption" id="payLater">
+              <label class="form-check-label" for="payLater">
+                Pay part now, part later<br/>
+                <small class="text-muted">$11.44 now, $45.72 charged on Aug 2. No extra fees.</small>
+              </label>
+            </div>
+            <hr/>
+            <div class="d-flex justify-content-end align-items-center">
+              <button @onclick="HandleWhenToPay" class="btn btn-dark mt-3 w-25 p-2" style="border-radius: 10px">Done
+              </button>
+            </div>
+          </div>
+        }
+      
+    </div>
+    <div class="card card-custom p-4 mb-4 animated-border" style="border-radius: 15px;">
+      <p class="section-title mb-2"> 2. Add a payment method</p>
+      @if (_isCompleteWhenToPay)
+      {
+        @if (_isDoneChoosePayment)
+        {
+          <div class="fade-content">
+            <div class="d-flex justify-content-between align-items-center">
+              <label class="d-block form-check-label text-secondary" for="payNow">
+                Pay $57.16 now
+              </label>
+              <button class="btn btn-secondary btn-sm" @onclick="ChangeChoosePayment">Change</button>
+            </div>
+          </div>
+        }
+        else if (!_isDoneChoosePayment)
+        {
+          <div class="fade-content">
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="radio" name="paymentOption" id="payNow" checked>
+              <label class="form-check-label" for="payNow">
+                Pay $57.16 now
+              </label>
+            </div>
+            <hr/>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="paymentOption" id="payLater">
+              <label class="form-check-label" for="payLater">
+                Pay part now, part later<br/>
+                <small class="text-muted">$11.44 now, $45.72 charged on Aug 2. No extra fees.</small>
+              </label>
+            </div>
+            <hr/>
+            <div class="d-flex justify-content-end align-items-center">
+              <button @onclick="HandleChoosePayment" class="btn btn-dark mt-3 w-25 p-2" style="border-radius: 10px">Done
+              </button>
+            </div>
+          </div>
+        }
+      }
+    </div>
+    <div class="card card-custom p-4 mb-4 animated-border" style="border-radius: 15px;">
+      <p class="section-title mb-2"> 3. Write a message to the host</p>
+      @if (_isCompleteChoosePayment)
+      {
+        @if (_isDoneReserveMessage)
+        {
+          <div class="fade-content">
+            <div class="d-flex justify-content-between align-items-center">
+              <label class="d-block form-check-label text-secondary" for="payNow">
+                Pay $57.16 now
+              </label>
+              <button class="btn btn-secondary btn-sm" @onclick="ChangeReserveMessage">Change</button>
+            </div>
+          </div>
+        }
+        else if (!_isDoneReserveMessage)
+        {
+          <div class="fade-content">
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="radio" name="paymentOption" id="payNow" checked>
+              <label class="form-check-label" for="payNow">
+                Pay $57.16 now
+              </label>
+            </div>
+            <hr/>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="paymentOption" id="payLater">
+              <label class="form-check-label" for="payLater">
+                Pay part now, part later<br/>
+                <small class="text-muted">$11.44 now, $45.72 charged on Aug 2. No extra fees.</small>
+              </label>
+            </div>
+            <hr/>
+            <div class="d-flex justify-content-end align-items-center">
+              <button @onclick="HandleReserveMessage" class="btn btn-dark mt-3 w-25 p-2" style="border-radius: 10px">Done
+              </button>
+            </div>
+          </div>
+        }
+      }
+    </div>
+    <div class="card card-custom p-4 mb-4 animated-border" style="border-radius: 15px;">
+      <p class="section-title mb-2">4. Add a profile photo</p>
+      @if (_isCompleteReserveMessage)
+      {
+        @if (_isDoneProfile)
+        {
+          <div class="fade-content">
+            <div class="d-flex justify-content-between align-items-center">
+              <label class="d-block form-check-label text-secondary" for="payNow">
+                Pay $57.16 now
+              </label>
+              <button class="btn btn-secondary btn-sm" @onclick="ChangeProfile">Change</button>
+            </div>
+          </div>
+        }
+        else if (!_isDoneProfile)
+        {
+          <div class="fade-content">
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="radio" name="paymentOption" id="payNow" checked>
+              <label class="form-check-label" for="payNow">
+                Pay $57.16 now
+              </label>
+            </div>
+            <hr/>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="paymentOption" id="payLater">
+              <label class="form-check-label" for="payLater">
+                Pay part now, part later<br/>
+                <small class="text-muted">$11.44 now, $45.72 charged on Aug 2. No extra fees.</small>
+              </label>
+            </div>
+            <hr/>
+            <div class="d-flex justify-content-end align-items-center">
+              <button @onclick="HandleProfile" class="btn btn-dark mt-3 w-25 p-2" style="border-radius: 10px">Done
+              </button>
+            </div>
+          </div>
+        }
+      }
+    </div>
+    <div class="card card-custom p-4 mb-4 animated-border" style="border-radius: 15px;">
+      <p class="section-title mb-2">5. Review your reservation</p>
+      @if (_isCompleteProfile)
+      {
+        @if (_isDoneReserveReview)
+        {
+          <div class="fade-content">
+            <div class="d-flex justify-content-between align-items-center">
+              <label class="d-block form-check-label text-secondary" for="payNow">
+                Pay $57.16 now
+              </label>
+              <button class="btn btn-secondary btn-sm" @onclick="ChangeReservation">Change</button>
+            </div>
+          </div>
+        }
+        else if (!_isDoneReserveReview)
+        {
+          <div class="fade-content">
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="radio" name="paymentOption" id="payNow" checked>
+              <label class="form-check-label" for="payNow">
+                Pay $57.16 now
+              </label>
+            </div>
+            <hr/>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="paymentOption" id="payLater">
+              <label class="form-check-label" for="payLater">
+                Pay part now, part later<br/>
+                <small class="text-muted">$11.44 now, $45.72 charged on Aug 2. No extra fees.</small>
+              </label>
+            </div>
+            <hr/>
+            <div class="d-flex justify-content-end align-items-center">
+              <button @onclick="HandleReservation" class="btn btn-dark mt-3 w-25 p-2" style="border-radius: 10px">Done
+              </button>
+            </div>
+          </div>
+        }
+      }
+    </div>
+  </div>
+
+  <!-- Right side -->
+  <div class="col-5">
+    <div class="ms-5 card card-custom p-3">
+      <div class="d-flex">
+        <img src="https://via.placeholder.com/100x100" alt="Condo image" class="me-3 rounded"
+             style="width: 100px; height: 100px; object-fit: cover;">
+        <div>
+          <h6 class="mb-0">Condo nears iconsiam sathorn</h6>
+          <small><i class="fas fa-star text-warning"></i> 4.91 (179) • <i class="fas fa-gem"></i> Guest favorite</small>
+        </div>
+      </div>
+      <hr>
+      <p class="mb-1"><strong>Free cancellation</strong></p>
+      <p class="text-muted small mb-2">Cancel before Aug 10 for a full refund. <a href="#">Full policy</a></p>
+      <p class="mb-1"><strong>Trip details</strong>
+        <button class="btn btn-sm btn-light float-end">Change</button>
+      </p>
+      <p class="text-muted small mb-2">Aug 15 – 17, 2025<br>1 adult</p>
+      <hr>
+      <p class="mb-1"><strong>Price details</strong></p>
+      <p class="d-flex justify-content-between"><span>$28.58 x 2 nights</span><span>$57.16</span></p>
+      <p class="d-flex justify-content-between fw-bold"><span>Total <a href="#"
+                                                                       class="text-decoration-none">USD</a></span><span>$57.16</span>
+      </p>
+      <a href="#" class="small text-decoration-underline">Price breakdown</a>
+      <hr>
+      <div class="d-flex align-items-center mt-2">
+        <i class="fas fa-gem me-2 rare-find"></i>
+        <span class="rare-find"><strong>This is a rare find.</strong> Bowie's place is usually booked.</span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -7,12 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Pages\Admin\AdminUserProfile.razor.cs" />
     <Compile Remove="Pages\Admin\Booking.razor.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Pages\Admin\AdminUserProfile.razor.cs" />
     <Content Include="Pages\Admin\Booking.razor.cs" />
   </ItemGroup>
 

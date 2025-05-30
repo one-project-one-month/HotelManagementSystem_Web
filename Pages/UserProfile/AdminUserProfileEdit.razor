@@ -1,0 +1,135 @@
+﻿@page "/userprofile/admin-profile-edit"
+@using HotelManagementSystem_Web.Layout.AdminLayout
+@using HotelManagementSystem_Web.Models
+@layout AdminLayout
+@inject NavigationManager nav
+
+<div class="card shadow-lg p-4 mx-auto mt-4" style="width: 90%; max-width: 900px;">
+    <div class="card-body">
+        <h4 class="text-center mb-4">User Profile Edit</h4>
+
+        <EditForm Model="@editProfile" OnValidSubmit="HandleValidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="row">               
+                <div class="col-md-5 d-flex flex-column align-items-center">
+                    <div class="card p-3 shadow-sm" style="width: 100%;">
+                        <div class="position-relative d-flex justify-content-center">
+                            @if (!string.IsNullOrEmpty(editProfile.ProfileImg))
+                            {
+                                <img src="@editProfile.ProfileImg" class="rounded-circle img-thumbnail shadow" style="width: 200px; height: 200px; object-fit: cover;" />
+                            }
+                            else
+                            {
+                                <img src="default-avatar.png" class="rounded-circle img-thumbnail shadow" style="width: 200px; height: 200px; object-fit: cover;" />
+                            }
+
+                            <label class="upload-overlay" for="userPhoto">
+                                <i class="bi bi-camera-fill fs-3 text-white"></i>
+                            </label>
+                        </div>
+
+                        <div class="text-center mt-2">
+                            <label for="userPhoto" class="btn btn-outline-primary btn-sm">
+                                Upload Photo
+                            </label>
+                        </div>
+
+                        <InputFile id="userPhoto" class="d-none" OnChange="@OnInputFileChange" />
+                    </div>
+                </div>
+               
+                <div class="col-md-7">
+                    <div class="card p-3 shadow-sm" style="width: 100%;">
+                        <div class="mb-3">
+                            <label class="form-label">User Name</label>
+                            <InputText class="form-control" @bind-Value="@editProfile.UserName" />
+                            <ValidationMessage For="@(() => editProfile.UserName)" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <InputText class="form-control" @bind-Value="@editProfile.Email" />
+                            <ValidationMessage For="@(() => editProfile.Email)" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Phone No</label>
+                            <InputText class="form-control" @bind-Value="@editProfile.PhoneNumber" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Date Of Birth</label>
+                            <InputDate class="form-control" @bind-Value="@editProfile.DateOfBirth" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Gender</label>
+                            <InputSelect class="form-control" @bind-Value="@editProfile.Gender">
+                                @foreach (Gender gender in Enum.GetValues(typeof(Gender)))
+                                {
+                                    <option value="@gender">@gender</option>
+                                }
+                            </InputSelect>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Address</label>
+                            <InputText class="form-control" @bind-Value="@editProfile.Address" />
+                        </div>
+
+                        <div class="d-flex justify-content-end mt-3">
+                            <button type="submit" class="btn btn-success me-1">Update</button>
+                            <button type="button" class="btn btn-outline-secondary" @onclick="ResetForm">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    [Parameter] public UserProfile userProfile { get; set; }
+
+    private UserProfile editProfile = new();
+
+    protected override void OnParametersSet()
+    {
+        if (userProfile != null)
+        {
+            // Deep copy to avoid editing original data until submit
+            editProfile = new UserProfile
+                {
+                    UserId = userProfile.UserId,
+                    UserName = userProfile.UserName,
+                    Email = userProfile.Email,
+                    PhoneNumber = userProfile.PhoneNumber,
+                    DateOfBirth = userProfile.DateOfBirth,
+                    Gender = userProfile.Gender,
+                    Address = userProfile.Address,
+                    ProfileImg = userProfile.ProfileImg
+                };
+        }
+    }
+
+    private async Task OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        var imgFile = e.File;
+        var buffer = new byte[imgFile.Size];
+        await imgFile.OpenReadStream().ReadAsync(buffer);
+        editProfile.ProfileImg = $"data:{imgFile.ContentType};base64,{Convert.ToBase64String(buffer)}";
+    }
+
+    private async Task HandleValidSubmit()
+    {
+       
+        Console.WriteLine("User updated!");
+    }
+
+    private void ResetForm()
+    {
+        nav.NavigateTo("/user-home");
+    }
+}

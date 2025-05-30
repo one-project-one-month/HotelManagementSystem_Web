@@ -1,57 +1,256 @@
-﻿@page "/admin/room/room-type"
+﻿@page "/admin/room-type"
 @using HotelManagementSystem_Web.Layout.AdminLayout
 @layout AdminLayout
-@using System.ComponentModel.DataAnnotations
-@using Microsoft.AspNetCore.Components.Forms
 
 <h2 class="text-center my-4 text-danger">Room Type Details</h2>
 
-<div class="d-flex justify-content-lg-end">
-    <button class=" btn btn-sm  btn-outline-danger me-2">
-        <i class="bi bi-pencil-square"></i>
-        Edit
+<div class="d-flex justify-content-end mb-3">
+    <button class="btn btn-outline-danger btn-sm me-2" data-bs-toggle="modal" data-bs-target="#addRoomTypeModal">
+        <i class="bi bi-plus"></i> Add Room Type
     </button>
-    <button class=" btn btn-sm btn-danger ">
-        <i class="bi bi-arrow-bar-up"></i>
-        Upload Photo
-    </button>
-
 </div>
 
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-12">
-            <div class="card shadow-sm rounded d-flex flex-wrap flex-row align-items-center p-3">
-                <img src="https://hotel-rooms-img.s3.ap-southeast-2.amazonaws.com/Flux_Dev_A_luxury_bamboo_hotel_cottage_with_a_kingsized_bed_wi_0.jpg"
-                     alt="Room Image"
-                     class="rounded"
-                     style="width: 100%; max-width: 300px; height: 200px; object-fit: cover;" />
+@* <button class="carousel-control-prev" type="button" data-bs-target="#roomTypeCarousel" data-bs-slide="prev"> *@
+@*     <span class="carousel-control-prev-icon" aria-hidden="false"></span> *@
+@*     <span class="text-danger">Previous</span> *@
+@* </button> *@
+@* <button class="carousel-control-next" type="button" data-bs-target="#roomTypeCarousel" data-bs-slide="next"> *@
+@*     <span class="carousel-control-next-icon" aria-hidden="false"></span> *@
+@*     <span class="text-danger">Next</span> *@
+@* </button> *@
 
-                <div class="card-body text-start flex-grow-1 ms-4">
-                    <h4 class="card-title mb-3">@roomType.RoomTypeName</h4>
-                    <p class="card-text text-muted mb-3">@roomType.RoomTypeDescription</p>
-                    <h5 class="text-primary fw-bold">@roomType.Price.ToString("C")</h5>
+@if (ChunkedRoomTypes.Count > 0)
+{
+    <div id="roomTypeCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            @for (int i = 0; i < ChunkedRoomTypes.Count; i++)
+            {
+                var group = ChunkedRoomTypes[i];
+                <div class="carousel-item @(i == 0 ? "active" : "")">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            @foreach (var room in group)
+                            {
+                                <div class="col-12 col-md-4 mb-3">
+                                    <div class="card h-100 shadow-sm">
+                                        <img src="@room.RoomImg ?? defaultImage"
+                                             class="card-img-top"
+                                             alt="@room.RoomTypeName"
+                                             style="height: 180px; object-fit: cover;" />
+                                        <div class="card-body">
+                                            <h5 class="card-title">@room.RoomTypeName</h5>
+                                            <p class="card-text">@room.Description</p>
+                                            <p class="fw-bold">@room.Price?.ToString("C")</p>
+                                            <div class="d-flex justify-content-end gap-2">
+                                                <button class="btn btn-sm btn-outline-danger" @onclick="() => OpenEditModal(room)">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-danger" @onclick="() => OpenUploadPhotoModal(room)">
+                                                    <i class="bi bi-arrow-bar-up"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+       
+    </div>
+
+}
+
+
+
+<!-- Edit Room Type Modal -->
+@if (showEditModal && editingRoomType != null)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Room Type</h5>
+                    <button type="button" class="btn-close" @onclick="CloseModals"></button>
+                </div>
+                <div class="modal-body">
+                    <EditForm Model="editingRoomType" OnValidSubmit="SaveRoomType">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                        <div class="mb-3">
+                            <label class="form-label">Room Type Name</label>
+                            <InputText class="form-control" @bind-Value="editingRoomType.RoomTypeName" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <InputTextArea class="form-control" @bind-Value="editingRoomType.Description" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Price</label>
+                            <InputNumber class="form-control" @bind-Value="editingRoomType.Price" />
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="button" class="btn btn-danger ms-2" @onclick="CloseModals">Cancel</button>
+                    </EditForm>
                 </div>
             </div>
         </div>
     </div>
-</div>
+}
+
+<!-- Upload Photo Modal -->
+@if (showUploadPhotoModal && uploadingRoomType != null)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Upload Photo for @uploadingRoomType.RoomTypeName</h5>
+                    <button type="button" class="btn-close" @onclick="CloseModals"></button>
+                </div>
+                <div class="modal-body">
+                    <InputFile OnChange="HandleFileSelected" />
+                    @if (uploadPreviewUrl != null)
+                    {
+                        <img src="@uploadPreviewUrl" class="img-fluid mt-3" alt="Preview" />
+                    }
+                    <div class="mt-3 d-flex justify-content-end gap-2">
+                        <button class="btn btn-outline-danger" @onclick="UploadPhoto">Upload</button>
+                        <button class="btn btn-danger" @onclick="CloseModals">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
 @code {
-    public class TblRoomType
+    private List<TblRoomType> roomTypes = new()
     {
-        public int Id { get; set; }
-        public string RoomTypeName { get; set; } = string.Empty;
-        public string RoomTypeDescription { get; set; } = string.Empty;
-        public decimal Price { get; set; }
-    }
-
-    private TblRoomType roomType = new TblRoomType
+        new TblRoomType
         {
             Id = 1,
             RoomTypeName = "Deluxe Suite",
-            RoomTypeDescription = "Spacious room with a king bed, sea view, and jacuzzi.",
-            Price = 250.00M
-        };
+            Description = "Spacious room with a king bed, sea view, and jacuzzi.",
+            Price = 250.00M,
+            RoomImg = "https://hotel-rooms-img.s3.ap-southeast-2.amazonaws.com/Flux_Dev_A_luxury_bamboo_hotel_cottage_with_a_kingsized_bed_wi_0.jpg"
+        },
+        new TblRoomType
+        {
+            Id = 2,
+            RoomTypeName = "Standard Room",
+            Description = "Comfortable room with queen bed and city view.",
+            Price = 150.00M,
+            RoomImg = "https://hotel-rooms-img.s3.ap-southeast-2.amazonaws.com/Flux_Dev_A_luxury_bamboo_hotel_cottage_with_a_kingsized_bed_wi_0.jpg"
+        },
+        new TblRoomType
+        {
+            Id = 3,
+            RoomTypeName = "Family Suite",
+            Description = "Large room with double beds and a living area.",
+            Price = 320.00M,
+            RoomImg = "https://hotel-rooms-img.s3.ap-southeast-2.amazonaws.com/Flux_Dev_A_luxury_bamboo_hotel_cottage_with_a_kingsized_bed_wi_0.jpg"
+        },
+        new TblRoomType
+        {
+            Id = 4,
+            RoomTypeName = "Budget Room",
+            Description = "Affordable room with essential amenities.",
+            Price = 100.00M,
+            RoomImg = "https://hotel-rooms-img.s3.ap-southeast-2.amazonaws.com/Flux_Dev_A_luxury_bamboo_hotel_cottage_with_a_kingsized_bed_wi_0.jpg"
+        }
+    };
+
+    private string defaultImage = "";
+
+    private bool showEditModal = false;
+    private bool showUploadPhotoModal = false;
+
+    private TblRoomType? editingRoomType;
+    private TblRoomType? uploadingRoomType;
+
+    private IBrowserFile? selectedFile;
+    private string? uploadPreviewUrl;
+
+    void OpenEditModal(TblRoomType roomType)
+    {
+        editingRoomType = new TblRoomType
+            {
+                Id = roomType.Id,
+                RoomTypeName = roomType.RoomTypeName,
+                Description = roomType.Description,
+                Price = roomType.Price,
+                RoomImg = roomType.RoomImg,
+                RoomImgMimeType = roomType.RoomImgMimeType
+            };
+        showEditModal = true;
+    }
+
+    void OpenUploadPhotoModal(TblRoomType roomType)
+    {
+        uploadingRoomType = roomType;
+        uploadPreviewUrl = null;
+        selectedFile = null;
+        showUploadPhotoModal = true;
+    }
+
+    void CloseModals()
+    {
+        showEditModal = false;
+        showUploadPhotoModal = false;
+        editingRoomType = null;
+        uploadingRoomType = null;
+        uploadPreviewUrl = null;
+        selectedFile = null;
+    }
+
+    void SaveRoomType()
+    {
+        if (editingRoomType != null)
+        {
+            var roomIndex = roomTypes.FindIndex(r => r.Id == editingRoomType.Id);
+            if (roomIndex != -1)
+            {
+                roomTypes[roomIndex] = editingRoomType;
+            }
+        }
+        CloseModals();
+    }
+
+    async Task HandleFileSelected(InputFileChangeEventArgs e)
+    {
+        selectedFile = e.File;
+        var buffer = new byte[selectedFile.Size];
+        await selectedFile.OpenReadStream().ReadAsync(buffer);
+        uploadPreviewUrl = $"data:{selectedFile.ContentType};base64,{Convert.ToBase64String(buffer)}";
+    }
+
+    void UploadPhoto()
+    {
+        if (uploadingRoomType != null && selectedFile != null && uploadPreviewUrl != null)
+        {
+            uploadingRoomType.RoomImg = uploadPreviewUrl;
+            uploadingRoomType.RoomImgMimeType = selectedFile.ContentType;
+            CloseModals();
+        }
+    }
+
+    private List<List<TblRoomType>> ChunkedRoomTypes => roomTypes
+        .Select((room, index) => new { room, index })
+        .GroupBy(x => x.index / 3) // 3 cards per carousel slide
+        .Select(g => g.Select(x => x.room).ToList())
+        .ToList();
+
+    public class TblRoomType
+    {
+        public int Id { get; set; }
+        public string? RoomTypeName { get; set; }
+        public string? Description { get; set; }
+        public decimal? Price { get; set; }
+        public string? RoomImg { get; set; }
+        public string? RoomImgMimeType { get; set; }
+    }
 }

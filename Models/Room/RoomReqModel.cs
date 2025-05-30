@@ -10,10 +10,8 @@ namespace HotelManagementSystem_Web.Models.Room. RoomTypeReqModel
 
         public int? GuestLimit { get; set; }
 
-        //public Guid RoomTypeId { get; set; }
+        public Guid RoomTypeId { get; set; }
 
         public bool IsFeatured { get; set; }
-
-        public RoomTypeModel? RoomType { get; set; }
     }
 }

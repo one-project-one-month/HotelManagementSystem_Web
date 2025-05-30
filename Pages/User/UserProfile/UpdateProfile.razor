@@ -1,0 +1,95 @@
+﻿@page "/update-profile"
+@using HotelManagementSystem_Web.Layout.UserLayout
+@layout UserLayout
+
+<div class="container py-4">
+    <div class="row">
+        <!-- Left Side -->
+        <div class="col-md-3 text-center">
+            <div class="profile-avatar mx-auto mb-2">M</div>
+            <button class="btn btn-outline-dark btn-sm">Add</button>
+        </div>
+
+        <!-- Right Side -->
+        <div class="col-md-9">
+            <h3>My profile</h3>
+            <p class="text-muted">
+                Hosts and guests can see your profile and it may appear across Airbnb to help us build trust in our community.
+                <a href="#">Learn more</a>
+            </p>
+
+            <!-- Grid Profile Details -->
+            <div class="row row-cols-1 row-cols-md-2 g-2">
+                <div class="col">
+                    <div class="profile-grid-item"><i class="fas fa-envelope"></i> Where I went to school</div>
+                </div>
+                <div class="col">
+                    <div class="profile-grid-item"><i class="fas fa-map-marker-alt"></i> Where I've always wanted to go</div>
+                </div>
+                <div class="col">
+                    <div class="profile-grid-item"><i class="fas fa-briefcase"></i> My work</div>
+                </div>
+                <div class="col">
+                    <div class="profile-grid-item"><i class="fas fa-paw"></i> Pets</div>
+                </div>
+                <div class="col">
+                    <div class="profile-grid-item"><i class="fas fa-birthday-cake"></i> Decade I was born</div>
+                </div>
+                <div class="col">
+                    <div class="profile-grid-item"><i class="fas fa-dumbbell"></i> My most useless skill</div>
+                </div>
+                <div class="col">
+                    <div class="profile-grid-item"><i class="fas fa-clock"></i> I spend too much time</div>
+                </div>
+                <div class="col">
+                    <div class="profile-grid-item"><i class="fas fa-lightbulb"></i> My fun fact</div>
+                </div>
+                <div class="col">
+                    <div class="profile-grid-item"><i class="fas fa-music"></i> My favorite song in high school</div>
+                </div>
+                <div class="col">
+                    <div class="profile-grid-item"><i class="fas fa-heart"></i> I'm obsessed with</div>
+                </div>
+                <div class="col">
+                    <div class="profile-grid-item"><i class="fas fa-language"></i> Languages I speak</div>
+                </div>
+                <div class="col">
+                    <div class="profile-grid-item"><i class="fas fa-book"></i> My biography title would be</div>
+                </div>
+                <div class="col">
+                    <div class="profile-grid-item"><i class="fas fa-home"></i> Where I live</div>
+                </div>
+            </div>
+
+            <!-- About Me -->
+            <div class="profile-section-title">About me</div>
+            <div class="dashed-box">
+                Write something fun and punchy.<br>
+                <a href="#">Add intro</a>
+            </div>
+
+            <!-- Where I've been -->
+            <div class="profile-section-title mt-4">Where I've been</div>
+            <p class="text-muted">Pick the stamps you want other people to see on your profile.</p>
+            <div class="form-check form-switch mb-3">
+                <input class="form-check-input" type="checkbox" id="toggleVisited">
+                <label class="form-check-label" for="toggleVisited"></label>
+            </div>
+
+            <!-- Interests -->
+            <div class="profile-section-title">My interests</div>
+            <p class="text-muted">Find common ground with other guests and hosts by adding interests to your profile.</p>
+            <div>
+                <span class="interest-box">+</span>
+                <span class="interest-box">+</span>
+                <span class="interest-box">+</span>
+            </div>
+            <br>
+            <button class="btn btn-outline-dark mt-2">Add interests</button>
+
+            <div class="mt-4">
+                <button class="btn btn-dark">Done</button>
+            </div>
+        </div>
+    </div>
+</div>

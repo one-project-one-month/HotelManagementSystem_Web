@@ -1,0 +1,47 @@
+﻿.profile-avatar {
+    width: 100px;
+    height: 100px;
+    background-color: #333;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+}
+.profile-section-title {
+    font-weight: 600;
+    margin-top: 30px;
+}
+.profile-grid-item {
+    padding: 12px;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+.profile-grid-item i {
+    margin-right: 10px;
+    color: #555;
+}
+.dashed-box {
+    border: 2px dashed #ccc;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    color: #777;
+}
+.interest-box {
+    display: inline-block;
+    padding: 8px 14px;
+    border: 1px dashed #ccc;
+    border-radius: 20px;
+    margin: 5px;
+    cursor: pointer;
+}
+.btn-dark {
+    background-color: #222;
+    color: white;
+}

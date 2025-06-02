@@ -1,7 +1,8 @@
 ﻿namespace HotelManagementSystem_Web.Models.Room
 {
     public class RoomTypeModel
-    {
+    { 
+
         public string RoomTypeName { get; set; } = null!;
 
         public string? Description { get; set; }

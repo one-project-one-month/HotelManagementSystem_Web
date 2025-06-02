@@ -3,7 +3,6 @@
 @layout AdminLayout
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Components.Forms
-@using static HotelManagementSystem_Web.Pages.Admin.RoomType
 @inject HttpClient _httpClient
 @inject NavigationManager _navigation
 
@@ -15,12 +14,8 @@
         <div class="col-12"> 
             <input class="form-control" placeholder="Room No" @bind="searchRoomNo" /> 
         </div> 
-        <div class="col-12"> 
-            <select class="form-select" @bind="searchRoomType"> 
-                <option value="">All Types</option> 
-                <option value="Single Room">Single Room</option> 
-                <option value="Family Room">Family Room</option> 
-            </select>
+        <div class="col-12">
+            <input class="form-control" placeholder="Room Type" @bind="searchRoomType" />
         </div> 
         <div class="col-12"> 
             <select class="form-select" @bind="searchRoomStatus"> 
@@ -60,7 +55,11 @@
                     </div>                   
                     <div class="mb-3"> 
                         <label class="form-label">Room Status</label> 
-                        <InputText class="form-control" @bind-Value="_model.RoomStatus" /> 
+                        <select class="form-select" @bind="_model.RoomStatus"> 
+                            <option value="">All Status</option> 
+                            <option value="Available">Available</option> 
+                            <option value="Occupied">Occupied</option> 
+                        </select> 
                     </div> 
                     <div class="mb-3"> 
                         <label class="form-label">Guest Limit</label> 
@@ -81,14 +80,10 @@
     </div>
 </div>
 
-<!--RoomTypeModal -->
-
-
 <!-- Room Table -->
 <table class="table table-sm table-bordered align-middle">
     <thead class="table-danger">
         <tr>
-         
             <th>Room No</th>
             <th>Room Status</th>          
             <th>Guest Limit</th>
@@ -99,12 +94,11 @@
         @foreach (var room in PaginatedRooms())
         {
             <tr>
-               
-                <td>_model.Room_No</td>
-                <td>_model.RoomStatus</td>          
+                <td>@room.RoomNo</td>
+                <td>@room.RoomStatus</td>          
                 <td>@room.GuestLimit</td>
                 <td class="text-center">
-                    (_model.isFeature ? "★" : "☆")
+                    @(room.IsFeatured ? "★" : "☆")
                 </td>
             </tr>
         }
@@ -117,4 +111,3 @@
     <span>Page @currentPage of @totalPages</span>
     <button class="btn btn-outline-danger btn-sm ms-2" @onclick="NextPage" disabled="@(!CanGoNext)">Next</button>
 </div>
-

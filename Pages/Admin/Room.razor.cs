@@ -26,18 +26,13 @@ namespace HotelManagementSystem_Web.Pages.Admin
             }
             catch (Exception ex)
             {
-
+                Console.WriteLine(ex.Message);
             }
-
-
-
         }
-
-
 
         private List<RoomReqModel> roomList = new();
         private List<RoomReqModel> filteredRooms = new();
-        private RoomReqModel newRoom = new();
+        // private RoomReqModel newRoom = new();
 
         private string searchRoomNo = "";
         private string searchRoomType = "";
@@ -68,8 +63,7 @@ namespace HotelManagementSystem_Web.Pages.Admin
             {
                 query = query.Where(r => r.RoomNo.Contains(searchRoomNo, StringComparison.OrdinalIgnoreCase));
             }
-
-
+            
             if (!string.IsNullOrWhiteSpace(searchRoomStatus))
             {
                 query = query.Where(r => r.RoomStatus == searchRoomStatus);

@@ -3,24 +3,55 @@ using HotelManagementSystem_Web.Models.Room;
 using Microsoft.AspNetCore.Components.Forms;
 using Newtonsoft.Json;
 using System.Net.Http.Json;
+using Microsoft.JSInterop;
 
 namespace HotelManagementSystem_Web.Pages.Admin
 {
-    
     public partial class RoomType
     {
+        List<RoomTypeModel> RoomTypeLst = new List<RoomTypeModel>();
         RoomTypeModel _model = new RoomTypeModel();
+
+        protected override async Task OnInitializedAsync()
+        {
+            await RoomTypeList();
+        }
+        public async Task RoomTypeList()
+        {
+            var res = await _httpClient.GetAsync("api/RoomType/getroomtypes");
+            if (res.IsSuccessStatusCode)
+            {
+                var jsonStr = await res.Content.ReadAsStringAsync();
+                var resModel = JsonConvert.DeserializeObject<RoomTypeListResModel>(jsonStr);
+                if (resModel.respCode == "200")
+                {
+                    RoomTypeLst = resModel.RoomTypeList;
+                }
+            }
+        }
 
         public async Task HandleRoomTypeForm()
         {
             try
             {
-                var res = await _httpClient.PostAsJsonAsync("admin/roomtypes", _model);
-                var jsonStr = await res.Content.ReadAsStringAsync();
-                var respModel = JsonConvert.DeserializeObject<BaseResponseModel>(jsonStr);
-                if (respModel.respCode == "200")
+                var res = await _httpClient.PostAsJsonAsync("api/RoomType/createroomtype", _model);
+                if (res.IsSuccessStatusCode)
                 {
-                    Console.WriteLine("Success");
+                    var jsonStr = await res.Content.ReadAsStringAsync();
+                    var respModel = JsonConvert.DeserializeObject<BaseResponseModel>(jsonStr);
+                    if (respModel.respCode == "200")
+                    {
+                        _model = new RoomTypeModel(); // Optional: reset form
+
+                        // Close the modal
+                        await JS.InvokeVoidAsync("bootstrapInterop.hideModal", "addRoomTypeModal");
+                       await RoomTypeList();
+                       StateHasChanged();
+                    }
+                }
+                else
+                {
+                    Console.WriteLine(res.ToString());
                 }
             }
             catch (Exception ex)
@@ -28,12 +59,12 @@ namespace HotelManagementSystem_Web.Pages.Admin
                 Console.WriteLine(ex.Message);
             }
         }
-
-        private List<RoomTypeModel> _roomTypesList = new();
+        
         private RoomTypeModel _roomTypeFilterText = new();
         private string _appliedFilterText = string.Empty;
+        private List<RoomTypeModel> _roomTypesList = new List<RoomTypeModel>();
 
-        
+
         private async Task HandleImageUpload(InputFileChangeEventArgs e)
         {
             var file = e.File;
@@ -52,8 +83,6 @@ namespace HotelManagementSystem_Web.Pages.Admin
         //     _model = new RoomTypeModel();
         // }
 
-    
-        
         private void ClearFilter()
         {
             _appliedFilterText = string.Empty;
@@ -64,8 +93,7 @@ namespace HotelManagementSystem_Web.Pages.Admin
         private IEnumerable<RoomTypeModel> FilteredRoomTypes =>
             string.IsNullOrWhiteSpace(_roomTypeFilterText.RoomTypeName)
                 ? _roomTypesList
-                : _roomTypesList.Where(r => r.RoomTypeName.Contains(_roomTypeFilterText.RoomTypeName, StringComparison.OrdinalIgnoreCase));
+                : _roomTypesList.Where(r =>
+                    r.RoomTypeName.Contains(_roomTypeFilterText.RoomTypeName, StringComparison.OrdinalIgnoreCase));
     }
-
-    }
-
+}

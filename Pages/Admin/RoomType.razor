@@ -4,6 +4,8 @@
 @using HotelManagementSystem_Web.Layout.AdminLayout
 @layout AdminLayout
 @inject HttpClient _httpClient
+@inject NavigationManager _nav
+@inject IJSRuntime JS
 
 <h3 class="text-center my-4 text-danger">Room Type</h3>
 
@@ -21,7 +23,6 @@
     </div>
 </div>
 
-
 <!-- Modal for Adding Room Type -->
 <div class="modal fade" id="addRoomTypeModal" tabindex="-1" aria-labelledby="addRoomTypeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -34,7 +35,7 @@
                 <EditForm Model="@_model" OnValidSubmit="HandleRoomTypeForm">
                     <DataAnnotationsValidator />
                     <ValidationSummary />
-
+                    
                     <div class="mb-3">
                         <label class="form-label">Room Type</label>
                         <InputText class="form-control" @bind-Value="_model.RoomTypeName" />
@@ -88,7 +89,7 @@
     
     <div class="container">
         <div class="row">
-            @foreach (var room in FilteredRoomTypes)
+            @foreach (var room in RoomTypeLst)
             {
 
                 <div class="col-lg-3 col-md-4 col-sm-6 mb-4">

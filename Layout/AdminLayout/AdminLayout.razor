@@ -7,6 +7,7 @@
     {
         isSidebarCollapsed = !isSidebarCollapsed;
     }
+
 }
 
 <style>
@@ -17,20 +18,20 @@
         transition: width 0.3s;
     }
 
-        .sidebar.collapsed {
-            width: 70px !important;
-            overflow-x: hidden;
-        }
+    .sidebar.collapsed {
+        width: 70px !important;
+        overflow-x: hidden;
+    }
 
-        .sidebar.expanded {
-            width: 220px !important;
-        }
+    .sidebar.expanded {
+        width: 220px !important;
+    }
 
-        .sidebar .nav-link {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
+    .sidebar .nav-link {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 
     .text-pink {
         color: #e83e8c;
@@ -60,22 +61,24 @@
         background-color: #f8f9fa;
         border-bottom: 1px solid #dee2e6;
         padding: 0.5rem 1rem;
+    }
 </style>
 
 <!-- Top Navbar -->
 <nav class="navbar navbar-custom d-flex justify-content-between align-items-center">
     <div class="d-flex align-items-center">
-        <button class="btn d-md-none me-2" type="button" data-bs-toggle="offcanvas" >
+        <button class="btn d-md-none me-2" type="button" data-bs-toggle="offcanvas">
             <i class="bi bi-list fs-4 text-pink"></i>
         </button>
     </div>
 
     <div>
         <i class="bi bi-bell text-pink me-3"></i>
-        <button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover" data-placement="left" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+        <button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"
+                data-placement="left" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
             <i class="bi bi-person-circle text-pink"></i>
         </button>
-      
+
     </div>
 </nav>
 
@@ -102,12 +105,13 @@
                     <i class="bi bi-people"></i> @(isSidebarCollapsed ? "" : " Guest")
                 </NavLink>
             </li>
-            <li class="nav-item my-1">
+
             <li class="nav-item my-1">
                 <NavLink class="nav-link text-secondary border-bottom text-danger" href="/admin/room-type">
                     <i class="bi bi-door-closed"></i> @(isSidebarCollapsed ? "" : " Room Type")
                 </NavLink>
             </li>
+            <li class="nav-item my-1">
                 <NavLink class="nav-link text-secondary border-bottom text-danger" href="/admin/room">
                     <i class="bi bi-door-closed"></i> @(isSidebarCollapsed ? "" : " Room")
                 </NavLink>
@@ -144,7 +148,8 @@
         <ul class="nav flex-column">
 
             <li class="nav-item">
-                <NavLink class="nav-link text-secondary border-bottom text-danger" href="/admin/booking">Booking</NavLink>
+                <NavLink class="nav-link text-secondary border-bottom text-danger" href="/admin/booking">Booking
+                </NavLink>
             </li>
             <li class="nav-item">
                 <NavLink class="nav-link text-secondary border-bottom text-danger" href="/admin/guest">Guest</NavLink>
@@ -153,10 +158,13 @@
                 <NavLink class="nav-link text-secondary border-bottom text-danger" href="/admin/room">Room</NavLink>
             </li>
             <li class="nav-item">
-                <NavLink class="nav-link text-secondary border-bottom text-danger" href="/admin/room-type">Room Type</NavLink>
+                <NavLink class="nav-link text-secondary border-bottom text-danger" href="/admin/room-type">Room Type
+                </NavLink>
             </li>
             <li class="nav-item">
-                <NavLink class="nav-link text-secondary border-bottom text-danger" href="/userprofile/admin-profile">User Profile</NavLink>
+                <NavLink class="nav-link text-secondary border-bottom text-danger" href="/userprofile/admin-profile">
+                    User Profile
+                </NavLink>
             </li>
         </ul>
     </div>

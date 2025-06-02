@@ -58,6 +58,17 @@
             } catch (e) {
                 console.error("Modal show error:", e);
             }
+        },
+        hideModal: function (modalId) {
+            try {
+                const modalEl = document.getElementById(modalId);
+                if (modalEl) {
+                    const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+                    modal.hide();
+                }
+            } catch (e) {
+                console.error("Modal hide error:", e);
+            }
         }
     };
 </script>

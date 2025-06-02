@@ -1,0 +1,12 @@
+﻿
+.room-scroll {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 10px;
+}
+
+.room-card {
+    display: inline-block;
+    width: 300px;
+    margin-right: 15px;
+}

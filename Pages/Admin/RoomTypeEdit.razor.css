@@ -1,0 +1,27 @@
+.room-image {
+    width: 100%;
+    border-radius: 10px;
+    object-fit: cover;
+    max-height: 400px;
+}
+.room-title {
+    font-size: 2rem;
+    font-weight: 600;
+}
+.room-price {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #28a745;
+}
+.spinner-overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

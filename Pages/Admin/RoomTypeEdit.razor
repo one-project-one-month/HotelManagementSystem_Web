@@ -1,0 +1,46 @@
+@page "/room-type-edit{RoomTypeId}"
+@using HotelManagementSystem_Web.Layout.AdminLayout
+@layout AdminLayout
+@inject HttpClient _httpclient
+@inject NavigationManager _nav
+
+<h3>RoomTypeEdit</h3>
+@if (isLoading)
+{
+    <div class="mt-5 align-items-center d-flex flex-column justify-content-center">
+        <div class="spinner-grow text-danger" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <p class="text-danger fs-6 mt-3">Loading...</p>
+    </div>
+}
+@if (Model.RoomTypeName is not null)
+{
+    <!-- Hotel Room Detail -->
+    <div class="container mt-5" id="roomDetail" >
+        <div class="card shadow p-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="@(!string.IsNullOrEmpty(Model.RoomImg)
+                                  ? $"data:{Model.RoomImgMimeType};base64,{Model.RoomImg}"
+                                  : "./images/image1.jpg")" alt="Room Image" class="room-image mb-3">
+                </div>
+                <div class="col-md-6">
+                    <h2 class="room-title"><i class="fas fa-bed me-2"></i>@Model.RoomTypeName</h2>
+                    <p class="text-muted mt-3">
+                        <i class="fas fa-align-left me-2"></i>
+                        Enjoy your stay in this luxurious king suite featuring a spacious room, private balcony, high-speed Wi-Fi,
+                        and elegant décor. Perfect for couples or business travelers.
+                    </p>
+                    <p>@Model.Description</p>
+                    <p class="room-price"><i class="fas fa-dollar-sign me-1"></i>@Model.Price / night</p>
+
+                    <button class="btn btn-primary mt-4">
+                        <i class="fas fa- me-1"></i> Book Now
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}

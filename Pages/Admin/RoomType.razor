@@ -16,7 +16,7 @@
         <input class="form-control me-2 w-75"
                placeholder="RoomTypeName"
                @bind="_roomTypeFilterText.RoomTypeName"
-               @bind:event="oninput" />
+               @bind:event="oninput"/>
 
         <!-- Button -->
         <button class="btn btn-danger btn-sm" @onclick="ClearFilter">Clear</button>
@@ -33,24 +33,24 @@
             </div>
             <div class="modal-body">
                 <EditForm Model="@_model" OnValidSubmit="HandleRoomTypeForm">
-                    <DataAnnotationsValidator />
-                    <ValidationSummary />
-                    
+                    <DataAnnotationsValidator/>
+                    <ValidationSummary/>
+
                     <div class="mb-3">
                         <label class="form-label">Room Type</label>
-                        <InputText class="form-control" @bind-Value="_model.RoomTypeName" />
+                        <InputText class="form-control" @bind-Value="_model.RoomTypeName"/>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Description</label>
-                        <InputText class="form-control" @bind-Value="_model.Description" />
+                        <InputText class="form-control" @bind-Value="_model.Description"/>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Price</label>
-                        <InputNumber class="form-control" @bind-Value="_model.Price" />
+                        <InputNumber class="form-control" @bind-Value="_model.Price"/>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Image</label>
-                        <InputFile OnChange="HandleImageUpload" accept="image/png, image/jpeg" />
+                        <InputFile OnChange="HandleImageUpload" accept="image/png, image/jpeg"/>
                     </div>
 
                     @if (!string.IsNullOrEmpty(_model.RoomImg))
@@ -60,7 +60,7 @@
                             <div class="border rounded p-2" style="max-width: 300px;">
                                 <img src="data:@_model.RoomImgMimeType;base64,@_model.RoomImg"
                                      class="img-fluid rounded"
-                                     alt="Room Image Preview" />
+                                     alt="Room Image Preview"/>
                             </div>
                         </div>
                     }
@@ -86,31 +86,42 @@
 
 <!---Card Display--->
 <div style="max-height: 600px; overflow-y: auto;">
-    
+
     <div class="container">
         <div class="row">
+            @if (isLoading)
+            {
+                <div class="mt-5 align-items-center d-flex flex-column justify-content-center">
+                    <div class="spinner-grow text-danger" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <p class="text-danger fs-6 mt-3">Loading...</p>
+                </div>
+            }
+
             @foreach (var room in RoomTypeLst)
             {
-
+                string roomTypeDetail = $"room-type-edit{room.RoomTypeId}";
                 <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                    <div class="card h-100 shadow-sm">
-                        
-                        <!-- Room image with fixed height and object-fit -->
-                        <img src="@(!string.IsNullOrEmpty(room.RoomImg) 
-                                      ? $"data:{room.RoomImgMimeType};base64,{room.RoomImg}" 
-                                      : "./images/image1.jpg")"
-                             class="card-img-top"
-                             style="height: 150px; object-fit: cover;" />
-                        
-                        <!-- Card body with room info -->
-                        <div class="card-body py-2 px-3">
-                            <!-- Room type name -->
-                            <h6 class="card-title mb-1" style="font-size: 16px;">@room.RoomTypeName</h6>
-                            <!-- Room price -->
-                            <p class="card-text text-muted" style="font-size: 14px;">$@room.Price</p>
-                        </div>
+                    <NavLink href="@roomTypeDetail" class="text-decoration-none">
+                        <div class="card h-100 shadow-sm">
 
-                    </div>
+                            <!-- Room image with fixed height and object-fit -->
+                            <img src="@(!string.IsNullOrEmpty(room.RoomImg)
+                                          ? $"data:{room.RoomImgMimeType};base64,{room.RoomImg}"
+                                          : "./images/image1.jpg")"
+                                 class="card-img-top"
+                                 style="height: 150px; object-fit: cover;"/>
+
+                            <!-- Card body with room info -->
+                            <div class="card-body py-2 px-3">
+                                <!-- Room type name -->
+                                <h6 class="card-title mb-1" style="font-size: 16px;">@room.RoomTypeName</h6>
+                                <!-- Room price -->
+                                <p class="card-text text-muted" style="font-size: 14px;">$@room.Price/night</p>
+                            </div>
+                        </div>
+                    </NavLink>
                 </div>
             }
         </div>

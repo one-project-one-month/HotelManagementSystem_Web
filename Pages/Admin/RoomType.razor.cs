@@ -9,12 +9,15 @@ namespace HotelManagementSystem_Web.Pages.Admin
 {
     public partial class RoomType
     {
+        private bool isLoading = false;
         List<RoomTypeModel> RoomTypeLst = new List<RoomTypeModel>();
         RoomTypeModel _model = new RoomTypeModel();
 
         protected override async Task OnInitializedAsync()
         {
+            isLoading = true;
             await RoomTypeList();
+            isLoading = false;
         }
         public async Task RoomTypeList()
         {
@@ -26,6 +29,7 @@ namespace HotelManagementSystem_Web.Pages.Admin
                 if (resModel.respCode == "200")
                 {
                     RoomTypeLst = resModel.RoomTypeList;
+                    
                 }
             }
         }

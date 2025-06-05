@@ -122,6 +122,11 @@
                     <i class="bi bi-person"></i> @(isSidebarCollapsed ? "" : " User Profile")
                 </NavLink>
             </li>
+            <li class="nav-item my-1">
+                <NavLink class="nav-link text-secondary border-bottom text-danger" href="/admin/invoices">
+                    <i class="bi bi-receipt"></i> @(isSidebarCollapsed ? "" : " Invoices")
+                </NavLink>
+            </li>
         </ul>
     </div>
 
@@ -165,6 +170,9 @@
                 <NavLink class="nav-link text-secondary border-bottom text-danger" href="/userprofile/admin-profile">
                     User Profile
                 </NavLink>
+            </li>
+            <li class="nav-item">
+                <NavLink class="nav-link text-secondary border-bottom text-danger" href="/admin/invoices">Invoices</NavLink>
             </li>
         </ul>
     </div>

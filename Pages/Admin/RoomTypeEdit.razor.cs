@@ -1,4 +1,6 @@
 using System.Net.Http.Json;
+using HotelManagementSystem_Web.Layout.Compoments;
+using HotelManagementSystem_Web.Models;
 using HotelManagementSystem_Web.Models.Room;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -14,6 +16,8 @@ public partial class RoomTypeEdit
     public RoomTypeModel Model { get; set; } = new RoomTypeModel();
     public RoomTypeModel EditedModel { get; set; } = new RoomTypeModel();
     public bool isLoading { get; set; } = false;
+    private AppModal Modal;
+    private Guid _roomTypeId;
 
     protected override async Task OnInitializedAsync()
     {
@@ -64,8 +68,20 @@ public partial class RoomTypeEdit
         {
             isLoading = true;
             EditedModel = new RoomTypeModel();
-            await GetRoomTypeById();
+            await GetRoomTypeById();  
             isLoading = false;
+        }
+    }
+
+    private async Task HandleDeleteRoomType()
+    {
+        var res = await _httpclient.DeleteAsync($"api/RoomType/deleteroomtype/{_roomTypeId}");
+        var jsonStr = await res.Content.ReadAsStringAsync();
+        Console.WriteLine(jsonStr);
+        var result = JsonConvert.DeserializeObject<BaseResponseModel>(jsonStr);
+        if (result?.respCode == "200")
+        {
+            _nav.NavigateTo("/admin/room-type");
         }
     }
 }

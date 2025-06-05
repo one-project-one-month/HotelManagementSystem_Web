@@ -1,5 +1,6 @@
 @page "/room-type-edit{RoomTypeId}"
 @using HotelManagementSystem_Web.Layout.AdminLayout
+@using HotelManagementSystem_Web.Layout.Compoments
 @layout AdminLayout
 @inject HttpClient _httpclient
 @inject NavigationManager _nav
@@ -39,11 +40,16 @@ else
                     <p class="room-price"><i class="fas fa-dollar-sign me-1"></i>@Model.Price / night</p>
 
 
-                    <div class="d-flex justify-content-md-end p-xl-2 mb-3">
+                    <div class="d-flex justify-content-end p-xl-2 mb-3">
                         <button class="btn btn-outline-danger ms-3"
                                 data-bs-toggle="modal"
                                 data-bs-target="#addRoomTypeModal">
-                            <i class="bi bi-plus"></i> Edit Room Type
+                            <i class="bi bi-edit"></i> Edit Room Type
+                        </button>
+                        
+                        <button class="btn btn-danger ms-3"
+                                @onclick="() => { _roomTypeId = Model.RoomTypeId; Modal.Show(); }">
+                            <i class="fas fa-trash fa-sm"></i>
                         </button>
                     </div>
                 </div>
@@ -103,5 +109,16 @@ else
             </div>
         </div>
     </div>
+    <AppModal @ref="Modal">
+        <Title>Delete Notification</Title>
+        <ChildContent>
+            Are you sure to remove this Room Type?
+        </ChildContent>
+        <Footer>
+            <button class="btn btn-secondary btn-sm" @onclick="() => Modal.Hide()">Cancel</button>
+            <button class="btn btn-danger btn-sm" @onclick="HandleDeleteRoomType">Delete</button>
+        </Footer>
+    </AppModal>
 }
+
 

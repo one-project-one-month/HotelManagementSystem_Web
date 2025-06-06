@@ -1,4 +1,5 @@
 ﻿@page "/admin/invoices"
+@using Newtonsoft.Json
 @layout AdminLayout
 
 @inject IConfiguration Configuration
@@ -65,8 +66,12 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var apiBase = Configuration["ApiBaseUrl"];
-        invoiceList = await Http.GetFromJsonAsync<List<Invoice>>($"{apiBase}/api/Invoices/all");
+        var res = await Http.GetAsync("api/Invoices/all");
+        if (res.IsSuccessStatusCode)
+        {
+            var jsonStr = await res.Content.ReadAsStringAsync();
+            invoiceList = JsonConvert.DeserializeObject<List<Invoice>>(jsonStr);
+        }
     }
 
     private async Task DownloadInvoice()
@@ -76,7 +81,6 @@ else
 
     private async Task DownloadInvoice(string id)
     {
-        var apiBase = Configuration["ApiBaseUrl"];
 
         if (string.IsNullOrWhiteSpace(id))
         {
@@ -88,12 +92,12 @@ else
         if (Guid.TryParse(id, out _))
         {
             // It's a full invoiceId (GUID)
-            requestUrl = $"{apiBase}/api/Invoices/download/id/{id}";
+            requestUrl = $"api/Invoices/download/id/{id}";
         }
         else
         {
             // It's likely an invoiceCode (last 4 chars of GUID)
-            requestUrl = $"{apiBase}/api/Invoices/download/{id}";
+            requestUrl = $"api/Invoices/download/{id}";
         }
 
         var response = await Http.GetAsync(requestUrl);

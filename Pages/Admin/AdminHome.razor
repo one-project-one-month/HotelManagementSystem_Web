@@ -1,6 +1,20 @@
 ﻿@page "/admin-home"
 @using HotelManagementSystem_Web.Layout.AdminLayout
 @layout AdminLayout
+@inject IJSRuntime JSRuntime
 <h3>Admin Home</h3>
+
+<div id="chart"></div>
+
+@code {
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("setPieChart");
+        }
+    }
+}
 
 

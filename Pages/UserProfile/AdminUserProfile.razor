@@ -138,7 +138,7 @@
     {
         var jsonData = JsonConvert.SerializeObject(userProfile);
         var content = new StringContent(jsonData, Encoding.UTF8, Application.Json);
-        var response = await httpClient.PostAsync("https://localhost:7161/api/User/createuserprofile", content);
+        var response = await httpClient.PostAsync("api/User/CreateUserProfileByAdminAsync", content);
 
         if (response.IsSuccessStatusCode)
         {

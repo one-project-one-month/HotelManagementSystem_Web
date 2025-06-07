@@ -5,8 +5,8 @@
 <h3>Create User</h3>
 
 <EditForm Model="user" OnValidSubmit="HandleValidSubmit">
-    <InputText @bind-Value="user.Name" placeholder="Name" />
-    <InputText @bind-Value="user.Email" placeholder="Email" />
+    <InputText @bind-Value="user.Name" placeholder="Name"/>
+    <InputText @bind-Value="user.Email" placeholder="Email"/>
     <button type="submit">Create</button>
 </EditForm>
 
@@ -23,4 +23,5 @@
     {
         success = await UserService.CreateUserAsync(user);
     }
+
 }

@@ -13,11 +13,11 @@
 
 <h3>Download Invoice</h3>
 
-<input @bind="invoiceCode" placeholder="Enter Invoice Code" class="form-control mb-2" />
+<input @bind="invoiceCode" placeholder="Enter Invoice Code" class="form-control mb-2"/>
 
 <button class="btn btn-primary" @onclick="DownloadInvoice">Download PDF</button>
 
-<hr />
+<hr/>
 
 <h3>Invoice lists</h3>
 
@@ -33,29 +33,31 @@ else
 {
     <table class="table table-bordered">
         <thead>
-            <tr>
-                <th>Invoice Code</th>
-                @* <th>Customer Name</th> *@
-                <th>Check In Time</th>
-                <th>Check Out Time</th>
-                <th>Total Amount</th>
-                <th>Download</th>
-            </tr>
+        <tr>
+            <th>Invoice Code</th>
+            @* <th>Customer Name</th> *@
+            <th>Check In Time</th>
+            <th>Check Out Time</th>
+            <th>Total Amount</th>
+            <th>Download</th>
+        </tr>
         </thead>
         <tbody>
-            @foreach (var invoice in invoiceList)
-            {
-                <tr>
-                    <td>@invoice.InvoiceCode</td>
-                    @* <td>@invoice.CustomerName</td> *@
-                    <td>@invoice.CheckInTime.ToString("yyyy-MM-dd")</td>
-                    <td>@invoice.CheckOutTime.ToString("yyyy-MM-dd")</td>
-                    <td>@invoice.TotalAmount.ToString("C")</td>
-                    <td>
-                        <button class="btn btn-sm btn-success" @onclick="@(() => DownloadInvoice(invoice.InvoiceId.ToString()))">Download</button>
-                    </td>
-                </tr>
-            }
+        @foreach (var invoice in invoiceList)
+        {
+            <tr>
+                <td>@invoice.InvoiceCode</td>
+                @* <td>@invoice.CustomerName</td> *@
+                <td>@invoice.CheckInTime.ToString("yyyy-MM-dd")</td>
+                <td>@invoice.CheckOutTime.ToString("yyyy-MM-dd")</td>
+                <td>@invoice.TotalAmount.ToString("C")</td>
+                <td>
+                    <button class="btn btn-sm btn-success"
+                            @onclick="@(() => DownloadInvoice(invoice.InvoiceId.ToString()))">Download
+                    </button>
+                </td>
+            </tr>
+        }
         </tbody>
     </table>
 }
@@ -81,7 +83,6 @@ else
 
     private async Task DownloadInvoice(string id)
     {
-
         if (string.IsNullOrWhiteSpace(id))
         {
             await JS.InvokeVoidAsync("alert", "Invoice ID is required.");
@@ -117,6 +118,7 @@ else
             await JS.InvokeVoidAsync("alert", "Failed to download invoice.");
         }
     }
+
 }
 
 

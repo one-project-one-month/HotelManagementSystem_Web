@@ -9,19 +9,12 @@
 {
     <div class="d-flex justify-content-between align-items-center mb-3">
         <div class="d-flex gap-2">
-            <input class="form-control" placeholder="Search by Room No..." @bind="searchRoomId" @bind:event="oninput"
-                   @bind:after="SearchBookings"/>
-            <select class="form-select" @bind="selectedRoomType">
-                <option value="">All Type</option>
-                @foreach (var roomType in roomTypes)
-                {
-                    <option value="@roomType">@roomType</option>
-                }
-            </select>
+
             <select class="form-select" @bind="selectedStatus">
-                <option value="">All Status</option>
-                <option value="True">Active</option>
-                <option value="False">Inactive</option>
+                <option value="" disabled selected>---Select Booking Status---</option>
+                <option value="">Booked</option>
+                <option value="True">Cancelled</option>
+
             </select>
             <button class="btn btn-danger" @onclick="ApplyFilter">Filter</button>
         </div>
@@ -36,133 +29,144 @@
     <!-- Booking Table -->
     <table class="table table-bordered align-middle" style="background-color: #fff0f0;">
         <thead style="background-color: #ffe6e6;">
-        <tr>
-            <th class="ps-2">Booking ID</th>
-            <th class="ps-2">User ID</th>
-            <th class="ps-2">Guest Count</th>
-            <th class="ps-2">Check In</th>
-            <th class="ps-2">Check Out</th>
-            <th class="ps-2">Deposit Amount</th>
-            <th class="ps-2">Total Amount</th>
-            <th class="ps-2">Room ID</th>
-            <th class="ps-2">Room Price</th>
-            <th class="ps-2">Created At</th>
-            <th class="ps-2">Status</th>
-            @if (showActionColumn)
-            {
-                <th class="text-center">Actions</th>
-            }
-        </tr>
-        </thead>
-        <tbody style="background-color: white;">
-        @foreach (var booking in filteredBookings.Skip((currentPage - 1) * pageSize).Take(pageSize))
-        {
-            <tr @key="booking.BookingId">
-                <td class="ps-2">@booking.BookingId</td>
-                <td class="ps-2">@booking.UserId</td>
-                <td class="ps-2">@booking.GuestCount</td>
-                <td class="ps-2">@booking.CheckIn.ToString("dd-MM-yyyy")</td>
-                <td class="ps-2">@booking.CheckOut.ToString("dd-MM-yyyy")</td>
-                <td class="ps-2">@booking.DepositAmount.ToString("F2")</td>
-                <td class="ps-2">@booking.TotalAmount.ToString("F2")</td>
-                <td class="ps-2">@(booking.BookingDetails != null && booking.BookingDetails.Any() ? booking.BookingDetails.First().RoomId : 0)</td>
-                <td class="ps-2">@(booking.BookingDetails != null && booking.BookingDetails.Any() ? booking.BookingDetails.First().RoomPrice.ToString("F2") : "0.00")</td>
-                <td class="ps-2">@booking.CreatedAt.ToString("dd-MM-yyyy HH:mm")</td>
-                <td class="ps-2">@(booking.Status ? "Active" : "Inactive")</td>
+            <tr>
+                <th class="ps-2">Name</th>
+                <th class="ps-2">Nrc</th>
+                <th class="ps-2">PhoneNo</th>
+                <th class="ps-2">GuestCount</th>
+                <th class="ps-2">CheckIn </th>
+                <th class="ps-2">CheckOut</th>
+                <th class="ps-2">Deposit Amount</th>
+                <th class="ps-2">Booking Status</th>
+                <th class="ps-2">Total Amount</th>
+                <th class="ps-2">Payment Type</th>
                 @if (showActionColumn)
                 {
-                    <td class="text-center">
-                        <button class="btn btn-outline-info btn-sm py-1 me-2"
-                                @onclick="() => OpenEditModal(booking)">Reserve
-                        </button>
-                        <button class="btn btn-outline-primary btn-sm py-1 me-2"
-                                @onclick="() => OpenEditModal(booking)">Edit
-                        </button>
-                        <button class="btn btn-outline-danger btn-sm py-1"
-                                @onclick="() => DeleteBooking(booking.BookingId)">Delete
-                        </button>
-                    </td>
+                    <th class="text-center">Actions</th>
                 }
             </tr>
-        }
-        </tbody>
-    </table>
+        </thead>
+        <tbody style="background-color: white;">
+            @foreach (var booking in filteredBookings.Skip((currentPage - 1) * pageSize).Take(pageSize))
+            {
+                <tr>
+                    <td class="ps-2">@booking.Name</td>
+                    <td class="ps-2">@booking.Nrc</td>
+                    <td class="ps-2">@booking.PhoneNo</td>
+                    <td class="ps-2">@booking.GuestCount</td>
+                    <td class="ps-2">@booking.CheckInTime</td>
+                    <td class="ps-2">@booking.CheckOutTime</td>
+                    <td class="ps-2">@booking.DepositAmount</td>
+                    <td class="ps-2">@booking.BookingStatus</td>
+                    <td class="ps-2">@booking.TotalAmount</td>
+                    <td class="ps-2">@booking.PaymentType</td>
 
-    <!-- Previous and Next Page -->
-    <div class="d-flex justify-content-between align-items-center mt-3">
-        <button class="btn btn-light" @onclick="PreviousPage" disabled="@(!CanGoBack)">Previous</button>
-        <span>Page @currentPage of @totalPages</span>
-        <button class="btn btn-light" @onclick="NextPage" disabled="@(!CanGoForward)">Next</button>
-    </div>
+                    @if (showActionColumn)
+                    {
+                        <td class="text-center">
+                            <button class="btn btn-outline-info btn-sm py-1 me-2" @onclick="() => OpenEditModal(booking)">Reserve
+                            </button>
+                            <button class="btn btn-outline-primary btn-sm py-1 me-2" @onclick="() => OpenEditModal(booking)">Edit
+                            </button>
+                            <button class="btn btn-outline-danger btn-sm py-1" @onclick="() => DeleteBooking(booking.UserId)">Delete
+                            </button>
+                        </td>
+                    }
+                </tr>
+            }
+    </tbody>
+</table>
 
-    <!-- Add/Edit Booking Modal -->
-    <div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <EditForm Model="editBooking" OnValidSubmit="SaveBooking">
-                    <DataAnnotationsValidator/>
-                    <div class="modal-header">
-                        <h5 class="modal-title"
-                            id="bookingModalLabel">@((editBooking?.BookingId == 0) ? "Add Booking" : $"Edit Booking #{editBooking?.BookingId}")</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                                @onclick="CloseModal"></button>
+<!-- Previous and Next Page -->
+<div class="d-flex justify-content-between align-items-center mt-3">
+    <button class="btn btn-light" @onclick="PreviousPage" disabled="@(!CanGoBack)">Previous</button>
+    <span>Page @currentPage of @totalPages</span>
+    <button class="btn btn-light" @onclick="NextPage" disabled="@(!CanGoForward)">Next</button>
+</div>
+
+<!-- Add/Edit Booking Modal -->
+<div class="modal fade " id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true"
+    style="margin-top: 52px;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <EditForm class="edit-form" Model="editBooking" OnValidSubmit="SaveBooking">
+                <DataAnnotationsValidator />
+                <div class="modal-header">
+                    <h5 class="modal-title" id="bookingModalLabel">
+                        @(editBooking?.GuestId == Guid.Empty
+                                                ? "Add Booking"
+                                                : $"Edit Booking #{editBooking?.GuestId}")
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        @onclick="CloseModal"></button>
+                </div>
+                <div class="modal-body">
+                    <ValidationSummary />
+                    <input type="text" @bind="editBooking.UserId" style="display: none" />
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label mb-1">Name</label>
+                                <input type="text" class="form-control" placeholder="Name ..." @bind="editBooking.Name" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label mb-1">NRC</label>
+                                <input type="text" class="form-control" placeholder="12/XXX(N)XXXXXX"
+                                    @bind="editBooking.Nrc" />
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label mb-1">Phone Number</label>
+                                <input type="text" class="form-control" placeholder="09-XXXXXXXXXX"
+                                    @bind="editBooking.PhoneNo" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label mb-1">Guest Count</label>
+                                <input type="number" class="form-control" placeholder="Guest Count"
+                                    @bind="editBooking.GuestCount" />
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label mb-1">Check In</label>
+                                <input type="date" class="form-control" @bind="editBooking.CheckInTime" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label mb-1">Check Out</label>
+                                <input type="date" class="form-control" @bind="editBooking.CheckOutTime" />
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label mb-1">Booking Status</label>
+                                <select class="form-control" @bind="editBooking.BookingStatus">
+                                    <option value="Booked">Booked</option>
+                                    <option value="Cancelled">Cancelled</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label mb-1">Payment Type</label>
+                                <select class="form-control" @bind="editBooking.PaymentType">
+                                    <option value="" disabled selected>Please Choose One</option>
+                                    <option value="Mobile Banking">Mobile Banking</option>
+                                    <option value="Card">Card</option>
+                                    <option value="Cash">Cash</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label mb-1">Deposit Amount</label>
+                                <input type="number" class="form-control" placeholder="Deposit Amount"
+                                    @bind="editBooking.DepositAmount" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label mb-1">Total Amount</label>
+                                <input type="number" class="form-control" placeholder="Total Amount"
+                                    @bind="editBooking.TotalAmount" />
+                            </div>
+                        </div>
                     </div>
-                    <div class="modal-body">
-                        <ValidationSummary/>
-                        <input type="text" @bind="_userId" style=" display: none"/>
 
-                        <div class="mb-3">
-                            <label class="form-label mb-1">Name</label>
-                            <input type="text" class="form-control" placeholder="Name ... "/>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label mb-1">NRC</label>
-                            <input type="text" class="form-control" placeholder="12/XXX(N)XXXXXX"/>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label mb-1">Phone Number</label>
-                            <input type="number" class="form-control" placeholder="09-XXXXXXXXXX"/>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label mb-1">Guest Count</label>
-                            <input type="number" class="form-control" placeholder="Guest Count"/>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label mb-1">Check In</label>
-                            <input type="date" class="form-control" placeholder="Check In"/>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label mb-1">Check Out</label>
-                            <input type="date" class="form-control" placeholder="Check Out"/>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label mb-1">Booking Status</label>
-                            <select name="" id="" class="form-control">
-                                <option value="Booked">Booked</option>
-                                <option value="Cancelled">Cancelled</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label mb-1">Payment Type</label>
-                            <select name="" id="" class="form-control">
-                                <option value="" selected >Please Choose One</option>
-                                <option value="">Mobile Banking</option>
-                                <option value="">Card</option>
-                                <option value="">Cash</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label mb-1">Deposit Amount</label>
-                            <input type="number" class="form-control" placeholder="Deposit Amount"/>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label mb-1">Total Amount</label>
-                            <input type="number" class="form-control" placeholder="Total Amount"/>
-                        </div>
-                    </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                                @onclick="CloseModal">Close
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="CloseModal">Close
                         </button>
                         <button type="submit" class="btn btn-danger">Save</button>
                     </div>
@@ -179,8 +183,7 @@ else
 @code {
     private List<TblBooking> bookings = new();
     private List<TblBooking> filteredBookings = new();
-    private string searchRoomId = "";
-    private string selectedRoomType = "";
+
     private string selectedStatus = "";
     private int currentPage = 1;
     private int pageSize = 10;
@@ -189,10 +192,7 @@ else
     private bool isLoaded = false;
     private Guid _userId = new Guid();
 
-    private TblBooking editBooking = new TblBooking
-    {
-        BookingDetails = new List<TblBookingDetail> { new TblBookingDetail() }
-    };
+    private TblBooking editBooking = new TblBooking();
 
     private int totalPages => (int)Math.Ceiling((double)(filteredBookings?.Count ?? 0) / pageSize);
     private bool CanGoBack => currentPage > 1;
@@ -202,142 +202,23 @@ else
     {
         try
         {
-            bookings = new List<TblBooking>
+
+            TblBooking booking = new TblBooking()
             {
-                new TblBooking
-                {
-                    BookingId = 1, UserId = 101, GuestCount = 2, CheckIn = DateTime.Now.Date.AddDays(5), CheckOut =
-                        DateTime.Now.Date.AddDays(7),
-                    DepositAmount = 200, TotalAmount = 500, BookingDetails = new List<TblBookingDetail>
-                    {
-                        new
-                            TblBookingDetail { RoomId = 1, RoomPrice = 250 }
-                    },
-                    CreatedAt = DateTime.Now.AddDays(-10), Status = true
-                },
-                new TblBooking
-                {
-                    BookingId = 2, UserId = 102, GuestCount = 1, CheckIn = DateTime.Now.Date.AddDays(1), CheckOut =
-                        DateTime.Now.Date.AddDays(3),
-                    DepositAmount = 150, TotalAmount = 400, BookingDetails = new List<TblBookingDetail>
-                    {
-                        new
-                            TblBookingDetail { RoomId = 2, RoomPrice = 400 }
-                    },
-                    CreatedAt = DateTime.Now.AddDays(-20), Status = true
-                },
-                new TblBooking
-                {
-                    BookingId = 3, UserId = 103, GuestCount = 3, CheckIn = DateTime.Now.Date.AddDays(2), CheckOut =
-                        DateTime.Now.Date.AddDays(5),
-                    DepositAmount = 300, TotalAmount = 750, BookingDetails = new List<TblBookingDetail>
-                    {
-                        new
-                            TblBookingDetail { RoomId = 3, RoomPrice = 375 }
-                    },
-                    CreatedAt = DateTime.Now.AddDays(-15), Status = true
-                },
-                new TblBooking
-                {
-                    BookingId = 4, UserId = 104, GuestCount = 2, CheckIn = DateTime.Now.Date.AddDays(10), CheckOut =
-                        DateTime.Now.Date.AddDays(12),
-                    DepositAmount = 180, TotalAmount = 450, BookingDetails = new List<TblBookingDetail>
-                    {
-                        new
-                            TblBookingDetail { RoomId = 4, RoomPrice = 225 }
-                    },
-                    CreatedAt = DateTime.Now.AddDays(-5), Status = false
-                },
-                new TblBooking
-                {
-                    BookingId = 5, UserId = 105, GuestCount = 4, CheckIn = DateTime.Now.Date.AddDays(3), CheckOut =
-                        DateTime.Now.Date.AddDays(6),
-                    DepositAmount = 400, TotalAmount = 1000, BookingDetails = new List<TblBookingDetail>
-                    {
-                        new
-                            TblBookingDetail { RoomId = 5, RoomPrice = 500 }
-                    },
-                    CreatedAt = DateTime.Now.AddDays(-12), Status = true
-                },
-                new TblBooking
-                {
-                    BookingId = 6, UserId = 106, GuestCount = 1, CheckIn = DateTime.Now.Date.AddDays(7), CheckOut =
-                        DateTime.Now.Date.AddDays(9),
-                    DepositAmount = 120, TotalAmount = 300, BookingDetails = new List<TblBookingDetail>
-                    {
-                        new
-                            TblBookingDetail { RoomId = 6, RoomPrice = 300 }
-                    },
-                    CreatedAt = DateTime.Now.AddDays(-8), Status = true
-                },
-                new TblBooking
-                {
-                    BookingId = 7, UserId = 107, GuestCount = 2, CheckIn = DateTime.Now.Date.AddDays(4), CheckOut =
-                        DateTime.Now.Date.AddDays(6),
-                    DepositAmount = 200, TotalAmount = 500, BookingDetails = new List<TblBookingDetail>
-                    {
-                        new
-                            TblBookingDetail { RoomId = 7, RoomPrice = 250 }
-                    },
-                    CreatedAt = DateTime.Now.AddDays(-7), Status = false
-                },
-                new TblBooking
-                {
-                    BookingId = 8, UserId = 108, GuestCount = 3, CheckIn = DateTime.Now.Date.AddDays(15), CheckOut =
-                        DateTime.Now.Date.AddDays(18),
-                    DepositAmount = 350, TotalAmount = 900, BookingDetails = new List<TblBookingDetail>
-                    {
-                        new
-                            TblBookingDetail { RoomId = 8, RoomPrice = 450 }
-                    },
-                    CreatedAt = DateTime.Now.AddDays(-3), Status = true
-                },
-                new TblBooking
-                {
-                    BookingId = 9, UserId = 109, GuestCount = 2, CheckIn = DateTime.Now.Date.AddDays(8), CheckOut =
-                        DateTime.Now.Date.AddDays(10),
-                    DepositAmount = 180, TotalAmount = 450, BookingDetails = new List<TblBookingDetail>
-                    {
-                        new
-                            TblBookingDetail { RoomId = 9, RoomPrice = 225 }
-                    },
-                    CreatedAt = DateTime.Now.AddDays(-6), Status = true
-                },
-                new TblBooking
-                {
-                    BookingId = 10, UserId = 110, GuestCount = 1, CheckIn = DateTime.Now.Date.AddDays(12), CheckOut =
-                        DateTime.Now.Date.AddDays(14),
-                    DepositAmount = 100, TotalAmount = 250, BookingDetails = new List<TblBookingDetail>
-                    {
-                        new
-                            TblBookingDetail { RoomId = 10, RoomPrice = 250 }
-                    },
-                    CreatedAt = DateTime.Now.AddDays(-4), Status = false
-                },
-                new TblBooking
-                {
-                    BookingId = 11, UserId = 111, GuestCount = 4, CheckIn = DateTime.Now.Date.AddDays(6), CheckOut =
-                        DateTime.Now.Date.AddDays(9),
-                    DepositAmount = 400, TotalAmount = 1000, BookingDetails = new List<TblBookingDetail>
-                    {
-                        new
-                            TblBookingDetail { RoomId = 11, RoomPrice = 500 }
-                    },
-                    CreatedAt = DateTime.Now.AddDays(-2), Status = true
-                },
-                new TblBooking
-                {
-                    BookingId = 12, UserId = 112, GuestCount = 2, CheckIn = DateTime.Now.Date.AddDays(1), CheckOut =
-                        DateTime.Now.Date.AddDays(3),
-                    DepositAmount = 200, TotalAmount = 500, BookingDetails = new List<TblBookingDetail>
-                    {
-                        new
-                            TblBookingDetail { RoomId = 12, RoomPrice = 250 }
-                    },
-                    CreatedAt = DateTime.Now.AddDays(-1), Status = true
-                }
+                GuestId = Guid.NewGuid(),
+                Name = "John Doe",
+                Nrc = "12/ABC(N)123456",
+                PhoneNo = "09-123456789",
+                GuestCount = 2,
+                CheckInTime = DateOnly.FromDateTime(DateTime.Now),
+                CheckOutTime = DateOnly.FromDateTime(DateTime.Now.AddDays(2)),
+                DepositAmount = 100.00m,
+                BookingStatus = "Booked",
+                TotalAmount = 200.00m,
+                PaymentType = "Mobile Banking"
             };
 
+            bookings.Add(booking);
             filteredBookings = bookings;
             isLoaded = true;
         }
@@ -354,33 +235,16 @@ else
 
     private void ApplyFilter()
     {
-        try
-        {
-            IEnumerable<TblBooking> query = bookings ?? new List<TblBooking>();
+        filteredBookings = bookings
+        .Where(b =>
+        string.IsNullOrEmpty(selectedStatus) ||
+        b.BookingStatus?.Equals(selectedStatus, StringComparison.OrdinalIgnoreCase) == true
+        )
+        .ToList();
 
-            if (!string.IsNullOrWhiteSpace(searchRoomId) && int.TryParse(searchRoomId, out int roomId))
-            {
-                query = query.Where(b => b.BookingDetails != null && b.BookingDetails.Any(d => d.RoomId == roomId));
-            }
+        currentPage = 1;
 
-            if (!string.IsNullOrWhiteSpace(selectedRoomType))
-            {
-                // Placeholder for RoomType filter
-            }
 
-            if (!string.IsNullOrWhiteSpace(selectedStatus))
-            {
-                if (bool.TryParse(selectedStatus, out bool statusFilter))
-                    query = query.Where(b => b.Status == statusFilter);
-            }
-
-            filteredBookings = query.ToList();
-            currentPage = 1;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error in ApplyFilter: {ex.Message}\n{ex.StackTrace}");
-        }
     }
 
     private void ToggleActionColumn()
@@ -394,10 +258,17 @@ else
         {
             editBooking = new TblBooking
             {
-                BookingDetails = new List<TblBookingDetail> { new TblBookingDetail() },
-                CheckIn = DateTime.Now.Date,
-                CheckOut = DateTime.Now.Date.AddDays(1),
-                Status = true
+                GuestId = null,
+                Name = string.Empty,
+                Nrc = string.Empty,
+                PhoneNo = string.Empty,
+                GuestCount = null,
+                CheckInTime = null,
+                CheckOutTime = null,
+                DepositAmount = null,
+                BookingStatus = string.Empty,
+                TotalAmount = null,
+                PaymentType = string.Empty
             };
 
             await ShowModal();
@@ -414,22 +285,16 @@ else
         {
             editBooking = new TblBooking
             {
-                BookingId = booking.BookingId,
-                UserId = booking.UserId,
+                Name = booking.Name,
+                Nrc = booking.Nrc,
+                PhoneNo = booking.PhoneNo,
                 GuestCount = booking.GuestCount,
-                CheckIn = booking.CheckIn,
-                CheckOut = booking.CheckOut,
-                DepositAmount = booking.DepositAmount,
+                CheckInTime = booking.CheckInTime,
+                CheckOutTime = booking.CheckOutTime,
+                BookingStatus = booking.BookingStatus,
                 TotalAmount = booking.TotalAmount,
-                BookingDetails = booking.BookingDetails != null && booking.BookingDetails.Any()
-                    ? booking.BookingDetails.Select(d => new TblBookingDetail
-                    {
-                        RoomId = d.RoomId,
-                        RoomPrice = d.RoomPrice
-                    }).ToList()
-                    : new List<TblBookingDetail> { new TblBookingDetail() },
-                CreatedAt = booking.CreatedAt,
-                Status = booking.Status
+                DepositAmount = booking.DepositAmount,
+                PaymentType = booking.PaymentType,
             };
 
             await ShowModal();
@@ -444,9 +309,10 @@ else
     {
         try
         {
-            var modal = await JS.InvokeAsync<Microsoft.JSInterop.IJSObjectReference>("bootstrap.Modal.getOrCreateInstance",
-                "#bookingModal");
+            var modal = await JS.InvokeAsync<Microsoft.JSInterop.IJSObjectReference>(
+            "bootstrap.Modal.getOrCreateInstance", "#bookingModal");
             await modal.InvokeVoidAsync("show");
+
         }
         catch (Exception ex)
         {
@@ -459,7 +325,7 @@ else
         try
         {
             var modal = await JS.InvokeAsync<Microsoft.JSInterop.IJSObjectReference>("bootstrap.Modal.getOrCreateInstance",
-                "#bookingModal");
+            "#bookingModal");
             await modal.InvokeVoidAsync("hide");
         }
         catch (Exception ex)
@@ -470,70 +336,17 @@ else
 
     private async Task SaveBooking()
     {
-        try
-        {
-            if (editBooking == null)
-            {
-                editBooking = new TblBooking { BookingDetails = new List<TblBookingDetail> { new TblBookingDetail() } };
-            }
 
-            if (editBooking.BookingId == 0)
-            {
-                int newId = bookings.Any() ? bookings.Max(b => b.BookingId) + 1 : 1;
-                editBooking.BookingId = newId;
-                editBooking.CreatedAt = DateTime.Now;
-                bookings.Add(editBooking);
-            }
-            else
-            {
-                var existing = bookings.FirstOrDefault(b => b.BookingId == editBooking.BookingId);
-                if (existing != null)
-                {
-                    existing.UserId = editBooking.UserId;
-                    existing.GuestCount = editBooking.GuestCount;
-                    existing.CheckIn = editBooking.CheckIn;
-                    existing.CheckOut = editBooking.CheckOut;
-                    existing.DepositAmount = editBooking.DepositAmount;
-                    existing.TotalAmount = editBooking.TotalAmount;
-                    existing.Status = editBooking.Status;
 
-                    if (existing.BookingDetails == null)
-                        existing.BookingDetails = new List<TblBookingDetail>();
+        ApplyFilter();
+        await CloseModal();
+        StateHasChanged();
 
-                    existing.BookingDetails.Clear();
-                    existing.BookingDetails.Add(new TblBookingDetail
-                    {
-                        RoomId = editBooking.BookingDetails[0].RoomId,
-                        RoomPrice = editBooking.BookingDetails[0].RoomPrice
-                    });
-                }
-            }
-
-            ApplyFilter();
-            await CloseModal();
-            StateHasChanged();
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error in SaveBooking: {ex.Message}\n{ex.StackTrace}");
-        }
     }
 
-    private void DeleteBooking(int bookingId)
+    private void DeleteBooking(Guid? bookingId)
     {
-        try
-        {
-            var bookingToRemove = bookings.FirstOrDefault(b => b.BookingId == bookingId);
-            if (bookingToRemove != null)
-            {
-                bookings.Remove(bookingToRemove);
-                ApplyFilter();
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error in DeleteBooking: {ex.Message}\n{ex.StackTrace}");
-        }
+
     }
 
     private void PreviousPage()
@@ -554,22 +367,27 @@ else
 
     public class TblBooking
     {
-        public int BookingId { get; set; }
-        public int UserId { get; set; }
-        public int GuestCount { get; set; }
-        public DateTime CheckIn { get; set; }
-        public DateTime CheckOut { get; set; }
-        public decimal DepositAmount { get; set; }
-        public decimal TotalAmount { get; set; }
-        public List<TblBookingDetail> BookingDetails { get; set; } = new();
-        public DateTime CreatedAt { get; set; }
-        public bool Status { get; set; }
-    }
+        public Guid? UserId { get; set; }
 
-    public class TblBookingDetail
-    {
-        public int RoomId { get; set; }
-        public decimal RoomPrice { get; set; }
+        public Guid? GuestId { get; set; }
+
+        public string Name { get; set; } = null!;
+        public string Nrc { get; set; } = null!;
+
+        public string PhoneNo { get; set; } = null!;
+
+        public int? GuestCount { get; set; }
+
+        public DateOnly? CheckInTime { get; set; }
+
+        public DateOnly? CheckOutTime { get; set; }
+
+        public decimal? DepositAmount { get; set; }
+
+        public string? BookingStatus { get; set; }
+
+        public decimal? TotalAmount { get; set; }
+        public string? PaymentType { get; set; }
     }
 
 }

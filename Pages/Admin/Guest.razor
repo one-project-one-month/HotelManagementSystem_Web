@@ -10,69 +10,35 @@
 <div class="d-flex justify-content-between align-items-center mb-3">
     <div class="d-flex gap-2">
         <input class="form-control" placeholder="Search by UserId..." @bind="searchUserId" @bind:event="oninput" @bind:after="SearchUserId" />
-        <select class="form-select" @bind="selectedCoupon">
-            <option value="">All Coupons</option>
-            @foreach (var coupon in couponList)
-            {
-                <option value="@coupon">@coupon</option>
-            }
-        </select>
         <button class="btn btn-danger" @onclick="ApplyFilter">Filter</button>
     </div>
-    <div class="d-flex gap-2">
-        <button class="btn btn-danger" @onclick="ToggleActionColumn">
-            <i class="bi bi-pencil"></i> Edit
-        </button>
-        <button class="btn btn-danger" @onclick="OpenAddModal">+ Add Guest</button>
-    </div>
+    
 </div>
 
 <!-- Guest Table -->
 <table class="table table-bordered table-hover align-middle">
     <thead style="background-color: #ffe6e6;">
         <tr>
+            <th>Guest Id</th>
             <th>User Id</th>
-            <th>User Code</th>
             <th>Name</th>
+            <th>NRC</th>
             <th>Email</th>
             <th>Ph No</th>
-            <th>Password</th>
             <th>Create At</th>
-            <th>Profile Img</th>
-            <th>Points</th>
-            <th>Coupon</th>
-            @if (showActionColumn)
-            {
-                <th class="text-center">Actions</th>
-            }
         </tr>
     </thead>
     <tbody>
         @foreach (var guest in filteredGuests.Skip((currentPage - 1) * pageSize).Take(pageSize))
         {
-            <tr @key="guest.UserId">
-                <td>@guest.UserId</td>
-                <td>@guest.UserCode</td>
-                <td>@guest.Name</td>
-                <td>@guest.Email</td>
-                <td>@guest.PhNo</td>
-                <td class="position-relative">
-                    <span>@(passwordVisibility.ContainsKey(guest.UserId) && passwordVisibility[guest.UserId] ? guest.Password : "****")</span>
-                    <button class="btn btn-sm position-absolute end-0 top-50 translate-middle-y" @onclick="() => TogglePasswordVisibility(guest.UserId)">
-                        <i class="@(passwordVisibility.ContainsKey(guest.UserId) && passwordVisibility[guest.UserId] ? "bi bi-eye-slash" : "bi bi-eye")"></i>
-                    </button>
-                </td>
+            <tr>
+                <td>GID-0001</td>
+                <td>UID-0001</td>
+                <td>Moe Yan Htun</td>
+                <td>1/NANANA(N)333333</td>
+                <td>moeyanhtun@gmail.com</td>
+                <td>0987654321</td>
                 <td>@guest.CreatedAt.ToString("dd-MM-yyyy HH:mm")</td>
-                <td>@guest.ProfileImg</td>
-                <td>@guest.Points</td>
-                <td>@guest.Coupon</td>
-                @if (showActionColumn)
-                {
-                    <td class="text-center">
-                        <button class="btn btn-outline-primary btn-sm me-1" @onclick="() => OpenEditModal(guest)">Edit</button>
-                        <button class="btn btn-outline-danger btn-sm" @onclick="() => DeleteGuest(guest.UserId)">Delete</button>
-                    </td>
-                }
             </tr>
         }
     </tbody>
@@ -83,75 +49,6 @@
     <button class="btn btn-light" @onclick="PreviousPage" disabled="@(!CanGoBack)">Previous</button>
     <span>Page @currentPage of @totalPages</span>
     <button class="btn btn-light" @onclick="NextPage" disabled="@(!CanGoForward)">Next</button>
-</div>
-
-<!-- Modal -->
-<div class="modal fade" id="addGuestModal" tabindex="-1" aria-labelledby="addGuestModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addGuestModalLabel">@modalTitle</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <EditForm Model="@editingGuest" OnValidSubmit="HandleValidSubmit">
-                    <DataAnnotationsValidator />
-                    <ValidationSummary />
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label>User Code</label>
-                            <InputText class="form-control" @bind-Value="editingGuest.UserCode" placeholder="Enter user code (e.g., U001)" />
-                            <ValidationMessage For="() => editingGuest.UserCode" />
-                        </div>
-                        <div class="col-md-6">
-                            <label>Name</label>
-                            <InputText class="form-control" @bind-Value="editingGuest.Name" placeholder="Enter name (e.g., John Doe)" />
-                            <ValidationMessage For="() => editingGuest.Name" />
-                        </div>
-                        <div class="col-md-6">
-                            <label>Email</label>
-                            <InputText class="form-control" @bind-Value="editingGuest.Email" placeholder="Enter email (e.g., john.doe@example.com)" />
-                            <ValidationMessage For="() => editingGuest.Email" />
-                        </div>
-                        <div class="col-md-6">
-                            <label>Phone</label>
-                            <InputText class="form-control" @bind-Value="editingGuest.PhNo" placeholder="Enter phone (e.g., +091234567)" oninput="this.value=this.value.replace(/[^0-9+]/g,'')" />
-                            <ValidationMessage For="() => editingGuest.PhNo" />
-                        </div>
-                        <div class="col-md-6">
-                            <label>Password</label>
-                            <InputText type="password" class="form-control" @bind-Value="editingGuest.Password" placeholder="Enter password" />
-                            <ValidationMessage For="() => editingGuest.Password" />
-                        </div>
-                        <div class="col-md-6">
-                            <label>Confirm Password</label>
-                            <InputText type="password" class="form-control" @bind-Value="confirmPassword" placeholder="Confirm password" />
-                            @if (!string.IsNullOrWhiteSpace(confirmPassword) && editingGuest.Password != confirmPassword)
-                            {
-                                <div class="text-danger">Passwords do not match</div>
-                            }
-                        </div>
-                        <div class="col-md-6">
-                            <label>Profile Image</label>
-                            <InputText class="form-control" @bind-Value="editingGuest.ProfileImg" placeholder="Enter image URL (e.g., img1.jpg)" />
-                            <ValidationMessage For="() => editingGuest.ProfileImg" />
-                        </div>
-                        <div class="col-md-3">
-                            <label>Points</label>
-                            <InputNumber class="form-control" @bind-Value="editingGuest.Points" placeholder="Enter points (e.g., 100)" />
-                            <ValidationMessage For="() => editingGuest.Points" />
-                        </div>
-                        <div class="col-md-3">
-                            <label>Coupon</label>
-                            <InputText class="form-control" @bind-Value="editingGuest.Coupon" placeholder="Enter coupon (e.g., WELCOME)" />
-                            <ValidationMessage For="() => editingGuest.Coupon" />
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-success mt-3" disabled="@(!IsPasswordConfirmed)">Save</button>
-                </EditForm>
-            </div>
-        </div>
-    </div>
 </div>
 
 @code {

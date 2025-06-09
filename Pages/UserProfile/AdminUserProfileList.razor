@@ -1,0 +1,47 @@
+﻿@page "/userprofile/admin-profile-list"
+@using HotelManagementSystem_Web.Layout.AdminLayout
+@using HotelManagementSystem_Web.Models
+@layout AdminLayout
+@inject IJSRuntime JSRuntime
+@inject HttpClient httpClient
+@inject NavigationManager nav
+
+
+<h3 class="text-center mb-4" style="color: #e60000;">Admin User Profile</h3>
+
+
+<table class="table table-bordered align-middle" style="background-color: #fff0f0;">
+    <thead style="background-color: #ffe6e6;">
+        <tr>
+            <th class="ps-2">User Name</th>
+            <th class="ps-2">Email</th>
+            <th class="ps-2">Role Name</th>
+            <th class="ps-2">Gender</th>
+            <th class="ps-2">Date Of Birth</th>
+            <th class="ps-2">Address</th>
+            <th class="ps-2">Created Date</th>           
+        </tr>
+    </thead>
+    <tbody style="background-color: white;">
+        @foreach (var user in userInfos.Skip((currentPage - 1) * pageSize).Take(pageSize))
+        {
+            <tr>
+                <td class="ps-2">@user.UserName</td>
+                <td class="ps-2">@user.Email</td>
+                <td class="ps-2">@user.RoleName</td>
+                <td class="ps-2">@user.Gender</td>
+                <td class="ps-2">@user.DateOfBirth</td>
+                <td class="ps-2">@user.Address</td>
+                <td class="ps-2">@user.CreatedAt</td>              
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@code {
+    List<AdminUserInfoModel> userInfos = new List<AdminUserInfoModel>();
+    private int currentPage = 1;
+    private int pageSize = 10;
+
+}

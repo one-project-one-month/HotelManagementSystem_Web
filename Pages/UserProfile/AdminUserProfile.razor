@@ -22,7 +22,7 @@
                         <div class="position-relative d-flex justify-content-center">
                             @if (!string.IsNullOrEmpty(userProfile.ProfileImg))
                             {
-                                <img src="@userProfile.ProfileImg" class="rounded-circle img-thumbnail shadow" style="width: 200px; height: 200px; object-fit: cover;" />
+                                <img src="data:@userProfile.ProfileImgMimeType;base64,@userProfile.ProfileImg" class="rounded-circle img-thumbnail shadow" style="width: 200px; height: 200px; object-fit: cover;" />
                             }
                             else
                             {
@@ -61,6 +61,10 @@
                         <div class="mb-3">
                             <label class="form-label">Phone No</label>
                             <InputText class="form-control" @bind-Value="@userProfile.PhoneNumber" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            <InputText type="password" class="form-control" @bind-Value="@userProfile.Password" />
                         </div>
 
                         <div class="mb-3">
@@ -124,7 +128,9 @@
         var imgFile = e.File;
         var buffer = new byte[imgFile.Size];
         await imgFile.OpenReadStream().ReadAsync(buffer);
-        userProfile.ProfileImg = $"data:{imgFile.ContentType};base64,{Convert.ToBase64String(buffer)}";
+        userProfile.ProfileImg = Convert.ToBase64String(buffer);
+        userProfile.ProfileImgMimeType = imgFile.ContentType;
+        // userProfile.ProfileImg = $"data:{imgFile.ContentType};base64,{Convert.ToBase64String(buffer)}";
     }
 
     private async Task HandleValidSubmit()
@@ -135,14 +141,12 @@
     }
 
     private async Task SaveUserProfile()
-    {
-        var jsonData = JsonConvert.SerializeObject(userProfile);
-        var content = new StringContent(jsonData, Encoding.UTF8, Application.Json);
-        var response = await httpClient.PostAsync("api/User/CreateUserProfileByAdminAsync", content);
+    {       
+        var resp = await httpClient.PostAsJsonAsync("api/User/CreateUserProfileByAdminAsync", userProfile);        
 
-        if (response.IsSuccessStatusCode)
+        if (resp.IsSuccessStatusCode)
         {
-            var jsonStr = await response.Content.ReadAsStringAsync();
+            var jsonStr = await resp.Content.ReadAsStringAsync();
             Console.WriteLine(jsonStr);
 
             await ShowSuccessModal();
@@ -150,7 +154,7 @@
         }
         else
         {
-            var error = await response.Content.ReadAsStringAsync();
+            var error = await resp.Content.ReadAsStringAsync();
             Console.Error.WriteLine("Error saving profile: " + error);
         }
     }

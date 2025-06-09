@@ -38,10 +38,33 @@
     </tbody>
 </table>
 
+<!-- Pagination -->
+<div class="d-flex justify-content-between align-items-center mt-3">
+    <button class="btn btn-light" @onclick="PreviousPage" disabled="@(!CanGoBack)">Previous</button>
+    <span>Page @currentPage of @totalPages</span>
+    <button class="btn btn-light" @onclick="NextPage" disabled="@(!CanGoForward)">Next</button>
+</div>
+
 
 @code {
     List<AdminUserInfoModel> userInfos = new List<AdminUserInfoModel>();
     private int currentPage = 1;
     private int pageSize = 10;
+
+    private int totalPages => (int)Math.Ceiling((double)(userInfos?.Count ?? 0) / pageSize);
+    private bool CanGoBack => currentPage > 1;
+    private bool CanGoForward => currentPage < totalPages;
+
+    private void NextPage()
+    {
+        if (CanGoForward) currentPage++;
+        StateHasChanged();
+    }
+
+    private void PreviousPage()
+    {
+        if (CanGoBack) currentPage--;
+        StateHasChanged();
+    }
 
 }

@@ -62,12 +62,16 @@
                 @if (showActionColumn)
                 {
                     <td class="text-center">
+                        
                         <button class="btn btn-outline-info btn-sm py-1 me-2"
-                            @onclick="@(async () => await OpenEditModal(booking))">Reserve</button>
+                                @bind="OpenEditModal">
+                            Reserve
+                        </button>
+
                         <button class="btn btn-outline-primary btn-sm py-1 me-2"
-                            @onclick="@(async () => await OpenEditModal(booking))">Edit</button>
+                            @bind="OpenEditModal">Edit</button>
                         <button class="btn btn-outline-danger btn-sm py-1"
-                            @onclick="@(async () => await DeleteBooking(booking.GuestId))">Delete</button>
+                            @bind="DeleteBooking">Delete</button>
                     </td>
                 }
             </tr>

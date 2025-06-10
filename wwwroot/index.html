@@ -48,27 +48,20 @@
     };
 </script>
 <script>
-    window.bootstrapInterop = {
-        showModal: function (modalId) {
-            try {
-                const modalEl = document.getElementById(modalId);
-                if (modalEl) {
-                    const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
-                    modal.show();
-                }
-            } catch (e) {
-                console.error("Modal show error:", e);
-            }
-        },
-        hideModal: function (modalId) {
-            try {
-                const modalEl = document.getElementById(modalId);
-                if (modalEl) {
-                    const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
-                    modal.hide();
-                }
-            } catch (e) {
-                console.error("Modal hide error:", e);
+    window.showBootstrapModal = (id) => {
+        const modalElement = document.querySelector(id);
+        if (modalElement) {
+            const modal = new bootstrap.Modal(modalElement);
+            modal.show();
+        }
+    };
+
+    window.hideBootstrapModal = (id) => {
+        const modalElement = document.querySelector(id);
+        if (modalElement) {
+            const modalInstance = bootstrap.Modal.getInstance(modalElement);
+            if (modalInstance) {
+                modalInstance.hide();
             }
         }
     };

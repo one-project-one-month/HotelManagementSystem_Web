@@ -1,13 +1,10 @@
-﻿
-
-using System.Net.Http.Json;
+﻿using System.Net.Http.Json;
 using HotelManagementSystem_Web.Models;
 using HotelManagementSystem_Web.Models.Guest;
 using Newtonsoft.Json;
 
 namespace HotelManagementSystem_Web.Pages.Admin
 {
-
     public partial class Guest
     {
         GuestReqModel _model = new GuestReqModel();
@@ -70,14 +67,12 @@ namespace HotelManagementSystem_Web.Pages.Admin
             }
             else
             {
-                filteredGuests = guests.Where(g => g.Name.Contains(selectedStatus, StringComparison.OrdinalIgnoreCase)).ToList();
+                filteredGuests = guests.Where(g => g.Name.Contains(selectedStatus, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
             }
+
             currentPage = 1;
             StateHasChanged();
         }
-
-
     }
-
-
 }

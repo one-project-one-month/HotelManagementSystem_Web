@@ -5,9 +5,9 @@
 
 <h3>Dashboard</h3>
 <hr/>
-<div class="row">
+<div class="row px-5">
     <div class="col-4">
-        <div class="card">
+        <div class="card shadow-sm">
             <div class="card-header fw-bolder">Sources Of Booking</div>
             <div class="card-body" style="height: 300px">
                 <div id="pieChartSourcesBooking"></div>
@@ -15,7 +15,7 @@
         </div>
     </div>
     <div class="col-8">
-        <div class="card">
+        <div class="card shadow-sm">
             <div class="card-header fw-bold">Total Count</div>
             <div class="card-body" style="height: 300px">
                 <div id="barChartCount"></div>
@@ -24,9 +24,9 @@
     </div>
 
 </div>
-<div class="row">
+<div class="row px-5">
     <div class="col-6">
-        <div class="card">
+        <div class="card shadow-sm">
             <div class="card-header fw-bolder">Room Type Booking Count By Months</div>
             <div class="card-body" style="height: 320px;">
                 <div class="card-body" id="ColumnChartRoomType"></div>
@@ -35,15 +35,69 @@
 
     </div>
     <div class="col-6">
-        <div class="card">
+        <div class="card shadow-sm">
             <div class="card-header fw-bolder">Monthly Sales Of Booking</div>
             <div class="card-body" style="height: 320px;">
                 <div class="" id="LineChartSale"></div>
             </div>
         </div>
-
     </div>
 </div>
+<div class="px-5">
+    <div class="card shadow-sm">
+        <div class="card-header fw-bolder">Booking List</div>
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead style="background-color: #ffe6e6;">
+                <tr>
+                    <th class="ps-2">Name</th>
+                    <th class="ps-2">NRC</th>
+                    <th class="ps-2">Phone No</th>
+                    <th class="ps-2">Guest Count</th>
+                    <th class="ps-2">Check In</th>
+                    <th class="ps-2">Check Out</th>
+                    <th class="ps-2">Deposit Amount</th>
+                    <th class="ps-2">Booking Status</th>
+                    <th class="ps-2">Total Amount</th>
+                    <th class="ps-2">Payment Type</th>
+                </tr>
+                </thead>
+                <tbody style="background-color: white;">
+                @for (int i = 0; i < 10; i++)
+                {
+                    <tr>
+                        <td class="ps-2">Moe Moe Moe</td>
+                        <td class="ps-2">3/NANAN(N)112233</td>
+                        <td class="ps-2">0987654321</td>
+                        <td class="ps-2">3</td>
+                        <td class="ps-2">Date</td>
+                        <td class="ps-2">Date</td>
+                        <td class="ps-2">Booking</td>
+                        <td class="ps-2">Ture</td>
+                        <td class="ps-2">20000</td>
+                        <td class="ps-2">kapy</td>
+                    </tr>
+                }
+               
+
+                </tbody>
+            </table>
+            <ul class="pagination justify-content-end">
+                <li class="page-item disabled">
+                    <a class="page-link">Previous</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
 
 @code {
 

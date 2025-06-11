@@ -11,4 +11,11 @@
         public DateOnly? DateOfBirth { get; set; }
         public DateTime? CreatedAt { get; set; }
     }
+
+    public class GetAllUserInfoResponseModel
+    {
+        public bool IsSuccess { get; set; }
+        public string Message { get; set; }
+        public List<AdminUserInfoModel> Data { get; set; }
+    }
 }

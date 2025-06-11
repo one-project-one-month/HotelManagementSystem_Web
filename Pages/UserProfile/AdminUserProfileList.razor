@@ -55,6 +55,32 @@
     private bool CanGoBack => currentPage > 1;
     private bool CanGoForward => currentPage < totalPages;
 
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadUserInfosAsync();
+    }
+
+    private async Task LoadUserInfosAsync()
+    {
+        try
+        {
+            var response = await httpClient.GetFromJsonAsync<GetAllUserInfoResponseModel>("https://localhost:7161/User/GetAllUserProfileAsync");
+
+            if (response != null && response.IsSuccess)
+            {
+                userInfos = response.Data ?? new List<AdminUserInfoModel>();
+            }
+            else
+            {               
+                await JSRuntime.InvokeVoidAsync("alert", response?.Message ?? "Failed to load users.");
+            }
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("alert", $"Error loading user profiles: {ex.Message}");
+        }
+    }
+
     private void NextPage()
     {
         if (CanGoForward) currentPage++;

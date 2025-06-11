@@ -38,7 +38,8 @@ namespace HotelManagementSystem_Web.Pages.Admin
         {
             try
             {
-                var res = await _httpClient.PostAsJsonAsync("api/RoomType/createroomtype", _model);
+                var res = await _httpClient.PostAsJsonAsync("admin/createroomtype", _model);
+                Console.WriteLine(JsonConvert.SerializeObject(_model));
                 if (res.IsSuccessStatusCode)
                 {
                     var jsonStr = await res.Content.ReadAsStringAsync();
@@ -48,7 +49,7 @@ namespace HotelManagementSystem_Web.Pages.Admin
                         _model = new RoomTypeModel(); // Optional: reset form
 
                         // Close the modal
-                        await JS.InvokeVoidAsync("bootstrapInterop.hideModal", "addRoomTypeModal");
+                        await JS.InvokeVoidAsync("hideBootstrapModal", "#addRoomTypeModal");
                        await RoomTypeList();
                        StateHasChanged();
                     }

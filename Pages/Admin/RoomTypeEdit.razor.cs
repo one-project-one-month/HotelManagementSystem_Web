@@ -40,6 +40,10 @@ public partial class RoomTypeEdit
                 EditedModel = JsonConvert.DeserializeObject<RoomTypeModel>(editModel);
             }
         }
+        else
+        {
+            Console.WriteLine(JsonConvert.SerializeObject(res));
+        }
     }
 
     private async Task HandleUpdateImage(InputFileChangeEventArgs e)
@@ -56,7 +60,7 @@ public partial class RoomTypeEdit
 
     public async Task HandleUpdateRoomType()
     {
-        var url = $"api/RoomType/updateroomtype/{EditedModel.RoomTypeId}";
+        var url = $"admin/updateroomtype/{EditedModel.RoomTypeId}";
         var response = await _httpclient.PatchAsJsonAsync(url, EditedModel);
         
         if (!response.IsSuccessStatusCode) return;

@@ -1,7 +1,9 @@
 ﻿@page "/admin-home"
+@using System.Net
 @using HotelManagementSystem_Web.Layout.AdminLayout
 @layout AdminLayout
 @inject IJSRuntime JSRuntime
+@inject HttpClient _httpClient
 
 <h3>Dashboard</h3>
 <hr/>
@@ -97,21 +99,3 @@
     </div>
 
 </div>
-
-
-@code {
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await JSRuntime.InvokeVoidAsync("setColumnChartRoomType");
-            await JSRuntime.InvokeVoidAsync("setLineChartSale");
-            await JSRuntime.InvokeVoidAsync("setPieChartSourcesBooking");
-            await JSRuntime.InvokeVoidAsync("setBarChartCount");
-        }
-    }
-
-}
-
-

@@ -65,19 +65,19 @@
                 </tr>
                 </thead>
                 <tbody style="background-color: white;">
-                @for (int i = 0; i < 10; i++)
+                @foreach (var model in _bookingLst)
                 {
                     <tr>
-                        <td class="ps-2">Moe Moe Moe</td>
-                        <td class="ps-2">3/NANAN(N)112233</td>
-                        <td class="ps-2">0987654321</td>
-                        <td class="ps-2">3</td>
-                        <td class="ps-2">Date</td>
-                        <td class="ps-2">Date</td>
-                        <td class="ps-2">Booking</td>
-                        <td class="ps-2">Ture</td>
-                        <td class="ps-2">20000</td>
-                        <td class="ps-2">kapy</td>
+                        <td class="ps-2">@model.UserName</td>
+                        <td class="ps-2">@model.GuestNrc</td>
+                        <td class="ps-2">@model.GuestPhoneNo</td>
+                        <td class="ps-2">@model.GuestCount</td>
+                        <td class="ps-2">@model.CheckIn_Time</td>
+                        <td class="ps-2">@model.CheckOut_Time</td>
+                        <td class="ps-2">@model.Deposit_Amount</td>
+                        <td class="ps-2">@model.BookingStatus</td>
+                        <td class="ps-2">@model.TotalAmount</td>
+                        <td class="ps-2">@model.PaymentType</td>
                     </tr>
                 }
                

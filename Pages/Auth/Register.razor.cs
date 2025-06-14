@@ -17,7 +17,7 @@ public partial class Register
     {
         try
         {
-            var res = await _httpClient.PostAsJsonAsync("api/User/Register", _model);
+            var res = await _httpClient.PostAsJsonAsync("api/User/register", _model);
             if (res.IsSuccessStatusCode)
             {
                 var jsonStr = await res.Content.ReadAsStringAsync();

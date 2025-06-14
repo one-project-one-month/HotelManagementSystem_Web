@@ -29,53 +29,53 @@
 <!-- Booking Table -->
 <table class="table table-bordered align-middle" style="background-color: #fff0f0;">
     <thead style="background-color: #ffe6e6;">
-        <tr>
-            <th class="ps-2">Name</th>
-            <th class="ps-2">NRC</th>
-            <th class="ps-2">Phone No</th>
-            <th class="ps-2">Guest Count</th>
-            <th class="ps-2">Check In</th>
-            <th class="ps-2">Check Out</th>
-            <th class="ps-2">Deposit Amount</th>
-            <th class="ps-2">Booking Status</th>
-            <th class="ps-2">Total Amount</th>
-            <th class="ps-2">Payment Type</th>
-            @if (showActionColumn)
-            {
-                <th class="text-center">Actions</th>
-            }
-        </tr>
+    <tr>
+        <th class="ps-2">Name</th>
+        <th class="ps-2">NRC</th>
+        <th class="ps-2">Phone No</th>
+        <th class="ps-2">Guest Count</th>
+        <th class="ps-2">Check In</th>
+        <th class="ps-2">Check Out</th>
+        <th class="ps-2">Deposit Amount</th>
+        <th class="ps-2">Booking Status</th>
+        <th class="ps-2">Total Amount</th>
+        <th class="ps-2">Payment Type</th>
+        @if (showActionColumn)
+        {
+            <th class="text-center">Actions</th>
+        }
+    </tr>
     </thead>
     <tbody style="background-color: white;">
-        @foreach (var booking in filteredBookings.Skip((currentPage - 1) * pageSize).Take(pageSize))
-        {
-            <tr>
-                <td class="ps-2">@booking.Name</td>
-                <td class="ps-2">@booking.Nrc</td>
-                <td class="ps-2">@booking.PhoneNo</td>
-                <td class="ps-2">@booking.GuestCount</td>
-                <td class="ps-2">@booking.CheckInTime?.ToShortDateString()</td>
-                <td class="ps-2">@booking.CheckOutTime?.ToShortDateString()</td>
-                <td class="ps-2">@booking.DepositAmount</td>
-                <td class="ps-2">@booking.BookingStatus</td>
-                <td class="ps-2">@booking.TotalAmount</td>
-                <td class="ps-2">@booking.PaymentType</td>
-                @if (showActionColumn)
-                {
-                    <td class="text-center">
-                        <button class="btn btn-outline-info btn-sm py-1 me-2">
-                            Reserve
-                        </button>
-                        <button class="btn btn-outline-primary btn-sm py-1 me-2">
-                            Edit
-                        </button>
-                        <button class="btn btn-outline-danger btn-sm py-1">
-                            Delete
-                        </button>
-                    </td>
-                }
-            </tr>
-        }
+    @foreach (var booking in filteredBookings.Skip((currentPage - 1) * pageSize).Take(pageSize))
+    {
+        <tr>
+            <td class="ps-2">@booking.Name</td>
+            <td class="ps-2">@booking.Nrc</td>
+            <td class="ps-2">@booking.PhoneNo</td>
+            <td class="ps-2">@booking.GuestCount</td>
+            <td class="ps-2">@booking.CheckInTime?.ToShortDateString()</td>
+            <td class="ps-2">@booking.CheckOutTime?.ToShortDateString()</td>
+            <td class="ps-2">@booking.DepositAmount</td>
+            <td class="ps-2">@booking.BookingStatus</td>
+            <td class="ps-2">@booking.TotalAmount</td>
+            <td class="ps-2">@booking.PaymentType</td>
+            @if (showActionColumn)
+            {
+                <td class="text-center">
+                    <button class="btn btn-outline-info btn-sm py-1 me-2">
+                        Reserve
+                    </button>
+                    <button class="btn btn-outline-primary btn-sm py-1 me-2">
+                        Edit
+                    </button>
+                    <button class="btn btn-outline-danger btn-sm py-1">
+                        Delete
+                    </button>
+                </td>
+            }
+        </tr>
+    }
     </tbody>
 </table>
 
@@ -91,57 +91,59 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <EditForm class="edit-form" Model="_model" OnValidSubmit="HandleValidSubmit">
-                <DataAnnotationsValidator />
+                <DataAnnotationsValidator/>
                 <div class="modal-header">
                     <h5 class="modal-title" id="bookingModalLabel">
                         @(_model?.UserId == null || _model.UserId == Guid.Empty
-                                                ? "AddBooking"
-                                                : "EditBooking")
+                            ? "AddBooking"
+                            : "EditBooking")
                     </h5>
                     <button type="button" class="btn-close" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <ValidationSummary />
-                    <input type="hidden" @bind="_model.UserId" />
+                    <ValidationSummary/>
+                    <input type="hidden" @bind="_model.UserId"/>
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label mb-1">Name</label>
-                            <input type="text" class="form-control" placeholder="Name ..." @bind="_model.Name" />
+                            <input type="text" class="form-control" placeholder="Name ..." @bind="_model.Name"/>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label mb-1">NRC</label>
-                            <input type="text" class="form-control" placeholder="12/XXX(N)XXXXXX" @bind="_model.Nrc" />
+                            <input type="text" class="form-control" placeholder="12/XXX(N)XXXXXX" @bind="_model.Nrc"/>
                         </div>
 
                         <div class="col-md-6 mb-3">
                             <label class="form-label mb-1">Phone Number</label>
                             <input type="text" class="form-control" placeholder="09-XXXXXXXXXX"
-                                @bind="_model.PhoneNo" />
+                                   @bind="_model.PhoneNo"/>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label mb-1">Guest Count</label>
                             <input type="number" class="form-control" placeholder="Guest Count"
-                                @bind="_model.GuestCount" />
+                                   @bind="_model.GuestCount"/>
                         </div>
-                        
+
                         <div class="col-12 mb-3">
-                            <label class="form-label">Add Room</label>
-                            <select class="form-select">
-                                <option class="" value="">Single Room</option>
-                                <option class="" value="">Double Room</option>
-                                <option class="" value="">Dulex Room</option>
+                            <label class="form-label" >Add Room</label>
+                            <select class="form-select" @onchange="OnRoomTypeChanged">
+                                <option value="" >Please Choose One If Room Add</option>
+                                @foreach (var roomType in roomTypes)
+                                {
+                                    <option value="@roomType.RoomTypeId">@roomType.RoomTypeName</option>
+                                }
                             </select>
                         </div>
 
 
                         <div class="col-md-6 mb-3">
                             <label class="form-label mb-1">Check In</label>
-                            <input type="date" class="form-control" @bind="_model.CheckInTime" />
+                            <input type="date" class="form-control" @bind="_model.CheckInTime"/>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label mb-1">Check Out</label>
-                            <input type="date" class="form-control" @bind="_model.CheckOutTime" />
+                            <input type="date" class="form-control" @bind="_model.CheckOutTime"/>
                         </div>
 
                         <div class="col-md-6 mb-3">
@@ -164,12 +166,12 @@
                         <div class="col-md-6 mb-3">
                             <label class="form-label mb-1">Deposit Amount</label>
                             <input type="number" class="form-control" placeholder="Deposit Amount"
-                                @bind="_model.DepositAmount" />
+                                   @bind="_model.DepositAmount"/>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label mb-1">Total Amount</label>
                             <input type="number" class="form-control" placeholder="Total Amount"
-                                @bind="_model.TotalAmount" />
+                                   @bind="_model.TotalAmount"/>
                         </div>
                     </div>
                 </div>

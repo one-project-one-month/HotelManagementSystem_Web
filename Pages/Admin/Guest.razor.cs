@@ -13,7 +13,7 @@ namespace HotelManagementSystem_Web.Pages.Admin
         {
             try
             {
-                var res = await _httpClient.PostAsJsonAsync("/Guest/createguestbyadmin", _model);
+                var res = await _httpClient.GetAsync("/api/Guest/GetGuestList");
                 var jsonStr = await res.Content.ReadAsStringAsync();
                 var respModel = JsonConvert.DeserializeObject<BaseResponseModel>(jsonStr);
                 if (respModel?.respCode == "200")

@@ -15,7 +15,7 @@ public partial class Booking
     {
         try
         {
-            var res = await _httpClient.PostAsJsonAsync("/Booking/createbookingbyadmin", _model);
+            var res = await _httpClient.PostAsJsonAsync("/admin/CreateBooking", _model);
             var jsonStr = await res.Content.ReadAsStringAsync();
             var respModel = JsonConvert.DeserializeObject<BaseResponseModel>(jsonStr);
             if (respModel?.respCode == "200")
@@ -23,7 +23,7 @@ public partial class Booking
                 Console.WriteLine("Booking created successfully");
 
                 _model = new BookingReqModel();
-               
+
             }
         }
         catch (Exception ex)
@@ -31,6 +31,7 @@ public partial class Booking
             Console.WriteLine(ex.Message);
         }
     }
+
 
 
     private bool showActionColumn = false;
@@ -44,14 +45,14 @@ public partial class Booking
     private int totalPages => (int)Math.Ceiling((double)(filteredBookings?.Count ?? 0) / pageSize);
     private bool CanGoBack => currentPage > 1;
     private bool CanGoForward => currentPage < totalPages;
-    
+
     private async Task ShowAddBookingModal()
     {
         _model = new BookingReqModel();
         await JS.InvokeVoidAsync("showBootstrapModal", "#bookingModal");
     }
-    
-    
+
+
     private void ApplyFilter()
     {
         filteredBookings = bookings
@@ -78,7 +79,7 @@ public partial class Booking
             currentPage++;
     }
 
-    private async Task OpenEditModal(BookingReqModel booking)
+    private void OpenEditModal(BookingReqModel booking)
     {
         _model = booking;
     }
@@ -93,4 +94,6 @@ public partial class Booking
 
         var response = await _httpClient.DeleteAsync($"/Bookings/createbookingbyadmin/{bookingId}");
     }
+
+
 }

@@ -8,13 +8,11 @@ namespace HotelManagementSystem_Web.Models.Booking
     public class BookingReqModel
     {
         public Guid? UserId { get; set; }
-
-        public Guid? GuestId { get; set; }
-
         public string Name { get; set; } = null!;
         public string Nrc { get; set; } = null!;
 
         public string PhoneNo { get; set; } = null!;
+        public List<Guid> Rooms { get; set; } = new();
 
         public int? GuestCount { get; set; }
 

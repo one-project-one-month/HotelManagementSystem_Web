@@ -6,42 +6,42 @@
 @inject HttpClient _httpClient
 
 <h3 class="text-center mb-4" style="color: #e60000;">Guests Management</h3>
-
+@* 
 <!-- Search Boxes -->
 <div class="d-flex  mb-3 w-75 mx-15">
     <input type="text" class="form-control" placeholder="Search by Name , Phone Number ....." @bind="Search"/>
     <button class="btn btn-danger">Filter</button>
 
-</div>
+</div> *@
 
 <!-- Guest Table -->
 <table class="table table-bordered table-hover align-middle">
     <thead class="table-danger">
-    <tr>
-        <td>UserId</td>
-        <td>Name</td>
-        <td>Email</td>
-        <td>Nrc</td>
-        <td>Name</td>
-        <td>Email</td>
-        <td>PhoneNo</td>
-        <td>CreatedAt</td>
-    </tr>
+        <tr>
+            <td>UserId</td>
+            <td>Name</td>
+            <td>Email</td>
+            <td>Nrc</td>
+            <td>Name</td>
+            <td>Email</td>
+            <td>PhoneNo</td>
+            <td>CreatedAt</td>
+        </tr>
     </thead>
     <tbody>
-    @foreach (var guest in filteredGuests.Skip((currentPage - 1) * pageSize).Take(pageSize))
-    {
-        <tr>
-            <td>@guest.UserId</td>
-            <td>@guest.Name</td>
-            <td>@guest.Email</td>
-            <td>@guest.Nrc</td>
-            <td>@guest.Name</td>
-            <td>@guest.Email</td>
-            <td>@guest.PhoneNo</td>
-            <td>@guest.CreatedAt</td>
-        </tr>
-    }
+        @foreach (var guest in guests)
+        {
+            <tr>
+                <td>@guest.UserId</td>
+                <td>@guest.Name</td>
+                <td>@guest.Email</td>
+                <td>@guest.Nrc</td>
+                <td>@guest.Name</td>
+                <td>@guest.Email</td>
+                <td>@guest.PhoneNo</td>
+                <td>@guest.CreatedAt</td>
+            </tr>
+        }
     </tbody>
 </table>
 

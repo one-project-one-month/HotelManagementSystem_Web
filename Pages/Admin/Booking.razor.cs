@@ -21,7 +21,6 @@ public partial class Booking
             if (respModel?.respCode == "200")
             {
                 Console.WriteLine("Booking created successfully");
-
                 _model = new BookingReqModel();
 
             }

@@ -124,6 +124,15 @@
                             <input type="number" class="form-control" placeholder="Guest Count"
                                 @bind="_model.GuestCount" />
                         </div>
+                        
+                        <div class="col-12 mb-3">
+                            <label class="form-label">Add Room</label>
+                            <select class="form-select">
+                                <option class="" value="">Single Room</option>
+                                <option class="" value="">Double Room</option>
+                                <option class="" value="">Dulex Room</option>
+                            </select>
+                        </div>
 
 
                         <div class="col-md-6 mb-3">
@@ -167,7 +176,7 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-danger">Save</button>
+                    <button type="submit" class="btn btn-danger">Create</button>
                 </div>
             </EditForm>
         </div>

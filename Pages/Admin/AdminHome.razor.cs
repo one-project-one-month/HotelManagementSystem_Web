@@ -26,7 +26,7 @@ public partial class AdminHome : ComponentBase
 
     public async Task GetBookingList()
     {
-        var res = await _httpClient.GetAsync("Admin/Bookings");
+        var res = await _httpClient.GetAsync("admin/Bookings");
         if (res.IsSuccessStatusCode)
         {
             var jsonStr = await res.Content.ReadAsStringAsync();

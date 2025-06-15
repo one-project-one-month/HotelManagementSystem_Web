@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace HotelManagementSystem_Web.Models.Room. RoomTypeReqModel
+namespace HotelManagementSystem_Web.Models.Room.RoomTypeReqModel
 {
     public class RoomReqModel
     {
@@ -14,4 +14,6 @@ namespace HotelManagementSystem_Web.Models.Room. RoomTypeReqModel
 
         public bool IsFeatured { get; set; }
     }
+
+
 }

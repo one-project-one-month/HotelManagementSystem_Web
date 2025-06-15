@@ -48,6 +48,8 @@ public partial class Booking
         }
     }
 
+
+
     private async Task ShowAddBookingModal()
     {
         _model = new BookingReqModel();
@@ -63,7 +65,7 @@ public partial class Booking
             var resModel = JsonConvert.DeserializeObject<RoomTypeListResModel>(resJson)!;
             if (resModel.respCode == "200")
             {
-                roomTypes =  resModel.RoomTypeList;
+                roomTypes = resModel.RoomTypeList;
             }
             else
             {

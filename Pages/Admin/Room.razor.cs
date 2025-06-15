@@ -2,6 +2,8 @@
 using HotelManagementSystem_Web.Models.Room.RoomTypeReqModel;
 using Newtonsoft.Json;
 using System.Net.Http.Json;
+using HotelManagementSystem_Web.Models.Room;
+using Microsoft.AspNetCore.Components;
 
 namespace HotelManagementSystem_Web.Pages.Admin
 {
@@ -10,7 +12,7 @@ namespace HotelManagementSystem_Web.Pages.Admin
 
         RoomReqModel _model = new RoomReqModel();
 
-
+        private List<RoomTypeModel> roomTypes = new();
         private async Task HandleValidSubmit()
         {
             try
@@ -21,7 +23,7 @@ namespace HotelManagementSystem_Web.Pages.Admin
                 if (respModel.respCode == "200")
                 {
                     Console.WriteLine("Success");
-                   // _navigation.NavigateTo("/user-home");
+                    // _navigation.NavigateTo("/user-home");
                 }
             }
             catch (Exception ex)
@@ -30,6 +32,47 @@ namespace HotelManagementSystem_Web.Pages.Admin
             }
         }
 
+        private async Task GetRoomList()
+        {
+            try
+            {
+                var res = await _httpClient.GetAsync("api/Room/getrooms");
+                if (res.IsSuccessStatusCode)
+                {
+                    var jsonStr = await res.Content.ReadAsStringAsync();
+                    var respModel = JsonConvert.DeserializeObject<RoomListResModel>(jsonStr);
+                    if (respModel.respCode == "200")
+                    {
+                        Console.WriteLine("Success");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        protected override async Task OnInitializedAsync()
+        {
+            await GetRoomList();
+        }
+        
+        private void HandleRoomType(ChangeEventArgs e)
+        {
+            var selectedValue = e.Value?.ToString();
+
+            if (Guid.TryParse(selectedValue, out Guid selectedRoomTypeId))
+            {
+                Console.WriteLine($"Selected Room Type ID: {selectedRoomTypeId}");
+            }
+            else
+            {
+                Console.WriteLine("Invalid or empty Room Type ID.");
+            }
+        }
+
+        
         private List<RoomReqModel> roomList = new();
         private List<RoomReqModel> filteredRooms = new();
         // private RoomReqModel newRoom = new();
@@ -63,7 +106,7 @@ namespace HotelManagementSystem_Web.Pages.Admin
             {
                 query = query.Where(r => r.RoomNo.Contains(searchRoomNo, StringComparison.OrdinalIgnoreCase));
             }
-            
+
             if (!string.IsNullOrWhiteSpace(searchRoomStatus))
             {
                 query = query.Where(r => r.RoomStatus == searchRoomStatus);

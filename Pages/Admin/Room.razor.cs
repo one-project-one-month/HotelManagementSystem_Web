@@ -32,30 +32,31 @@ namespace HotelManagementSystem_Web.Pages.Admin
             }
         }
 
-        private async Task GetRoomList()
-        {
-            try
-            {
-                var res = await _httpClient.GetAsync("api/Room/getrooms");
-                if (res.IsSuccessStatusCode)
-                {
-                    var jsonStr = await res.Content.ReadAsStringAsync();
-                    var respModel = JsonConvert.DeserializeObject<RoomListResModel>(jsonStr);
-                    if (respModel.respCode == "200")
-                    {
-                        roomList = respModel.RoomList;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
+        // private async Task GetRoomList()
+        // {
+        //     try
+        //     {
+        //         var res = await _httpClient.GetAsync("api/Room/getrooms");
+        //         if (res.IsSuccessStatusCode)
+        //         {
+        //             var jsonStr = await res.Content.ReadAsStringAsync();
+        //             var respModel = JsonConvert.DeserializeObject<RoomListResModel>(jsonStr);
+        //             if (respModel.respCode == "200")
+        //             {
+        //                 roomList = respModel.RoomList;
+        //             }
+        //         }
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         Console.WriteLine(ex.Message);
+        //     }
+        // }
 
         protected override async Task OnInitializedAsync()
         {
-            await GetRoomList();
+           
+            await GetRoomTypesList();
         }
         
         private void HandleRoomType(ChangeEventArgs e)
@@ -69,6 +70,25 @@ namespace HotelManagementSystem_Web.Pages.Admin
             else
             {
                 Console.WriteLine("Invalid or empty Room Type ID.");
+            }
+        }
+        
+        
+        private async Task GetRoomTypesList()
+        {
+            var res = await _httpClient.GetAsync("api/RoomType/getroomtypes");
+            if (res.IsSuccessStatusCode)
+            {
+                var resJson = await res.Content.ReadAsStringAsync();
+                var resModel = JsonConvert.DeserializeObject<RoomTypeListResModel>(resJson)!;
+                if (resModel.respCode == "200")
+                {
+                    roomTypes = resModel.RoomTypeList;
+                }
+                else
+                {
+                    Console.WriteLine(resJson);
+                }
             }
         }
 

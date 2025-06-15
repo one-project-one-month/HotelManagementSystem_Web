@@ -6,13 +6,13 @@
 @inject HttpClient _httpClient
 
 <h3 class="text-center mb-4" style="color: #e60000;">Guests Management</h3>
-@* 
+
 <!-- Search Boxes -->
 <div class="d-flex  mb-3 w-75 mx-15">
     <input type="text" class="form-control" placeholder="Search by Name , Phone Number ....." @bind="Search"/>
     <button class="btn btn-danger">Filter</button>
 
-</div> *@
+</div> 
 
 <!-- Guest Table -->
 <table class="table table-bordered table-hover align-middle">
@@ -45,9 +45,9 @@
     </tbody>
 </table>
 
-<!-- Previous and Next Pages -->
-<div class="d-flex justify-content-between align-items-center mt-3">
-    <button class="btn btn-light" @onclick="PreviousPage" disabled="@(!CanGoBack)">Previous</button>
-    <span>Page @currentPage of @totalPages</span>
-    <button class="btn btn-light" @onclick="NextPage" disabled="@(!CanGoForward)">Next</button>
-</div>
+@* <!-- Previous and Next Pages --> *@
+@* <div class="d-flex justify-content-between align-items-center mt-3"> *@
+@*     <button class="btn btn-light" @onclick="PreviousPage" disabled="@(!CanGoBack)">Previous</button> *@
+@*     <span>Page @currentPage of @totalPages</span> *@
+@*     <button class="btn btn-light" @onclick="NextPage" disabled="@(!CanGoForward)">Next</button> *@
+@* </div> *@

@@ -43,7 +43,7 @@ namespace HotelManagementSystem_Web.Pages.Admin
                     var respModel = JsonConvert.DeserializeObject<RoomListResModel>(jsonStr);
                     if (respModel.respCode == "200")
                     {
-                        Console.WriteLine("Success");
+                        roomList = respModel.RoomList;
                     }
                 }
             }

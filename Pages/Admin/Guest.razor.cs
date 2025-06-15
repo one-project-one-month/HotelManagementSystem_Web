@@ -9,7 +9,7 @@ namespace HotelManagementSystem_Web.Pages.Admin
     {
         GuestReqModel _model = new GuestReqModel();
 
-        private async Task HandleValidSubmit()
+        private async Task GuestList()
         {
             try
             {
@@ -29,6 +29,12 @@ namespace HotelManagementSystem_Web.Pages.Admin
             }
         }
 
+
+        protected override async Task OnInitializedAsync()
+        {
+           await GuestList();
+        } 
+
         private async Task ShowModal()
         {
             throw new NotImplementedException();
@@ -36,22 +42,22 @@ namespace HotelManagementSystem_Web.Pages.Admin
 
         private bool showActionColumn = false;
         private List<GuestReqModel> guests = new();
-        private List<GuestReqModel> filteredGuests = new();
+        // private List<GuestReqModel> filteredGuests = new();
         private string selectedStatus = "";
 
         private string Search = "";
         private int currentPage = 1;
         private int pageSize = 10;
 
-        private int totalPages => (int)Math.Ceiling((double)(filteredGuests?.Count ?? 0) / pageSize);
+        // private int totalPages => (int)Math.Ceiling((double)(filteredGuests?.Count ?? 0) / pageSize);
         private bool CanGoBack => currentPage > 1;
-        private bool CanGoForward => currentPage < totalPages;
+        // private bool CanGoForward => currentPage < totalPages;
 
-        private void NextPage()
-        {
-            if (CanGoForward) currentPage++;
-            StateHasChanged();
-        }
+        // private void NextPage()
+        // {
+        //     if (CanGoForward) currentPage++;
+        //     StateHasChanged();
+        // }
 
         private void PreviousPage()
         {
@@ -59,20 +65,19 @@ namespace HotelManagementSystem_Web.Pages.Admin
             StateHasChanged();
         }
 
-        public void ApplyFilter(string selectedStatus)
-        {
-            if (string.IsNullOrEmpty(selectedStatus))
-            {
-                filteredGuests = guests;
-            }
-            else
-            {
-                filteredGuests = guests.Where(g => g.Name.Contains(selectedStatus, StringComparison.OrdinalIgnoreCase))
-                    .ToList();
-            }
-
-            currentPage = 1;
-            StateHasChanged();
+        // public void ApplyFilter(string selectedStatus)
+        // {
+        //     if (string.IsNullOrEmpty(selectedStatus))
+        //     {
+        //         filteredGuests = guests;
+        //     }
+        //     else
+        //     {
+        //         filteredGuests = guests.Where(g => g.Name.Contains(selectedStatus, StringComparison.OrdinalIgnoreCase))
+        //             .ToList();
+        //     }
+            //
+            // currentPage = 1;
+            // StateHasChanged();
         }
     }
-}

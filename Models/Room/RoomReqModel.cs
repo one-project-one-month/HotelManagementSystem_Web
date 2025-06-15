@@ -14,6 +14,5 @@ namespace HotelManagementSystem_Web.Models.Room.RoomTypeReqModel
 
         public bool IsFeatured { get; set; }
     }
-
-
+    
 }

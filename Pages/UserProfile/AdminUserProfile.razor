@@ -142,7 +142,7 @@
 
     private async Task SaveUserProfile()
     {       
-        var resp = await httpClient.PostAsJsonAsync("api/User/CreateUserProfileByAdminAsync", userProfile);        
+        var resp = await httpClient.PostAsJsonAsync("api/admin/createprofile", userProfile);
 
         if (resp.IsSuccessStatusCode)
         {

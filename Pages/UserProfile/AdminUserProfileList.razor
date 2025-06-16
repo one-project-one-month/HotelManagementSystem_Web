@@ -64,7 +64,7 @@
     {
         try
         {
-            var response = await httpClient.GetFromJsonAsync<GetAllUserInfoResponseModel>("https://localhost:7161/User/GetAllUserProfileAsync");
+            var response = await httpClient.GetFromJsonAsync<GetAllUserInfoResponseModel>("api/User");
 
             if (response != null && response.IsSuccess)
             {

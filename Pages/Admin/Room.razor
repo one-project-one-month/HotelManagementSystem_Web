@@ -63,7 +63,7 @@
                     </div>
                     <div class="col-12 mb-3">
                         <label class="form-label">Add Room Type</label>
-                        <select class="form-select" @onchange="HandleRoomType">
+                        <select class="form-select" @bind="_model.RoomTypeId">
                             <option value="">Choose One </option>
                             @foreach (var roomType in roomTypes)
                             {

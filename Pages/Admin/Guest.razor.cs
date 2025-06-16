@@ -15,12 +15,10 @@ namespace HotelManagementSystem_Web.Pages.Admin
             {
                 var res = await _httpClient.GetAsync("/api/Guest/GetGuestList");
                 var jsonStr = await res.Content.ReadAsStringAsync();
-                var respModel = JsonConvert.DeserializeObject<BaseResponseModel>(jsonStr);
-                if (respModel?.respCode == "200")
+                var respModel = JsonConvert.DeserializeObject<GuestListReqModel>(jsonStr);
+                if (respModel.respCode == "200")
                 {
-                    Console.WriteLine("Guest created successfully");
-                    _model = new GuestReqModel();
-                    await ShowModal();
+                    guestList = respModel.guestList;
                 }
             }
             catch (Exception ex)
@@ -41,7 +39,7 @@ namespace HotelManagementSystem_Web.Pages.Admin
         }
 
         private bool showActionColumn = false;
-        private List<GuestReqModel> guests = new();
+        private List<GuestReqModel> guestList = new();
         // private List<GuestReqModel> filteredGuests = new();
         private string selectedStatus = "";
 
